@@ -29,8 +29,8 @@ public abstract class Enemy extends Entity {
         this.isAlive = isAlive;
     }
 
-    public enemyDir getDir() {
-        return this.dir;
+    public void setDir(enemyDir dir) {
+        this.dir = dir;
     }
 
     public int getSpeed() {
