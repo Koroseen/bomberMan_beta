@@ -78,7 +78,6 @@ public class Bomber extends Entity {
     }
 
     public void placeBomb() {
-        Bomb bomb = new Bomb(EntityList.bomberman.getX() / Sprite.SCALED_SIZE, EntityList.bomberman.getY() / Sprite.SCALED_SIZE, Sprite.bomb_1.getFxImage());
-        bomberman.bombs.add(bomb);
+        Bomb.setBomb();
     }
 }

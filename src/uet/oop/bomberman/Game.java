@@ -6,20 +6,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
-import uet.oop.bomberman.entities.blocks.Brick;
-import uet.oop.bomberman.entities.blocks.Wall;
-import uet.oop.bomberman.entities.enemies.Ballom;
 import uet.oop.bomberman.entities.enemies.Enemy;
-import uet.oop.bomberman.graphics.Sprite;
-
-import java.io.File;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
@@ -40,10 +32,6 @@ public class Game extends Application {
         // Tao root container
         Group root = new Group();
 
-        Image image = new Image(new File("res/levels/background.png").toURI().toString());
-        ImageView imageView = new ImageView(image);
-
-        root.getChildren().add(imageView);
         root.getChildren().add(canvas);
 
         Scene scene = new Scene(root);
@@ -70,7 +58,7 @@ public class Game extends Application {
                 bomberman.goLeft();
             } else if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
                 bomberman.goRight();
-            } else if (event.getCode() == KeyCode.SPACE){
+            } else if (event.getCode() == KeyCode.SPACE && bomberman.bombs.isEmpty()){
                 bomberman.placeBomb();
             }
         });
@@ -79,18 +67,19 @@ public class Game extends Application {
     public void update() {
         EntityList.walls.forEach(Entity::update);
         EntityList.bricks.forEach(Entity::update);
-        EntityList.bomberman.bombs.forEach(Bomb::update);
+        for(int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
         EntityList.enemies.forEach(Enemy::update);
-        EntityList.bomberman.update();
+        bomberman.update();
     }
 
-    public void render() {
+    public void render(){
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        EntityList.grasses.forEach(g -> g.render(gc));
         EntityList.walls.forEach(g -> g.render(gc));
         EntityList.bricks.forEach(g -> g.render(gc));
         EntityList.enemies.forEach(g -> g.render(gc));
-        EntityList.bomberman.bombs.forEach(g -> g.render(gc));
-        EntityList.bomberman.render(gc);
+        for(int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).render(gc);
+        bomberman.render(gc);
 
     }
 }

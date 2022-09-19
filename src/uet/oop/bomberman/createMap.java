@@ -36,6 +36,9 @@ public class createMap {
                         case '6':
                             EntityList.walls.add(new Wall(j, i, Sprite.wall.getFxImage()));
                             break;
+                        case '7':
+                            EntityList.grasses.add((new Grass(j, i, Sprite.grass.getFxImage())));
+                            break;
                         case '8':
                             EntityList.bricks.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             break;
