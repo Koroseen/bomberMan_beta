@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
+import uet.oop.bomberman.entities.blocks.Flame;
 import uet.oop.bomberman.entities.enemies.Enemy;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
@@ -79,6 +80,7 @@ public class Game extends Application {
         EntityList.bricks.forEach(g -> g.render(gc));
         EntityList.enemies.forEach(g -> g.render(gc));
         for(int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).render(gc);
+        for (int i = 0; i < EntityList.flames.size() && Bomb.isFire(); i++) EntityList.flames.get(i).render(gc);
         bomberman.render(gc);
 
     }

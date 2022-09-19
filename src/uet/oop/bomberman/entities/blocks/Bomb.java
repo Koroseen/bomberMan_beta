@@ -9,25 +9,70 @@ import static uet.oop.bomberman.entities.EntityList.bomberman;
 
 public class Bomb extends Entity {
     private static int count;
-    private static boolean exploded;
-    private static boolean canPlace = true;
-    public Bomb(int xUnit, int yUnit, Image img) {
+    private static boolean fire = false;
+    private static int x;
+    private static int y;
+    private static int upLimit = 0;
+    private static int downLimit = 0;
+    private static int leftLimit = 0;
+    private static int rightLimit = 0;
+    public Bomb(int xUnit, int yUnit, Image img, int count) {
         super(xUnit, yUnit, img);
+        Bomb.count = count;
     }
 
+    public static boolean isFire() {return fire;}
     public static void setBomb() {
-        if(canPlace) {
-            Bomb bomb = new Bomb(EntityList.bomberman.getX() / Sprite.SCALED_SIZE, EntityList.bomberman.getY() / Sprite.SCALED_SIZE, Sprite.bomb_1.getFxImage());
-            bomberman.bombs.add(bomb);
+        x = bomberman.getX() / Sprite.SCALED_SIZE;
+        y = bomberman.getY() / Sprite.SCALED_SIZE;
+
+        if(bomberman.bombs.isEmpty()) {
+            bomberman.bombs.add(new Bomb(x, y, Sprite.bomb.getFxImage(), 0));
+            upLimit = downLimit = leftLimit = rightLimit = 0;
+            calcLimit();
         }
-        exploded = false;
-        count = 0;
-        canPlace = false;
     }
-    public boolean isExploded() {
-        return exploded;
+
+    public static void calcLimit() {
+        EntityList.flames.add(new Flame(x, y, Sprite.bomb_exploded2.getFxImage()));
+
+        Flame flame = new Flame(x, y - upLimit - 1, Sprite.explosion_vertical2.getFxImage());
+        boolean b = flame.checkCollision();
+        while (upLimit < 1 && !b) {
+            upLimit++;
+            EntityList.flames.add(flame);
+            flame = new Flame(x, y - upLimit - 1, Sprite.explosion_vertical2.getFxImage());
+            b = flame.checkCollision();
+        }
+
+        flame = new Flame(x, y + downLimit + 1, Sprite.explosion_vertical2.getFxImage());
+        b = flame.checkCollision();
+        while (downLimit < 1 && !b) {
+            downLimit++;
+            EntityList.flames.add(flame);
+            flame = new Flame(x, y + downLimit + 1, Sprite.explosion_vertical2.getFxImage());
+            b = flame.checkCollision();
+        }
+
+        flame = new Flame(x - leftLimit - 1, y, Sprite.explosion_horizontal2.getFxImage());
+        b = flame.checkCollision();
+        while (leftLimit < 1 && !b) {
+            leftLimit++;
+            EntityList.flames.add(flame);
+            flame = new Flame(x - leftLimit - 1, y, Sprite.explosion_horizontal2.getFxImage());
+            b = flame.checkCollision();
+        }
+
+        flame = new Flame(x + rightLimit + 1, y, Sprite.explosion_horizontal2.getFxImage());
+        b = flame.checkCollision();
+        while (rightLimit < 1 && !b) {
+            rightLimit++;
+            EntityList.flames.add(flame);
+            flame = new Flame(x + rightLimit + 1, y, Sprite.explosion_horizontal2.getFxImage());
+            b = flame.checkCollision();
+        }
     }
-//    setImg(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, animate, 90).getFxImage());
+
     @Override
     public void update() {
         int timeOut = 200;
@@ -35,10 +80,14 @@ public class Bomb extends Entity {
             count++;
             setImg(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, count, 90).getFxImage());
         }
+        else if (count < 250){
+            count++;
+            fire = true;
+        }
         else {
-            exploded = true;
-            bomberman.bombs.removeIf(Bomb::isExploded);
-            canPlace = true;
+            EntityList.flames.clear();
+            bomberman.bombs.clear();
+            fire = false;
         }
     }
 }
