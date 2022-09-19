@@ -1,14 +1,11 @@
 package uet.oop.bomberman.input;
 
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Bomber;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyBoardInput implements KeyListener {
 
-    private boolean[] keys = new boolean[100];
+    private final boolean[] keys = new boolean[100];
     public boolean down, up, right, left, space;
     public void update() {
         up = keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W];
@@ -28,6 +25,5 @@ public class KeyBoardInput implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
-//        BombermanGame.loop = 0;
     }
 }

@@ -1,14 +1,20 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Bomber extends Entity {
+import java.util.ArrayList;
+import java.util.List;
 
+import static uet.oop.bomberman.entities.EntityList.bomberman;
+
+public class Bomber extends Entity {
     public static int t = 0;
 
     private final boolean isAlive = true;
-    private int speed = Sprite.SCALED_SIZE / 8;
+    private final int speed = Sprite.SCALED_SIZE / 8;
+    public List<Bomb> bombs = new ArrayList<>();
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
@@ -73,6 +79,7 @@ public class Bomber extends Entity {
     }
 
     public void placeBomb() {
-
+        Bomb bomb = new Bomb(EntityList.bomberman.getX() / Sprite.SCALED_SIZE, EntityList.bomberman.getY() / Sprite.SCALED_SIZE, Sprite.bomb_1.getFxImage());
+        bomberman.bombs.add(bomb);
     }
 }
