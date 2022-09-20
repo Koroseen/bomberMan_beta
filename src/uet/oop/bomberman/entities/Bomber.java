@@ -28,7 +28,7 @@ public class Bomber extends Entity {
                 animate = 0;
             }
             animate++;
-            if (checkCollision()) {
+            if (checkWall() || checkBrick()) {
                 this.y += 1;
             }
         }
@@ -42,7 +42,7 @@ public class Bomber extends Entity {
                 animate = 0;
             }
             animate++;
-            if (checkCollision()) {
+            if (checkWall() || checkBrick()) {
                 this.y -= 1;
             }
         }
@@ -56,7 +56,7 @@ public class Bomber extends Entity {
                 animate = 0;
             }
             animate++;
-            if (checkCollision()) {
+            if (checkWall() || checkBrick()) {
                 this.x += 1;
             }
         }
@@ -70,7 +70,7 @@ public class Bomber extends Entity {
                 animate = 0;
             }
             animate++;
-            if (checkCollision()) {
+            if (checkWall() || checkBrick()) {
                 this.x -= 1;
             }
         }

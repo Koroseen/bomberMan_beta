@@ -67,7 +67,7 @@ public class Game extends Application {
 
     public void update() {
         EntityList.walls.forEach(Entity::update);
-        EntityList.bricks.forEach(Entity::update);
+        if(Bomb.isFire()) EntityList.bricks.forEach(Entity::update);
         for(int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
         EntityList.enemies.forEach(Enemy::update);
         bomberman.update();

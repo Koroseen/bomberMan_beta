@@ -41,7 +41,7 @@ public class Ballom extends Enemy {
                 animate = 0;
             }
             animate++;
-            if (checkCollision()) {
+            if (checkWall() || checkBrick()) {
                 this.y += 1;
                 changeDir();
             }
@@ -56,7 +56,7 @@ public class Ballom extends Enemy {
                 animate = 0;
             }
             animate++;
-            if (checkCollision()) {
+            if (checkWall() || checkBrick()) {
                 this.y -= 1;
                 changeDir();
             }
@@ -71,7 +71,7 @@ public class Ballom extends Enemy {
                 animate = 0;
             }
             animate++;
-            if (checkCollision()) {
+            if (checkWall() || checkBrick()) {
                 this.x += 1;
                 changeDir();
             }
@@ -86,7 +86,7 @@ public class Ballom extends Enemy {
                 animate = 0;
             }
             animate++;
-            if (checkCollision()) {
+            if (checkWall() || checkBrick()) {
                 this.x -= 1;
                 changeDir();
             }
