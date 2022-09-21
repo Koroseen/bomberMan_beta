@@ -55,9 +55,11 @@ public abstract class Entity {
     public boolean intersects(Entity entity) {
         return this.getRect().intersects(entity.getRect());
     }
+
     public boolean contains(Entity entity) {
         return this.getRect().contains(entity.getRect());
     }
+
     public boolean checkWall() {
         for (Wall wall : EntityList.walls) {
             if (this.intersects(wall)) {
@@ -68,12 +70,18 @@ public abstract class Entity {
     }
 
     public boolean checkBrick() {
-        for(int i = 0; i < EntityList.bricks.size(); i++) {
-            if(this.equals(EntityList.bricks.get(i))) {
-                if (this instanceof Flame) {
-                    Brick brick = EntityList.bricks.get(i);
-                    brick.setBroken(true);
-                }
+        for (int i = 0; i < EntityList.bricks.size(); i++) {
+//            if (this.contains(EntityList.bricks.get(i))) {
+//                if (this instanceof Flame) {
+//                    Brick brick = EntityList.bricks.get(i);
+//                    brick.setBroken(true);
+//                }
+//                return true;
+//            }
+            if (this instanceof Flame && this.contains(EntityList.bricks.get(i))) {
+                EntityList.bricks.get(i).setBroken(true);
+                return true;
+            } else if (this instanceof Bomber && this.intersects(EntityList.bricks.get(i))){
                 return true;
             }
         }
