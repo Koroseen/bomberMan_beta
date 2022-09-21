@@ -14,7 +14,6 @@ public class Bomber extends Entity {
     private final boolean isAlive = true;
     private final int speed = Sprite.SCALED_SIZE / 8;
     public List<Bomb> bombs = new ArrayList<>();
-
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
     }

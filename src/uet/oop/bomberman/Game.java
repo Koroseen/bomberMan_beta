@@ -10,8 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityList;
-import uet.oop.bomberman.entities.blocks.Bomb;
-import uet.oop.bomberman.entities.blocks.Flame;
+import uet.oop.bomberman.entities.blocks.*;
 import uet.oop.bomberman.entities.enemies.Enemy;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
@@ -66,8 +65,8 @@ public class Game extends Application {
     }
 
     public void update() {
-        EntityList.walls.forEach(Entity::update);
-        if(Bomb.isFire()) EntityList.bricks.forEach(Entity::update);
+        EntityList.walls.forEach(Wall::update);
+        if(Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
         for(int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
         EntityList.enemies.forEach(Enemy::update);
         bomberman.update();

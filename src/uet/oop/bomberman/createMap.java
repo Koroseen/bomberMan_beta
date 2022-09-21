@@ -47,7 +47,6 @@ public class createMap {
                     }
                 }
             }
-
             EntityList.enemies.add(new Ballom(15, 10, Sprite.balloom_left1.getFxImage(), 1, 5, Enemy.enemyDir.UP));
             break;
 

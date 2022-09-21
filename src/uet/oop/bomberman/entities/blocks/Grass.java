@@ -1,7 +1,10 @@
 package uet.oop.bomberman.entities.blocks;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Settings;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.EntityList;
+import uet.oop.bomberman.graphics.Sprite;
 
 public class Grass extends Entity {
 
@@ -10,7 +13,5 @@ public class Grass extends Entity {
     }
 
     @Override
-    public void update() {
-
-    }
+    public void update() {}
 }

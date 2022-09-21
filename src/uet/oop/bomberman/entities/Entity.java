@@ -56,13 +56,6 @@ public abstract class Entity {
         return this.getRect().intersects(entity.getRect());
     }
 
-//    public void lap(Entity entity) {
-//        Rectangle2D r1 = this.getRect();
-//        Rectangle2D r2 = entity.getRect();
-////        return r1.getMinX() < r2.getMaxX() || r1.getMaxX() > r2.getMinX() || r1.getMinY() < r2.getMaxY() || r1.getMaxY() > r2.getMinY();
-//        System.out.println(r1.getMaxX() + ' ' + r1.getMinX());
-//    }
-
     public boolean checkWall() {
         for (Wall wall : EntityList.walls) {
             if (this.intersects(wall)) {
@@ -76,11 +69,11 @@ public abstract class Entity {
         for(int i = 0; i < EntityList.bricks.size(); i++) {
             if(this.intersects(EntityList.bricks.get(i))) {
                 if (this instanceof Flame) {
-                    EntityList.bricks.get(i).setBroken(true);
+                    Brick brick = EntityList.bricks.get(i);
+                    brick.setBroken(true);
                 }
                 return true;
             }
-//            this.intersects(EntityList.bricks.get(i));
         }
         return false;
     }
