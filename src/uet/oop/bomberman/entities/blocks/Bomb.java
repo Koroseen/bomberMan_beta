@@ -35,39 +35,39 @@ public class Bomb extends Entity {
     public static void calcLimit() {
         EntityList.flames.add(new Flame(x, y, Sprite.bomb_exploded2.getFxImage()));
 
-        Flame flame = new Flame(x, y - upLimit - 1, Sprite.explosion_vertical2.getFxImage());
+        Flame flame = new Flame(x, y - upLimit - 1, Sprite.explosion_vertical_top_last2.getFxImage());
         boolean b = flame.checkWall() | flame.checkBrick();
         while (upLimit < 1 && !b) {
             upLimit++;
             EntityList.flames.add(flame);
-            flame = new Flame(x, y - upLimit - 1, Sprite.explosion_vertical2.getFxImage());
+            flame = new Flame(x, y - upLimit, Sprite.explosion_vertical_top_last2.getFxImage());
             b = flame.checkWall() | flame.checkBrick();
         }
 
-        flame = new Flame(x, y + downLimit + 1, Sprite.explosion_vertical2.getFxImage());
+        flame = new Flame(x, y + downLimit + 1, Sprite.explosion_vertical_down_last2.getFxImage());
         b = flame.checkWall() | flame.checkBrick();
         while (downLimit < 1 && !b) {
             downLimit++;
             EntityList.flames.add(flame);
-            flame = new Flame(x, y + downLimit + 1, Sprite.explosion_vertical2.getFxImage());
+            flame = new Flame(x, y + downLimit, Sprite.explosion_vertical_down_last2.getFxImage());
             b = flame.checkWall() | flame.checkBrick();
         }
 
-        flame = new Flame(x - leftLimit - 1, y, Sprite.explosion_horizontal2.getFxImage());
+        flame = new Flame(x - leftLimit - 1, y, Sprite.explosion_horizontal_left_last2.getFxImage());
         b = flame.checkWall() | flame.checkBrick();
         while (leftLimit < 1 && !b) {
             leftLimit++;
             EntityList.flames.add(flame);
-            flame = new Flame(x - leftLimit - 1, y, Sprite.explosion_horizontal2.getFxImage());
+            flame = new Flame(x - leftLimit, y, Sprite.explosion_horizontal_left_last2.getFxImage());
             b = flame.checkWall() | flame.checkBrick();
         }
 
-        flame = new Flame(x + rightLimit + 1, y, Sprite.explosion_horizontal2.getFxImage());
+        flame = new Flame(x + rightLimit + 1, y, Sprite.explosion_horizontal_right_last2.getFxImage());
         b = flame.checkWall() | flame.checkBrick();
         while (rightLimit < 1 && !b) {
             rightLimit++;
             EntityList.flames.add(flame);
-            flame = new Flame(x + rightLimit + 1, y, Sprite.explosion_horizontal2.getFxImage());
+            flame = new Flame(x + rightLimit, y, Sprite.explosion_horizontal_right_last2.getFxImage());
             b = flame.checkWall() | flame.checkBrick();
         }
     }
