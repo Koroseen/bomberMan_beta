@@ -8,9 +8,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityList;
-import uet.oop.bomberman.entities.blocks.*;
+import uet.oop.bomberman.entities.blocks.Bomb;
+import uet.oop.bomberman.entities.blocks.Brick;
+import uet.oop.bomberman.entities.blocks.Wall;
 import uet.oop.bomberman.entities.enemies.Enemy;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;

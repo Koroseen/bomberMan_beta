@@ -3,9 +3,9 @@ package uet.oop.bomberman.entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Flame;
 import uet.oop.bomberman.entities.blocks.Wall;
+import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
@@ -71,17 +71,10 @@ public abstract class Entity {
 
     public boolean checkBrick() {
         for (int i = 0; i < EntityList.bricks.size(); i++) {
-//            if (this.contains(EntityList.bricks.get(i))) {
-//                if (this instanceof Flame) {
-//                    Brick brick = EntityList.bricks.get(i);
-//                    brick.setBroken(true);
-//                }
-//                return true;
-//            }
             if (this instanceof Flame && this.contains(EntityList.bricks.get(i))) {
                 EntityList.bricks.get(i).setBroken(true);
                 return true;
-            } else if (this instanceof Bomber && this.intersects(EntityList.bricks.get(i))){
+            } else if ((this instanceof Bomber || this instanceof Enemy) && this.intersects(EntityList.bricks.get(i))){
                 return true;
             }
         }

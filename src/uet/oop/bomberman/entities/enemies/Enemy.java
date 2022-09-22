@@ -5,7 +5,7 @@ import uet.oop.bomberman.entities.Entity;
 
 public abstract class Enemy extends Entity {
     protected int speed;
-    protected boolean isAlive;
+    protected boolean isAlive = true;
     protected int chaseRad;
     public enum enemyDir {
         UP,
@@ -24,21 +24,4 @@ public abstract class Enemy extends Entity {
         this.chaseRad = chaseRad;
         this.dir = dir;
     }
-
-    public void setAlive(boolean isAlive) {
-        this.isAlive = isAlive;
-    }
-
-    public void setDir(enemyDir dir) {
-        this.dir = dir;
-    }
-
-    public int getSpeed() {
-        return this.speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
 }
