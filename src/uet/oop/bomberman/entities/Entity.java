@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.entities.blocks.Flame;
 import uet.oop.bomberman.entities.blocks.Wall;
 import uet.oop.bomberman.entities.enemies.Enemy;
@@ -77,6 +78,17 @@ public abstract class Entity {
             } else if ((this instanceof Bomber || this instanceof Enemy) && this.intersects(EntityList.bricks.get(i))){
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean checkBomb() {
+        for (int i = 0; i < EntityList.bomberman.bombs.size(); i++) {
+            if (this instanceof Bomber) {
+               if(this.intersects(EntityList.bomberman.bombs.get(i)) && !EntityList.bomberman.bombs.get(i).isAllow()) {
+                   return true;
+               }
+            } else if(this.intersects(EntityList.bomberman.bombs.get(i))) return true;
         }
         return false;
     }

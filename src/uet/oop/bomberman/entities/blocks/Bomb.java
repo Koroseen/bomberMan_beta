@@ -16,12 +16,16 @@ public class Bomb extends Entity {
     private static int downLimit = 0;
     private static int leftLimit = 0;
     private static int rightLimit = 0;
+    private boolean allow;
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         count = 0;
+        allow = true;
     }
 
     public static boolean isFire() {return fire;}
+    public boolean isAllow() {return allow;}
+    public void setAllow(boolean x) {allow = x;}
     public static void setBomb() {
         x = bomberman.getX() / Sprite.SCALED_SIZE;
         y = bomberman.getY() / Sprite.SCALED_SIZE;
@@ -74,12 +78,12 @@ public class Bomb extends Entity {
 
     @Override
     public void update() {
-        int timeOut = 200;
+        int timeOut = 500;
         if(count < timeOut) {
             count++;
             setImg(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, count, 90).getFxImage());
         }
-        else if (count < 250){
+        else if (count < 550){
             count++;
             fire = true;
         }

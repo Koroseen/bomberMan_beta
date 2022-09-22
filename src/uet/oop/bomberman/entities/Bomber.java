@@ -19,15 +19,18 @@ public class Bomber extends Entity {
     }
 
     @Override
-    public void update() {}
+    public void update() {
+        for (int i = 0; i < bomberman.bombs.size(); i++) {
+            if (!this.intersects(bomberman.bombs.get(i)) && bomberman.bombs.get(i).isAllow()) {
+                bomberman.bombs.get(i).setAllow(false);
+            }
+        }
+    }
     public void goUp() {
         for (int i = 1; i <= this.speed; ++i) {
             this.y -= 1;
-            if(animate > 100) {
-                animate = 0;
-            }
-            animate++;
-            if (checkWall() || checkBrick()) {
+            animate = animate > 0 ? 0 : animate + 1;
+            if (checkWall() || checkBrick() || checkBomb()) {
                 this.y += 1;
             }
         }
@@ -37,11 +40,8 @@ public class Bomber extends Entity {
     public void goDown() {
         for (int i = 1; i <= this.speed; ++i) {
             this.y += 1;
-            if(animate > 100) {
-                animate = 0;
-            }
-            animate++;
-            if (checkWall() || checkBrick()) {
+            animate = animate > 0 ? 0 : animate + 1;
+            if (checkWall() || checkBrick() || checkBomb()) {
                 this.y -= 1;
             }
         }
@@ -51,10 +51,7 @@ public class Bomber extends Entity {
     public void goLeft() {
         for (int i = 1; i <= this.speed; ++i) {
             this.x -= 1;
-            if(animate > 100) {
-                animate = 0;
-            }
-            animate++;
+            animate = animate > 0 ? 0 : animate + 1;
             if (checkWall() || checkBrick()) {
                 this.x += 1;
             }
@@ -65,11 +62,8 @@ public class Bomber extends Entity {
     public void goRight() {
         for (int i = 1; i <= this.speed; ++i) {
             this.x += 1;
-            if(animate > 100) {
-                animate = 0;
-            }
-            animate++;
-            if (checkWall() || checkBrick()) {
+            animate = animate > 0 ? 0 : animate + 1;
+            if ((checkWall() || checkBrick())) {
                 this.x -= 1;
             }
         }

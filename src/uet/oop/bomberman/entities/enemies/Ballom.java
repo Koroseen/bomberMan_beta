@@ -80,7 +80,6 @@ public class Ballom extends Enemy {
         setImg(Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animate, 60).getFxImage());
     }
 
-
     @Override
     public void update() {
         if(isAlive) {
