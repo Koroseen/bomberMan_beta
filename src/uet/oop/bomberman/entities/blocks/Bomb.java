@@ -78,12 +78,12 @@ public class Bomb extends Entity {
 
     @Override
     public void update() {
-        int timeOut = 500;
+        int timeOut = 150;
         if(count < timeOut) {
             count++;
             setImg(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, count, 90).getFxImage());
         }
-        else if (count < 550){
+        else if (count < 200){
             count++;
             fire = true;
         }

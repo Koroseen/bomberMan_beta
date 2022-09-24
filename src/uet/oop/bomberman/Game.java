@@ -12,7 +12,9 @@ import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Wall;
+import uet.oop.bomberman.entities.enemies.Ballom;
 import uet.oop.bomberman.entities.enemies.Enemy;
+import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
@@ -63,14 +65,22 @@ public class Game extends Application {
                 bomberman.placeBomb();
             }
         });
+
+        scene.setOnKeyReleased(event -> {
+            if(event.getCode().toString().equals("UP")) {
+                bomberman.setImg(Sprite.player_up.getFxImage());
+            } else {
+                bomberman.setImg(Sprite.player_down.getFxImage());
+            }
+        });
     }
 
     public void update() {
         EntityList.walls.forEach(Wall::update);
         if(Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
         for(int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
-        EntityList.enemies.forEach(Enemy::update);
         bomberman.update();
+        EntityList.enemies.forEach(Enemy::update);
     }
 
     public void render(){
@@ -82,6 +92,5 @@ public class Game extends Application {
         for(int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).render(gc);
         for (int i = 0; i < EntityList.flames.size() && Bomb.isFire(); i++) EntityList.flames.get(i).render(gc);
         bomberman.render(gc);
-
     }
 }

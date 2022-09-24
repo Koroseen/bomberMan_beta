@@ -41,8 +41,8 @@ public class Ballom extends Enemy {
         for (int i = 1; i <= this.speed; ++i) {
             this.y -= 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick()) this.y += 1;
-            if(this.y % Sprite.SCALED_SIZE == 0) if(countCall % 3 == 0) changeDir();
+            if (checkWall() || checkBrick() || checkBomb()) this.y += 1;
+            if(this.y % Sprite.SCALED_SIZE == 0) if(countCall % 2 == 0) changeDir();
         }
         setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
     }
@@ -52,8 +52,8 @@ public class Ballom extends Enemy {
         for (int i = 1; i <= this.speed; ++i) {
             this.y += 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick()) this.y -= 1;
-            if(this.y % Sprite.SCALED_SIZE == 0) if(countCall % 3 == 0) changeDir();
+            if (checkWall() || checkBrick() || checkBomb()) this.y -= 1;
+            if(this.y % Sprite.SCALED_SIZE == 0) if(countCall % 2 == 0) changeDir();
         }
         setImg(Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animate, 60).getFxImage());
     }
@@ -63,8 +63,8 @@ public class Ballom extends Enemy {
         for (int i = 1; i <= this.speed; ++i) {
             this.x -= 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick()) this.x += 1;
-            if(this.x % Sprite.SCALED_SIZE == 0) if(countCall % 3 == 0) changeDir();
+            if (checkWall() || checkBrick() || checkBomb()) this.x += 1;
+            if(this.x % Sprite.SCALED_SIZE == 0) if(countCall % 2 == 0) changeDir();
         }
         setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
     }
@@ -74,28 +74,29 @@ public class Ballom extends Enemy {
         for (int i = 1; i <= this.speed; ++i) {
             this.x += 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick()) this.x -= 1;
-            if(this.x % Sprite.SCALED_SIZE == 0) if(countCall % 3 == 0) changeDir();
+            if (checkWall() || checkBrick() || checkBomb()) this.x -= 1;
+            if(this.x % Sprite.SCALED_SIZE == 0) if(countCall % 2 == 0) changeDir();
         }
         setImg(Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animate, 60).getFxImage());
     }
 
     @Override
     public void update() {
+//        System.out.println("Balloom");
         if(isAlive) {
             slow = slow > 100 ? 0 : slow + 1;
             switch (this.dir) {
                 case UP:
-                    if(slow % 3 == 0) goUp();
+                    if(slow % 2 == 0) goUp();
                     break;
                 case DOWN:
-                    if(slow % 3 == 0) goDown();
+                    if(slow % 2 == 0) goDown();
                     break;
                 case LEFT:
-                    if(slow % 3 == 0) goLeft();
+                    if(slow % 2 == 0) goLeft();
                     break;
                 case RIGHT:
-                    if(slow % 3 == 0) goRight();
+                    if(slow % 2 == 0) goRight();
                     break;
             }
         } else {

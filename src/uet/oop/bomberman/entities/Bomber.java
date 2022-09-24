@@ -34,40 +34,40 @@ public class Bomber extends Entity {
                 this.y += 1;
             }
         }
-        setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 60).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 45).getFxImage());
     }
 
     public void goDown() {
         for (int i = 1; i <= this.speed; ++i) {
             this.y += 1;
-            animate = animate > 0 ? 100 : animate + 1;
+            animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
                 this.y -= 1;
             }
         }
-        setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 60).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 45).getFxImage());
     }
 
     public void goLeft() {
         for (int i = 1; i <= this.speed; ++i) {
             this.x -= 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick()) {
+            if (checkWall() || checkBrick() || checkBomb()) {
                 this.x += 1;
             }
         }
-        setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 60).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 45).getFxImage());
     }
 
     public void goRight() {
         for (int i = 1; i <= this.speed; ++i) {
             this.x += 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if ((checkWall() || checkBrick())) {
+            if (checkWall() || checkBrick() || checkBomb()) {
                 this.x -= 1;
             }
         }
-        setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 60).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 45).getFxImage());
     }
     public void placeBomb() {
         Bomb.setBomb();
