@@ -2,29 +2,24 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Settings;
-import uet.oop.bomberman.createMap;
 
-import java.io.IOException;
 import java.util.*;
 
 public class A_Star {
 
-    private final static int ROW = Settings.MAX_ROW;//Settings.MAX_ROW;
-    private final static int COL = Settings.MAX_COL;//Settings.MAX_COL;
+    private final static int ROW = Settings.MAX_ROW;
+    private final static int COL = Settings.MAX_COL;
 
     static class cell {
         public int parentX = 0, parentY = 0;
         public double f, g, h;
-    }
-
-    ;
-
+    };
     private static boolean isValid(int row, int col) {
         return row >= 0 && row < ROW && col >= 0 && col < COL;
     }
 
     private static boolean isUnBlocked(char[][] grid, int row, int col) {
-        return grid[row][col] == '7';
+        return grid[row][col] != '6' && grid[row][col] != '8';
     }
 
     private static boolean isDestination(int row, int col, Pair<Integer, Integer> dest) {
@@ -196,8 +191,8 @@ public class A_Star {
 //
 //    public static void main(String[] args) throws IOException {
 //        // for testing
-//        createMap.createMapLevel(1);
-//        char[][] grida = createMap.grid;
+//        CreateMap.createMapLevel(1);
+//        char[][] grida = CreateMap.grid;
 //        for (int i = 0; i < ROW; i++) {
 //            for (int j = 0; j < COL; j++) {
 //                System.out.print(grida[i][j]);

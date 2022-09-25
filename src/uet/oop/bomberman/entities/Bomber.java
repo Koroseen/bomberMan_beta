@@ -12,10 +12,29 @@ import static uet.oop.bomberman.entities.EntityList.bomberman;
 public class Bomber extends Entity {
 
     private final boolean isAlive = true;
-    private final int speed = Sprite.SCALED_SIZE / 8;
+    private int speed = Sprite.SCALED_SIZE / 8;
+    private int speedItemDuration;
+    private boolean hasTouchedSpeedItem = false;
+    private boolean once = false;
     public List<Bomb> bombs = new ArrayList<>();
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
+    }
+
+    public void setSpeedItemDuration(int speedItemDuration) {
+        this.speedItemDuration = speedItemDuration;
+    }
+
+    public int getSpeedItemDuration() {
+        return speedItemDuration;
+    }
+
+    public boolean isHasTouchedSpeedItem() {
+        return hasTouchedSpeedItem;
+    }
+
+    public void setHasTouchedSpeedItem(boolean hasTouchedSpeedItem) {
+        this.hasTouchedSpeedItem = hasTouchedSpeedItem;
     }
 
     @Override
@@ -23,6 +42,18 @@ public class Bomber extends Entity {
         for (int i = 0; i < bomberman.bombs.size(); i++) {
             if (!this.intersects(bomberman.bombs.get(i)) && bomberman.bombs.get(i).isAllow()) {
                 bomberman.bombs.get(i).setAllow(false);
+            }
+        }
+        if (speedItemDuration > 0) {
+            speedItemDuration --;
+            if (!once) {
+                speed+=3;
+                once = true;
+            }
+        } else {
+            if (once) {
+                once = false;
+                speed-=3;
             }
         }
     }

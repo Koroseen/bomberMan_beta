@@ -10,10 +10,17 @@ import uet.oop.bomberman.entities.enemies.Oneal;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.*;
-import java.util.Set;
 
-public class createMap {
-    public static char[][] grid = new char[Settings.MAX_ROW][Settings.MAX_COL];
+public class CreateMap {
+    private static char[][] grid = new char[Settings.MAX_ROW][Settings.MAX_COL];
+
+    public static void setGrid(int row, int col, char c) {
+        CreateMap.grid[row][col] = c;
+    }
+
+    public static char[][] getGrid() {
+        return grid;
+    }
 
     public static void importData(char[][] arr, int stage) throws IOException {
         String path = "res/levels/level" + stage + ".txt";
@@ -26,7 +33,6 @@ public class createMap {
                 arr[i][j] = line.charAt(j);
             }
         }
-        System.out.println();
         bufferedReader.close();
     }
     public static void createMapLevel(int level) throws IOException {
@@ -34,7 +40,6 @@ public class createMap {
         switch (level) {
             case 1:
                 //import tileset to array
-//                char[][] arr = new char[Settings.MAX_ROW][Settings.MAX_COL];
                 importData(grid, level);
                 //map render
                 for (int i = 0; i < Settings.MAX_ROW; i++) {
@@ -61,6 +66,5 @@ public class createMap {
             case 2:
                 break;
         }
-//        System.out.println(grid[1][8]);
     }
 }
