@@ -26,6 +26,7 @@ public class CreateMap {
         String path = "res/levels/level" + stage + ".txt";
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
         String line;
+        line = bufferedReader.readLine();
 
         for (int i = 0; i < Settings.MAX_ROW; i++) {
             line = bufferedReader.readLine();
@@ -35,36 +36,30 @@ public class CreateMap {
         }
         bufferedReader.close();
     }
+
     public static void createMapLevel(int level) throws IOException {
         EntityList.clearList();
-        switch (level) {
-            case 1:
-                //import tileset to array
-                importData(grid, level);
-                //map render
-                for (int i = 0; i < Settings.MAX_ROW; i++) {
-                    for (int j = 0; j < Settings.MAX_COL; j++) {
-                        switch (grid[i][j]) {
-                            case '6':
-                                EntityList.walls.add(new Wall(j, i, Sprite.wall.getFxImage()));
-                                break;
-                            case '7':
-                                EntityList.grasses.add((new Grass(j, i, Sprite.grass.getFxImage())));
-                                break;
-                            case '8':
-                                EntityList.bricks.add(new Brick(j, i, Sprite.brick.getFxImage()));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+        //import tileset to array
+        importData(grid, level);
+        //map render
+        for (int i = 0; i < Settings.MAX_ROW; i++) {
+            for (int j = 0; j < Settings.MAX_COL; j++) {
+                EntityList.grasses.add((new Grass(j, i, Sprite.grass.getFxImage())));
+                switch (grid[i][j]) {
+                    case '*':
+                        EntityList.walls.add(new Wall(j, i, Sprite.wall.getFxImage()));
+                        break;
+                    case '#':
+                        EntityList.bricks.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                        break;
+                    case '1':
+                        EntityList.enemies.add(new Ballom(j, i, Sprite.balloom_left1.getFxImage(), 1, 0, Enemy.enemyDir.UP));
+                        break;
+                    case '2':
+                        EntityList.enemies.add(new Oneal(j, i, Sprite.oneal_left1.getFxImage(), 1, 100, Enemy.enemyDir.UP));
+                        break;
                 }
-                EntityList.enemies.add(new Ballom(15, 10, Sprite.balloom_left1.getFxImage(), 1, 0, Enemy.enemyDir.UP));
-                EntityList.enemies.add(new Oneal(5, 7, Sprite.oneal_left1.getFxImage(), 1, 100, Enemy.enemyDir.UP));
-                break;
-
-            case 2:
-                break;
+            }
         }
     }
 }

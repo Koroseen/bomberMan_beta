@@ -21,6 +21,8 @@ public abstract class Items extends Entity {
             case 0:
                 EntityList.items.add(new SpeedItem(row, col, Sprite.powerup_speed.getFxImage()));
                 break;
+            case 4:
+
             default:
                 break;
         }
@@ -28,6 +30,4 @@ public abstract class Items extends Entity {
 
     @Override
     public abstract void update();
-
-
 }

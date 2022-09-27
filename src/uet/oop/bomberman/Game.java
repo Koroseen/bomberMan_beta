@@ -40,7 +40,7 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.show();
 
-        CreateMap.createMapLevel(1);
+        CreateMap.createMapLevel(2);
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -52,23 +52,27 @@ public class Game extends Application {
         timer.start();
 
         scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
+            if (event.getCode().toString().equals("UP")) {
                 bomberman.goUp();
-            } else if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
+            } else if (event.getCode().toString().equals("DOWN")) {
                 bomberman.goDown();
-            } else if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
+            } else if (event.getCode().toString().equals("LEFT")) {
                 bomberman.goLeft();
-            } else if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
+            } else if (event.getCode().toString().equals("RIGHT")) {
                 bomberman.goRight();
-            } else if (event.getCode() == KeyCode.SPACE && bomberman.bombs.isEmpty()) {
+            } else if (event.getCode().toString().equals("SPACE") && bomberman.bombs.isEmpty()) {
                 bomberman.placeBomb();
             }
         });
 
         scene.setOnKeyReleased(event -> {
-            if (event.getCode().toString().equals("UP")) {
+            if (event.getCode().toString().equals("LEFT")) {
+                bomberman.setImg(Sprite.player_left.getFxImage());
+            } else if (event.getCode().toString().equals("UP")){
                 bomberman.setImg(Sprite.player_up.getFxImage());
-            } else {
+            } else if (event.getCode().toString().equals("RIGHT")) {
+                bomberman.setImg(Sprite.player_right.getFxImage());
+            } else if (event.getCode().toString().equals("DOWN")){
                 bomberman.setImg(Sprite.player_down.getFxImage());
             }
         });

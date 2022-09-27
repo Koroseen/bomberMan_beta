@@ -10,11 +10,12 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends Entity {
     private boolean broken;
-    private boolean isCalled = false;
-    private int count = 0;
+    private boolean isCalled;
+
     public Brick(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         broken = false;
+        isCalled = false;
     }
 
     public boolean isBroken() {
@@ -29,9 +30,8 @@ public class Brick extends Entity {
     public void update() {
         if (broken) {
             animate = animate > 100 ? 0 : animate + 1;
-            setImg(Sprite.movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, animate, 60).getFxImage());
-            CreateMap.setGrid(this.y / Sprite.SCALED_SIZE, this.x / Sprite.SCALED_SIZE, '7');
-            EntityList.grasses.add(new Grass(this.x / Sprite.SCALED_SIZE, this.y / Sprite.SCALED_SIZE, Sprite.grass.getFxImage()));
+            setImg(Sprite.movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, animate, 30).getFxImage());
+            CreateMap.setGrid(this.y / Sprite.SCALED_SIZE, this.x / Sprite.SCALED_SIZE, ' ');
             if (!isCalled && Bomb.getCount() == 250) {
                 Items.randomItem(this.x / Sprite.SCALED_SIZE, this.y / Sprite.SCALED_SIZE);
                 isCalled = true;

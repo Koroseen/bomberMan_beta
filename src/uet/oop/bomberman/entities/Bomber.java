@@ -17,6 +17,7 @@ public class Bomber extends Entity {
     private boolean hasTouchedSpeedItem = false;
     private boolean once = false;
     public List<Bomb> bombs = new ArrayList<>();
+
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
     }
@@ -45,18 +46,19 @@ public class Bomber extends Entity {
             }
         }
         if (speedItemDuration > 0) {
-            speedItemDuration --;
+            speedItemDuration--;
             if (!once) {
-                speed+=3;
+                speed += 2;
                 once = true;
             }
         } else {
             if (once) {
                 once = false;
-                speed-=3;
+                speed -= 2;
             }
         }
     }
+
     public void goUp() {
         for (int i = 1; i <= this.speed; ++i) {
             this.y -= 1;
@@ -74,6 +76,12 @@ public class Bomber extends Entity {
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
                 this.y -= 1;
+                if (this.x % Sprite.SCALED_SIZE <=  Sprite.SCALED_SIZE / 4) {
+                    this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
+                }
+                if(this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                    this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
+                }
             }
         }
         setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 45).getFxImage());
@@ -85,6 +93,12 @@ public class Bomber extends Entity {
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
                 this.x += 1;
+                if (this.y % Sprite.SCALED_SIZE <=  Sprite.SCALED_SIZE / 4) {
+                    this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
+                }
+                if(this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                    this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
+                }
             }
         }
         setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 45).getFxImage());
@@ -96,10 +110,17 @@ public class Bomber extends Entity {
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
                 this.x -= 1;
+                if (this.y % Sprite.SCALED_SIZE <=  Sprite.SCALED_SIZE / 4) {
+                    this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
+                }
+                if(this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                    this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
+                }
             }
         }
         setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 45).getFxImage());
     }
+
     public void placeBomb() {
         Bomb.setBomb();
     }

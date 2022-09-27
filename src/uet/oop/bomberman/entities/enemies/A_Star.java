@@ -19,7 +19,7 @@ public class A_Star {
     }
 
     private static boolean isUnBlocked(char[][] grid, int row, int col) {
-        return grid[row][col] != '6' && grid[row][col] != '8';
+        return grid[row][col] != '*' && grid[row][col] != '#';
     }
 
     private static boolean isDestination(int row, int col, Pair<Integer, Integer> dest) {
