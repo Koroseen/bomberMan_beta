@@ -83,8 +83,9 @@ public class Game extends Application {
         if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
         for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).update();
         for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
+        for (int i = 0; i < EntityList.flames.size(); i++) EntityList.flames.get(i).update();
         bomberman.update();
-        EntityList.enemies.forEach(Enemy::update);
+        for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).update();
     }
 
     public void render() {
@@ -93,7 +94,7 @@ public class Game extends Application {
         EntityList.walls.forEach(g -> g.render(gc));
         EntityList.bricks.forEach(g -> g.render(gc));
         for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).render(gc);
-        EntityList.enemies.forEach(g -> g.render(gc));
+        for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).render(gc);
         for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).render(gc);
         for (int i = 0; i < EntityList.flames.size() && Bomb.isFire(); i++) EntityList.flames.get(i).render(gc);
         bomberman.render(gc);

@@ -30,7 +30,7 @@ public class Brick extends Entity {
     public void update() {
         if (broken) {
             animate = animate > 100 ? 0 : animate + 1;
-            setImg(Sprite.movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, animate, 30).getFxImage());
+            setImg(Sprite.movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, animate, 50).getFxImage());
             CreateMap.setGrid(this.y / Sprite.SCALED_SIZE, this.x / Sprite.SCALED_SIZE, ' ');
             if (!isCalled && Bomb.getCount() == 250) {
                 Items.randomItem(this.x / Sprite.SCALED_SIZE, this.y / Sprite.SCALED_SIZE);
