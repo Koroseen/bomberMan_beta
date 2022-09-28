@@ -53,7 +53,7 @@ public class CreateMap {
                         EntityList.bricks.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
                     case '1':
-                        EntityList.enemies.add(new Ballom(j, i, Sprite.balloom_left1.getFxImage(), 1, 0, Enemy.enemyDir.UP));
+                        EntityList.enemies.add(new Ballom(j, i, Sprite.balloom_left1.getFxImage(), 1, 0, Enemy.enemyDir.DOWN));
                         break;
                     case '2':
                         EntityList.enemies.add(new Oneal(j, i, Sprite.oneal_left1.getFxImage(), 1, 100, Enemy.enemyDir.UP));

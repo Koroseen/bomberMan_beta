@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
@@ -123,5 +124,10 @@ public class Bomber extends Entity {
 
     public void placeBomb() {
         Bomb.setBomb();
+    }
+
+    @Override
+    public void render(GraphicsContext gc) {
+        gc.drawImage(img, x + 4, y);
     }
 }
