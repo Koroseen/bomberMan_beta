@@ -18,6 +18,8 @@ import uet.oop.bomberman.graphics.Sprite;
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
 public class Game extends Application {
+    //vinh branch
+    //vinh2 update branch
     private GraphicsContext gc;
     private Canvas canvas;
 
