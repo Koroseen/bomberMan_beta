@@ -17,12 +17,12 @@ import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Wall;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
-
-import java.awt.*;
+import java.util.Arrays;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
 public class Game extends Application {
+    private static int curLevel = 1;
     private static String gamestate=" ";
     private GraphicsContext gc;
     private Canvas canvas;
@@ -31,8 +31,16 @@ public class Game extends Application {
         Application.launch(Game.class);
     }
 
+    public static int getCurLevel() {
+        return curLevel;
+    }
+
+    public static void setCurLevel(int curLevel) {
+        Game.curLevel = curLevel;
+    }
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         stage.setTitle("BomberMan");
         // Tao Canvas
         canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
@@ -48,7 +56,7 @@ public class Game extends Application {
         stage.show();
         scene.setFill(Color.WHITE);
 
-        CreateMap.createMapLevel(2);
+        CreateMap.createMapLevel(curLevel);
 
         //Menu.createMenu(root);
 
@@ -90,24 +98,32 @@ public class Game extends Application {
                 bomberman.setImg(Sprite.player_right.getFxImage());
             } else if (event.getCode().toString().equals("DOWN")){
                 bomberman.setImg(Sprite.player_down.getFxImage());
+            } else if (event.getCode().toString().equals("C")) {
+                for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).setAlive(false);
             }
         });
     }
 
     public void update() {
-        EntityList.walls.forEach(Wall::update);
-        if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
-        for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).update();
-        for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
-        for (int i = 0; i < EntityList.flames.size(); i++) EntityList.flames.get(i).update();
-        bomberman.update();
-        for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).update();
+        try {
+            EntityList.walls.forEach(Wall::update);
+            if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
+            for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).update();
+            for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
+            for (int i = 0; i < EntityList.flames.size(); i++) EntityList.flames.get(i).update();
+            for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).update();
+            EntityList.portal.update();
+            bomberman.update();
+        } catch (Exception exception){
+            exception.printStackTrace();
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         EntityList.grasses.forEach(g -> g.render(gc));
         EntityList.walls.forEach(g -> g.render(gc));
+        EntityList.portal.render(gc);
         EntityList.bricks.forEach(g -> g.render(gc));
         for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).render(gc);
         for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).render(gc);

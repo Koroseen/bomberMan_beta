@@ -28,12 +28,11 @@ public class Oneal extends Enemy {
     @Override
     public void update() {
         if (isAlive) {
-            if (EntityList.bomberman.getX() + chaseRad > this.x && EntityList.bomberman.getY() + chaseRad > this.y) {
-                int destRow = EntityList.bomberman.getY() / 32;
-                int destCol = EntityList.bomberman.getX() / 32;
+            int destRow = EntityList.bomberman.getY() / 32;
+            int destCol = EntityList.bomberman.getX() / 32;
 
-                Pair<Integer, Integer> pair = delta(destRow, destCol);
-
+            Pair<Integer, Integer> pair = delta(destRow, destCol);
+            if (Math.sqrt(Math.pow(EntityList.bomberman.getX() - this.x, 2) + Math.pow(EntityList.bomberman.getY() - this.y, 2)) < chaseRad) {
                 slow = slow > 100 ? 0 : slow + 1;
 
                 if (this.y < pair.getKey() * 32) {
