@@ -13,8 +13,7 @@ public class Menu {
     private static ImageView statusGame;
     public static Text level, bomb, time;
     public static int bombNumber = 20;
-    public static Text play;
-
+    public static long timer=0;
 
     public static void createMenu(Group root) {
         level = new Text("Level: 1");
@@ -33,12 +32,6 @@ public class Menu {
         time.setX(200);
         time.setY(22);
 
-        play = new Text("Play");
-        play.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        play.setFill(Color.BLACK);
-        play.setX(Settings.WIDTH/2);
-        play.setY(Settings.HEIGHT/2);
-
         Image newGame = new Image("images/pause.png");
         Image playGame = new Image("images/resume.png");
         statusGame = new ImageView(newGame);
@@ -47,14 +40,15 @@ public class Menu {
         statusGame.setFitHeight(32);
         statusGame.setFitWidth(32);
 
-        root.getChildren().add(play);
-
         Pane pane = new Pane();
         pane.getChildren().addAll(level, time, statusGame);
-        pane.setMinSize(992, 30);
-        pane.setMaxSize(2000, 2000);
+        pane.setMinSize(Settings.WIDTH, 30);
         pane.setStyle("-fx-background-color: #427235");
 
         root.getChildren().add(pane);
+    }
+    public static void updateMenu() {
+
+        time.setText("Times: "+Game.time++/60);
     }
 }
