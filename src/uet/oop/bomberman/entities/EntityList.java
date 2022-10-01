@@ -22,7 +22,8 @@ public class EntityList {
 
     public static Portal portal;
 
-    public static Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+    public static Bomber bomberman;
+            //= new Bomber(1, 1, Sprite.player_right.getFxImage());
 
     public static void removeBrick() {
         for (int i = 0; i < EntityList.bricks.size(); i++) {
@@ -34,5 +35,9 @@ public class EntityList {
     public static void clearList() {
         walls.clear();
         bricks.clear();
+        enemies.clear();
+        items.clear();
+        grasses.clear();
+        flames.clear();
     }
 }

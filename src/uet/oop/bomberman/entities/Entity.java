@@ -8,6 +8,8 @@ import uet.oop.bomberman.entities.blocks.Wall;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.io.IOException;
+
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
@@ -96,5 +98,5 @@ public abstract class Entity {
         gc.drawImage(img, x, y);
     }
 
-    public abstract void update();
+    public abstract void update() throws IOException;
 }
