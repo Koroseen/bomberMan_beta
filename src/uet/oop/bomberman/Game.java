@@ -36,7 +36,7 @@ public class Game extends Application {
     public static String gamestate = " ";
     private GraphicsContext gc;
     private Canvas canvas;
-    public static long time = 0;
+    public static long time = 7500;
 
     public static void main(String[] args) {
         Application.launch(Game.class);
@@ -107,6 +107,8 @@ public class Game extends Application {
 
         gamestate = "startmenu";
         AnimationTimer timer = new AnimationTimer() {
+            long start=System.currentTimeMillis();
+            long before=0;
             @Override
             public void handle(long l) {
                 if (gamestate.equals("startmenu")) {
@@ -115,6 +117,9 @@ public class Game extends Application {
                 if (gamestate.equals("running")) {
                     render();
                     update();
+                    long end=(System.currentTimeMillis()-start)/1000;
+                    if(end-before==1)Game.time--;
+                    before=end;
                 }
                 if (gamestate.equals("pause")) {
 
