@@ -23,6 +23,8 @@ public class Bomb extends Entity {
         super(xUnit, yUnit, img);
         count = 0;
         allow = true;
+        fire = false;
+        upLimit = downLimit = leftLimit = rightLimit = 0;
     }
 
     public static boolean isFire() {
@@ -43,7 +45,7 @@ public class Bomb extends Entity {
 
         if (bomberman.bombs.isEmpty()) {
             bomberman.bombs.add(new Bomb(x, y, Sprite.bomb.getFxImage()));
-            CreateMap.setGrid(y, x, '8');
+            CreateMap.setGrid(y, x, 'b');
             calcLimit();
         }
     }
@@ -94,25 +96,21 @@ public class Bomb extends Entity {
 
     @Override
     public void update() {
-        int timeOut = 200;
+        int timeOut = 250;
         int row = this.getY() / Sprite.SCALED_SIZE;
         int col = this.getX() / Sprite.SCALED_SIZE;
         if (count < timeOut) {
-            if (CreateMap.getGrid()[row][col] != 'b') {
-                CreateMap.setGrid(row, col, 'b');
-            }
             count++;
             setImg(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, count, 90).getFxImage());
-        } else if (count < 250) {
+        } else if (count < 300) {
             count++;
             fire = true;
-            if(CreateMap.getGrid()[row][col] != '7') CreateMap.setGrid(row, col, '7');
+            if(CreateMap.getGrid()[row][col] != ' ') CreateMap.setGrid(row, col, ' ');
         } else {
+            bomberman.setAlive(!bomberman.isDieTime());
             EntityList.flames.clear();
             bomberman.bombs.clear();
             EntityList.removeBrick();
-            fire = false;
-            upLimit = downLimit = leftLimit = rightLimit = 0;
         }
     }
 }
