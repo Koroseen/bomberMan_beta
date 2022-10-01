@@ -1,8 +1,9 @@
 package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.util.Random;
 
 public class Ballom extends Enemy {
     private int countCall = 0;
@@ -16,34 +17,90 @@ public class Ballom extends Enemy {
         super(xUnit, yUnit, img, speed, chaseRad, dir);
     }
 
-    @Override
-    public void setAlive(boolean res) {
-        this.isAlive = res;
+    void changeDir() {
+        Random rd = new Random();
+        int n = rd.nextInt(4);
+        switch (n) {
+            case 0:
+                this.dir = enemyDir.UP;
+                break;
+            case 1:
+                this.dir = enemyDir.RIGHT;
+                break;
+            case 2:
+                this.dir = enemyDir.DOWN;
+                break;
+            case 3:
+                this.dir = enemyDir.LEFT;
+                break;
+        }
+    }
+
+    public void goUp() {
+        countCall = countCall > 100 ? 0 : countCall + 1;
+        for (int i = 1; i <= this.speed; ++i) {
+            this.y -= 1;
+            animate = animate > 100 ? 0 : animate + 1;
+            if (checkWall() || checkBrick() || checkBomb()) this.y += 1;
+            if(this.y % Sprite.SCALED_SIZE == 0) if(countCall % 2 == 0) changeDir();
+        }
+        setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
+    }
+
+    public void goDown() {
+        countCall = countCall > 100 ? 0 : countCall + 1;
+        for (int i = 1; i <= this.speed; ++i) {
+            this.y += 1;
+            animate = animate > 100 ? 0 : animate + 1;
+            if (checkWall() || checkBrick() || checkBomb()) this.y -= 1;
+            if(this.y % Sprite.SCALED_SIZE == 0) if(countCall % 2 == 0) changeDir();
+        }
+        setImg(Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animate, 60).getFxImage());
+    }
+
+    public void goLeft() {
+        countCall = countCall > 100 ? 0 : countCall + 1;
+        for (int i = 1; i <= this.speed; ++i) {
+            this.x -= 1;
+            animate = animate > 100 ? 0 : animate + 1;
+            if (checkWall() || checkBrick() || checkBomb()) this.x += 1;
+            if(this.x % Sprite.SCALED_SIZE == 0) if(countCall % 2 == 0) changeDir();
+        }
+        setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
+    }
+
+    public void goRight() {
+        countCall = countCall > 100 ? 0 : countCall + 1;
+        for (int i = 1; i <= this.speed; ++i) {
+            this.x += 1;
+            animate = animate > 100 ? 0 : animate + 1;
+            if (checkWall() || checkBrick() || checkBomb()) this.x -= 1;
+            if(this.x % Sprite.SCALED_SIZE == 0) if(countCall % 2 == 0) changeDir();
+        }
+        setImg(Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, animate, 60).getFxImage());
     }
 
     @Override
     public void update() {
-        if (isAlive) {
+//        System.out.println("Balloom");
+        if(isAlive) {
             slow = slow > 100 ? 0 : slow + 1;
-            countCall = countCall > 100 ? 0 : countCall + 1;
             switch (this.dir) {
                 case UP:
-                    if (slow % 3 == 0) goUp(this);
+                    if(slow % 2 == 0) goUp();
                     break;
                 case DOWN:
-                    if (slow % 3 == 0) goDown(this);
+                    if(slow % 2 == 0) goDown();
                     break;
                 case LEFT:
-                    if (slow % 3 == 0) goLeft(this);
+                    if(slow % 2 == 0) goLeft();
                     break;
                 case RIGHT:
-                    if (slow % 3 == 0) goRight(this);
+                    if(slow % 2 == 0) goRight();
                     break;
             }
         } else {
             this.img = Sprite.balloom_dead.getFxImage();
-            deadTime--;
-            if (deadTime == 0) EntityList.enemies.remove(this);
         }
     }
 }

@@ -1,5 +1,7 @@
 package uet.oop.bomberman;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.animation.AnimationTimer;
@@ -17,63 +19,120 @@ import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Wall;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
-import java.util.Arrays;
+
+import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
 public class Game extends Application {
-    private static int curLevel = 1;
-    private static String gamestate=" ";
+    ImageView startscreenView;
+    ImageView playbutton;
+    ImageView gamemodeHard;
+    ImageView gamemodeEasy;
+    ImageView gamemodeMedium;
+
+    public static String gamestate = " ";
     private GraphicsContext gc;
     private Canvas canvas;
+    public static long time = 0;
 
     public static void main(String[] args) {
         Application.launch(Game.class);
     }
 
-    public static int getCurLevel() {
-        return curLevel;
-    }
-
-    public static void setCurLevel(int curLevel) {
-        Game.curLevel = curLevel;
-    }
-
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception {
         stage.setTitle("BomberMan");
+        Image icon = new Image("images/icon.png");
+        stage.getIcons().add(icon);
         // Tao Canvas
-        canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
+        canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT - 30);
+        canvas.setLayoutY(30);
         gc = canvas.getGraphicsContext2D();
 
+        Image playButton = new Image("images/button1.png");
+        Image startscreen = new Image("images/author1.png");
+        //chua tim duoc hinh anh
+        Image Gamemode = new Image("images/author1.png");
+
+        startscreenView = new ImageView(startscreen);
+        startscreenView.setX(0);
+        startscreenView.setY(0);
+        startscreenView.setFitHeight(Settings.HEIGHT);
+        startscreenView.setFitWidth(Settings.WIDTH);
+
+        playbutton = new ImageView(playButton);
+        playbutton.setLayoutX(395);
+        playbutton.setLayoutY(200);
+        playbutton.setFitHeight(48);
+        playbutton.setFitWidth(192);
+
+        //gamemode
+        gamemodeHard = new ImageView(Gamemode);
+        gamemodeHard.setLayoutX(395);
+        gamemodeHard.setLayoutY(300);
+        gamemodeHard.setFitHeight(48);
+        gamemodeHard.setFitWidth(192);
+
+        gamemodeMedium = new ImageView(Gamemode);
+        gamemodeMedium.setLayoutX(395);
+        gamemodeMedium.setLayoutY(200);
+        gamemodeMedium.setFitHeight(48);
+        gamemodeMedium.setFitWidth(192);
+
+        gamemodeEasy = new ImageView(Gamemode);
+        gamemodeEasy.setLayoutX(395);
+        gamemodeEasy.setLayoutY(200);
+        gamemodeEasy.setFitHeight(48);
+        gamemodeEasy.setFitWidth(192);
         // Tao root container
         Group root = new Group();
 
         root.getChildren().add(canvas);
 
+        //Menu.createMenu(root);
+        Menu.createMenu(root);
+        root.getChildren().add(startscreenView);
+        root.getChildren().add(playbutton);
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
         scene.setFill(Color.WHITE);
+        CreateMap.createMapLevel(2);
 
-        CreateMap.createMapLevel(curLevel);
+        new SoundManager("sound/start.wav", "title");
 
-        //Menu.createMenu(root);
-
-        gamestate="running";
+        gamestate = "startmenu";
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if(gamestate.equals("startmenu")){
-                    showMenu(root);
+                if (gamestate.equals("startmenu")) {
+                    showMenu();
                 }
-                if(gamestate.equals("running")) {
+                if (gamestate.equals("running")) {
                     render();
                     update();
                 }
+                if (gamestate.equals("pause")) {
+
+                }
+                if (gamestate.equals("gameover")) {
+                    //show gameover trong muc images + time
+
+                    //reset game hoac show menu
+                }
+                if (gamestate.equals("nextLevel")) {
+                    //tao level
+
+                }
             }
         };
+
         timer.start();
+
 
         scene.setOnKeyPressed(event -> {
             if (event.getCode().toString().equals("UP")) {
@@ -92,47 +151,76 @@ public class Game extends Application {
         scene.setOnKeyReleased(event -> {
             if (event.getCode().toString().equals("LEFT")) {
                 bomberman.setImg(Sprite.player_left.getFxImage());
-            } else if (event.getCode().toString().equals("UP")){
+            } else if (event.getCode().toString().equals("UP")) {
                 bomberman.setImg(Sprite.player_up.getFxImage());
             } else if (event.getCode().toString().equals("RIGHT")) {
                 bomberman.setImg(Sprite.player_right.getFxImage());
-            } else if (event.getCode().toString().equals("DOWN")){
+            } else if (event.getCode().toString().equals("DOWN")) {
                 bomberman.setImg(Sprite.player_down.getFxImage());
-            } else if (event.getCode().toString().equals("C")) {
-                for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).setAlive(false);
             }
+        });
+
+        playbutton.setOnMouseClicked(event -> {
+            //render game mode va chon
+            playbutton.setVisible(false);
+            root.getChildren().add(gamemodeHard);
+            root.getChildren().add(gamemodeEasy);
+            root.getChildren().add(gamemodeMedium);
+        });
+
+        //chon gamemode
+        gamemodeHard.setOnMouseClicked(event -> {
+            hideMenu();
+            gamestate = "running";
+        });
+
+        gamemodeMedium.setOnMouseClicked(event -> {
+            hideMenu();
+            gamestate = "running";
+        });
+
+        gamemodeEasy.setOnMouseClicked(event -> {
+            hideMenu();
+            gamestate = "running";
         });
     }
 
     public void update() {
-        try {
-            EntityList.walls.forEach(Wall::update);
-            if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
-            for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).update();
-            for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
-            for (int i = 0; i < EntityList.flames.size(); i++) EntityList.flames.get(i).update();
-            for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).update();
-            EntityList.portal.update();
-            bomberman.update();
-        } catch (Exception exception){
-            exception.printStackTrace();
-        }
+        Menu.updateMenu();
+        EntityList.walls.forEach(Wall::update);
+        if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
+        for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).update();
+        for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
+        bomberman.update();
+        EntityList.enemies.forEach(Enemy::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         EntityList.grasses.forEach(g -> g.render(gc));
         EntityList.walls.forEach(g -> g.render(gc));
-        EntityList.portal.render(gc);
         EntityList.bricks.forEach(g -> g.render(gc));
         for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).render(gc);
-        for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).render(gc);
+        EntityList.enemies.forEach(g -> g.render(gc));
         for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).render(gc);
         for (int i = 0; i < EntityList.flames.size() && Bomb.isFire(); i++) EntityList.flames.get(i).render(gc);
         bomberman.render(gc);
     }
 
-    public void showMenu(Group root){
+    public void showMenu() {
+        startscreenView.setVisible(true);
+        playbutton.setVisible(true);
+    }
+
+    public void hideMenu() {
+        startscreenView.setVisible(false);
+        playbutton.setVisible(false);
+        gamemodeEasy.setVisible(false);
+        gamemodeMedium.setVisible(false);
+        gamemodeHard.setVisible(false);
+        SoundManager.gamestate = "ingame";
+        SoundManager.updateSound();
+        new SoundManager("sound/boom.wav", "ingame");
     }
 }
 

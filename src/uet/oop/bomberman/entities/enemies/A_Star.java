@@ -36,18 +36,14 @@ public class A_Star {
         int col = dest.getValue();
 
 //        Stack<Pair<Integer, Integer>> pathStack = new Stack<>();
-        try {
-            while (cellDetails[row][col].parentX != src.getKey() || cellDetails[row][col].parentY != src.getValue()) {
-                //            pathStack.add(new Pair<>(row, col));
-                int tempRow = cellDetails[row][col].parentX;
-                int tempCol = cellDetails[row][col].parentY;
-                row = tempRow;
-                col = tempCol;
-            }
-            return new Pair<>(row, col);
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            return src;
+        while (cellDetails[row][col].parentX != src.getKey() || cellDetails[row][col].parentY != src.getValue()) {
+//            pathStack.add(new Pair<>(row, col));
+            int tempRow = cellDetails[row][col].parentX;
+            int tempCol = cellDetails[row][col].parentY;
+            row = tempRow;
+            col = tempCol;
         }
+        return new Pair<>(row, col);
 //        pathStack.push(new Pair<>(row, col));
 //        while (!pathStack.isEmpty()) {
 //            Pair<Integer, Integer> node = pathStack.pop();
