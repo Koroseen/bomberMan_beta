@@ -1,16 +1,13 @@
 package uet.oop.bomberman;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.EntityList;
@@ -19,10 +16,6 @@ import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Wall;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
-
-import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
@@ -33,6 +26,7 @@ public class Game extends Application {
     ImageView gamemodeEasy;
     ImageView gamemodeMedium;
 
+    private static int level = 1;
     public static String gamestate = " ";
     private GraphicsContext gc;
     private Canvas canvas;
@@ -42,6 +36,12 @@ public class Game extends Application {
         Application.launch(Game.class);
     }
 
+    public static int getLevel() {
+        return level;
+    }
+    public static void setLevel(int lv) {
+        level = lv;
+    }
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("BomberMan");
@@ -101,7 +101,8 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.show();
         scene.setFill(Color.WHITE);
-        CreateMap.createMapLevel(2);
+
+        CreateMap.createMapLevel(level);
 
         new SoundManager("sound/start.wav", "title");
 
@@ -162,6 +163,8 @@ public class Game extends Application {
                 bomberman.setImg(Sprite.player_right.getFxImage());
             } else if (event.getCode().toString().equals("DOWN")) {
                 bomberman.setImg(Sprite.player_down.getFxImage());
+            } else if (event.getCode().toString().equals("C")) {
+                for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).setAlive(false);
             }
         });
 
@@ -196,17 +199,20 @@ public class Game extends Application {
         if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
         for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).update();
         for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
+        for (int i = 0; i < EntityList.flames.size(); i++) EntityList.flames.get(i).update();
+        for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).update();
+        EntityList.portal.update();
         bomberman.update();
-        EntityList.enemies.forEach(Enemy::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         EntityList.grasses.forEach(g -> g.render(gc));
         EntityList.walls.forEach(g -> g.render(gc));
+        EntityList.portal.render(gc);
         EntityList.bricks.forEach(g -> g.render(gc));
         for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).render(gc);
-        EntityList.enemies.forEach(g -> g.render(gc));
+        for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).render(gc);
         for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).render(gc);
         for (int i = 0; i < EntityList.flames.size() && Bomb.isFire(); i++) EntityList.flames.get(i).render(gc);
         bomberman.render(gc);
