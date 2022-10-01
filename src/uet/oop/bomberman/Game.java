@@ -29,8 +29,11 @@ import static uet.oop.bomberman.entities.EntityList.bomberman;
 public class Game extends Application {
     ImageView startscreenView;
     ImageView playbutton;
+    ImageView gamemodeHard;
+    ImageView gamemodeEasy;
+    ImageView gamemodeMedium;
 
-    private static String gamestate = " ";
+    public static String gamestate = " ";
     private GraphicsContext gc;
     private Canvas canvas;
     public static long time = 0;
@@ -45,12 +48,14 @@ public class Game extends Application {
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);
         // Tao Canvas
-        canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT-30);
+        canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT - 30);
         canvas.setLayoutY(30);
         gc = canvas.getGraphicsContext2D();
 
         Image playButton = new Image("images/button1.png");
         Image startscreen = new Image("images/author1.png");
+        //chua tim duoc hinh anh
+        Image Gamemode = new Image("images/author1.png");
 
         startscreenView = new ImageView(startscreen);
         startscreenView.setX(0);
@@ -60,10 +65,28 @@ public class Game extends Application {
 
         playbutton = new ImageView(playButton);
         playbutton.setLayoutX(395);
-        playbutton.setLayoutY(176);
+        playbutton.setLayoutY(200);
         playbutton.setFitHeight(48);
         playbutton.setFitWidth(192);
 
+        //gamemode
+        gamemodeHard = new ImageView(Gamemode);
+        gamemodeHard.setLayoutX(395);
+        gamemodeHard.setLayoutY(300);
+        gamemodeHard.setFitHeight(48);
+        gamemodeHard.setFitWidth(192);
+
+        gamemodeMedium = new ImageView(Gamemode);
+        gamemodeMedium.setLayoutX(395);
+        gamemodeMedium.setLayoutY(200);
+        gamemodeMedium.setFitHeight(48);
+        gamemodeMedium.setFitWidth(192);
+
+        gamemodeEasy = new ImageView(Gamemode);
+        gamemodeEasy.setLayoutX(395);
+        gamemodeEasy.setLayoutY(200);
+        gamemodeEasy.setFitHeight(48);
+        gamemodeEasy.setFitWidth(192);
         // Tao root container
         Group root = new Group();
 
@@ -78,9 +101,11 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.show();
         scene.setFill(Color.WHITE);
-
         CreateMap.createMapLevel(2);
-        gamestate = "";
+
+        new SoundManager("sound/start.wav", "title");
+
+        gamestate = "startmenu";
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -90,6 +115,18 @@ public class Game extends Application {
                 if (gamestate.equals("running")) {
                     render();
                     update();
+                }
+                if (gamestate.equals("pause")) {
+
+                }
+                if (gamestate.equals("gameover")) {
+                    //show gameover trong muc images + time
+
+                    //reset game hoac show menu
+                }
+                if (gamestate.equals("nextLevel")) {
+                    //tao level
+
                 }
             }
         };
@@ -124,6 +161,25 @@ public class Game extends Application {
         });
 
         playbutton.setOnMouseClicked(event -> {
+            //render game mode va chon
+            playbutton.setVisible(false);
+            root.getChildren().add(gamemodeHard);
+            root.getChildren().add(gamemodeEasy);
+            root.getChildren().add(gamemodeMedium);
+        });
+
+        //chon gamemode
+        gamemodeHard.setOnMouseClicked(event -> {
+            hideMenu();
+            gamestate = "running";
+        });
+
+        gamemodeMedium.setOnMouseClicked(event -> {
+            hideMenu();
+            gamestate = "running";
+        });
+
+        gamemodeEasy.setOnMouseClicked(event -> {
             hideMenu();
             gamestate = "running";
         });
@@ -152,11 +208,19 @@ public class Game extends Application {
     }
 
     public void showMenu() {
+        startscreenView.setVisible(true);
+        playbutton.setVisible(true);
     }
 
     public void hideMenu() {
         startscreenView.setVisible(false);
         playbutton.setVisible(false);
+        gamemodeEasy.setVisible(false);
+        gamemodeMedium.setVisible(false);
+        gamemodeHard.setVisible(false);
+        SoundManager.gamestate = "ingame";
+        SoundManager.updateSound();
+        new SoundManager("sound/boom.wav", "ingame");
     }
 }
 

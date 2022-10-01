@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Menu;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -45,6 +46,10 @@ public class Bomber extends Entity {
                 bomberman.bombs.get(i).setAllow(false);
             }
         }
+        if (isHasTouchedSpeedItem()) {
+            Menu.Score++;
+            hasTouchedSpeedItem = false;
+        }
         if (speedItemDuration > 0) {
             speedItemDuration--;
             if (!once) {
@@ -76,10 +81,10 @@ public class Bomber extends Entity {
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
                 this.y -= 1;
-                if (this.x % Sprite.SCALED_SIZE <=  Sprite.SCALED_SIZE / 4) {
+                if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
                     this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
                 }
-                if(this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                if (this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
                     this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
                 }
             }
@@ -93,10 +98,10 @@ public class Bomber extends Entity {
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
                 this.x += 1;
-                if (this.y % Sprite.SCALED_SIZE <=  Sprite.SCALED_SIZE / 4) {
+                if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
                     this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
                 }
-                if(this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                if (this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
                     this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
                 }
             }
@@ -110,10 +115,10 @@ public class Bomber extends Entity {
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
                 this.x -= 1;
-                if (this.y % Sprite.SCALED_SIZE <=  Sprite.SCALED_SIZE / 4) {
+                if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
                     this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
                 }
-                if(this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                if (this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
                     this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
                 }
             }
