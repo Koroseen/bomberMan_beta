@@ -2,7 +2,6 @@ package uet.oop.bomberman.entities.blocks;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.CreateMap;
-import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.graphics.Sprite;
@@ -22,10 +21,8 @@ public class Bomb extends Entity {
 
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        allow = true;
         count = 0;
-        fire = false;
-        upLimit = downLimit = leftLimit = rightLimit = 0;
+        allow = true;
     }
 
     public static boolean isFire() {
@@ -46,7 +43,7 @@ public class Bomb extends Entity {
 
         if (bomberman.bombs.isEmpty()) {
             bomberman.bombs.add(new Bomb(x, y, Sprite.bomb.getFxImage()));
-            CreateMap.setGrid(y, x, '#');
+            CreateMap.setGrid(y, x, '8');
             calcLimit();
         }
     }
@@ -109,12 +106,13 @@ public class Bomb extends Entity {
         } else if (count < 250) {
             count++;
             fire = true;
-            if(CreateMap.getGrid()[row][col] != ' ') CreateMap.setGrid(row, col, ' ');
+            if(CreateMap.getGrid()[row][col] != '7') CreateMap.setGrid(row, col, '7');
         } else {
-            bomberman.setAlive(!bomberman.isDieTime());
             EntityList.flames.clear();
             bomberman.bombs.clear();
             EntityList.removeBrick();
+            fire = false;
+            upLimit = downLimit = leftLimit = rightLimit = 0;
         }
     }
 }
