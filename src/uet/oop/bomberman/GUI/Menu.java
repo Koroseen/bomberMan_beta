@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.GUI;
 
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -8,6 +8,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import uet.oop.bomberman.Game;
+import uet.oop.bomberman.Settings;
+import uet.oop.bomberman.SoundManager;
 
 public class Menu {
     private static ImageView statusGame;
