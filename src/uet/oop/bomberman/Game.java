@@ -54,7 +54,6 @@ public class Game extends Application {
 
         Image playButton = new Image("images/button1.png");
         Image startscreen = new Image("images/author1.png");
-        //chua tim duoc hinh anh
         Image Gamemode = new Image("images/author1.png");
 
         startscreenView = new ImageView(startscreen);
@@ -97,6 +96,7 @@ public class Game extends Application {
         root.getChildren().add(startscreenView);
         root.getChildren().add(playbutton);
 
+        playbutton.setVisible(false);
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
         stage.show();
@@ -105,7 +105,7 @@ public class Game extends Application {
 //        CreateMap.createMapLevel(level);
 
         new SoundManager("sound/start.wav", "title");
-
+        SoundManager.updateSound();
         gamestate = "startmenu";
         AnimationTimer timer = new AnimationTimer() {
             long start=System.currentTimeMillis();
@@ -167,6 +167,7 @@ public class Game extends Application {
                 for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).setAlive(false);
             }
         });
+
 
         playbutton.setOnMouseClicked(event -> {
             //render game mode va chon

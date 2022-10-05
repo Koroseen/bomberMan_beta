@@ -3,11 +3,7 @@ package uet.oop.bomberman;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 
 public class SoundManager {
     public static boolean stop =false;
@@ -67,6 +63,9 @@ public class SoundManager {
         else if (gamestate.equals("pause")){
             ingame.stop();
         }
+
+        FloatControl gainControl = (FloatControl) title_screen.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(20f * (float) Math.log10(audioSetting.getMusicVolume()));
         /*
         if (!player.isLife()) {
             title_screen.close();
