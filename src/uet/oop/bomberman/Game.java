@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -22,6 +23,7 @@ import static uet.oop.bomberman.entities.EntityList.bomberman;
 public class Game extends Application {
     ImageView startscreenView;
     ImageView playbutton;
+    ImageView settings;
     ImageView gamemodeHard;
     ImageView gamemodeEasy;
     ImageView gamemodeMedium;
@@ -31,6 +33,7 @@ public class Game extends Application {
     private static GraphicsContext gc;
     private static Canvas canvas;
     public static long time = 0;
+    public boolean checkplay = true;
 
     public static void main(String[] args) {
         Application.launch(Game.class);
@@ -39,9 +42,11 @@ public class Game extends Application {
     public static int getLevel() {
         return level;
     }
+
     public static void setLevel(int lv) {
         level = lv;
     }
+
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("BomberMan");
@@ -52,9 +57,10 @@ public class Game extends Application {
         canvas.setLayoutY(30);
         gc = canvas.getGraphicsContext2D();
 
-        Image playButton = new Image("images/button1.png");
+        Image playButton = new Image("images/New game Button.png");
         Image startscreen = new Image("images/author1.png");
         Image Gamemode = new Image("images/author1.png");
+        Image setting = new Image("images/Settings button.png");
 
         startscreenView = new ImageView(startscreen);
         startscreenView.setX(0);
@@ -86,6 +92,19 @@ public class Game extends Application {
         gamemodeEasy.setLayoutY(260);
         gamemodeEasy.setFitHeight(40);
         gamemodeEasy.setFitWidth(160);
+
+        //setting
+        settings = new ImageView(setting);
+        settings.setLayoutX(170);
+        settings.setLayoutY(260);
+        settings.setFitHeight(40);
+        settings.setFitWidth(160);
+
+        //effect
+        Glow glow = new Glow();
+        glow.setLevel(0.9);
+        playbutton.setEffect(glow);
+
         // Tao root container
         Group root = new Group();
 
@@ -95,8 +114,15 @@ public class Game extends Application {
         Menu.createMenu(root);
         root.getChildren().add(startscreenView);
         root.getChildren().add(playbutton);
+        root.getChildren().add(gamemodeHard);
+        root.getChildren().add(gamemodeEasy);
+        root.getChildren().add(gamemodeMedium);
+        root.getChildren().add(settings);
 
-        playbutton.setVisible(false);
+        gamemodeEasy.setVisible(false);
+        gamemodeMedium.setVisible(false);
+        gamemodeHard.setVisible(false);
+
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
         stage.show();
@@ -105,11 +131,12 @@ public class Game extends Application {
 //        CreateMap.createMapLevel(level);
 
         new SoundManager("sound/start.wav", "title");
-        SoundManager.updateSound();
+
         gamestate = "startmenu";
         AnimationTimer timer = new AnimationTimer() {
-            long start=System.currentTimeMillis();
-            long before=0;
+            long start = System.currentTimeMillis();
+            long before = 0;
+
             @Override
             public void handle(long l) {
                 if (gamestate.equals("startmenu")) {
@@ -118,9 +145,9 @@ public class Game extends Application {
                 if (gamestate.equals("running")) {
                     render();
                     update();
-                    long end=(System.currentTimeMillis()-start)/1000;
-                    if(end-before==1)Game.time--;
-                    before=end;
+                    long end = (System.currentTimeMillis() - start) / 1000;
+                    if (end - before == 1) Game.time--;
+                    before = end;
                 }
                 if (gamestate.equals("pause")) {
 
@@ -168,13 +195,31 @@ public class Game extends Application {
             }
         });
 
-
         playbutton.setOnMouseClicked(event -> {
             //render game mode va chon
-            playbutton.setVisible(false);
-            root.getChildren().add(gamemodeHard);
-            root.getChildren().add(gamemodeEasy);
-            root.getChildren().add(gamemodeMedium);
+            if (checkplay) {
+                glow.setLevel(0.2);
+                playbutton.setEffect(glow);
+                playbutton.setVisible(false);
+
+                Glow glow1 = new Glow(0.9);
+                gamemodeMedium.setEffect(glow1);
+                gamemodeEasy.setEffect(glow1);
+                gamemodeHard.setEffect(glow1);
+                gamemodeEasy.setVisible(true);
+                gamemodeMedium.setVisible(true);
+                gamemodeHard.setVisible(true);
+                settings.setVisible(false);
+                checkplay = false;
+            } else {
+                glow.setLevel(0.9);
+                playbutton.setEffect(glow);
+                gamemodeEasy.setVisible(false);
+                gamemodeMedium.setVisible(false);
+                gamemodeHard.setVisible(false);
+                settings.setVisible(true);
+                checkplay = true;
+            }
         });
 
         //chon gamemode
@@ -224,11 +269,15 @@ public class Game extends Application {
     public void showMenu() {
         startscreenView.setVisible(true);
         playbutton.setVisible(true);
+        if (checkplay) {
+            settings.setVisible(true);
+        }
     }
 
     public void hideMenu() {
         startscreenView.setVisible(false);
         playbutton.setVisible(false);
+        settings.setVisible(false);
         gamemodeEasy.setVisible(false);
         gamemodeMedium.setVisible(false);
         gamemodeHard.setVisible(false);
@@ -239,7 +288,6 @@ public class Game extends Application {
 
     public static void moveCamera(int x, int y) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.translate(- x, -y);
+        gc.translate(-x, -y);
     }
 }
-
