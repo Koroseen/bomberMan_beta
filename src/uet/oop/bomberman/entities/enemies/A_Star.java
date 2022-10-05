@@ -2,13 +2,14 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Settings;
+import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.*;
 
 public class A_Star {
 
-    private final static int ROW = Settings.MAX_ROW;
-    private final static int COL = Settings.MAX_COL;
+    private final static int ROW = Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE;
+    private final static int COL = Settings.WORLD_WIDTH / Sprite.SCALED_SIZE;
 
     static class cell {
         public int parentX = 0, parentY = 0;
@@ -31,31 +32,20 @@ public class A_Star {
     }
 
     private static Pair<Integer, Integer> tracePath(cell[][] cellDetails, Pair<Integer, Integer> src, Pair<Integer, Integer> dest) {
-//        System.out.println("PATH: ");
         int row = dest.getKey();
         int col = dest.getValue();
 
-//        Stack<Pair<Integer, Integer>> pathStack = new Stack<>();
-        while (cellDetails[row][col].parentX != src.getKey() || cellDetails[row][col].parentY != src.getValue()) {
-//            pathStack.add(new Pair<>(row, col));
-            int tempRow = cellDetails[row][col].parentX;
-            int tempCol = cellDetails[row][col].parentY;
-            row = tempRow;
-            col = tempCol;
+        try {
+            while (cellDetails[row][col].parentX != src.getKey() || cellDetails[row][col].parentY != src.getValue()) {
+                int tempRow = cellDetails[row][col].parentX;
+                int tempCol = cellDetails[row][col].parentY;
+                row = tempRow;
+                col = tempCol;
+            }
+            return new Pair<>(row, col);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return new Pair<>(-1, -1);
         }
-        return new Pair<>(row, col);
-//        pathStack.push(new Pair<>(row, col));
-//        while (!pathStack.isEmpty()) {
-//            Pair<Integer, Integer> node = pathStack.pop();
-////            return node;
-//            System.out.println("(" + node.getKey() + "," + node.getValue() + ")");
-//        }
-//        for(int i = 0; i < ROW; i++) {
-//            for(int j = 0; j < COL; j++) {
-//                System.out.println(i + " " + j + " " + cellDetails[i][j].toString());
-//            }
-//        }
-//        return null;
     }
 
     private static boolean pathProcessor(
@@ -74,16 +64,13 @@ public class A_Star {
         if (isDestination(i, j, dest)) {
             cellDetails[i][j].parentX = pi;
             cellDetails[i][j].parentY = pj;
-            // return isDest
+
             return true;
         }
         if (!closedList[i][j] && isUnBlocked(grid, i, j)) {
-//            if(pi!=i && pj!=j) {
-//                gx = cellDetails[pi][pj].g + Math.sqrt(2);
-//            }
-//            else {
+
             gx = cellDetails[pi][pj].g + 1.0;
-//            }
+
             hx = calculateHeuristicValue(i, j, dest);
             fx = hx + gx;
 
@@ -177,28 +164,7 @@ public class A_Star {
             if (isDest) {
                 break;
             }
-//            isDest = pathProcessor(i, j, i-1, j-1, dest, fx, gx, hx, cellDetails, closedList, grid, openList);
-//            if (isDest) {break;}
-//            isDest = pathProcessor(i, j, i+1, j-1, dest, fx, gx, hx, cellDetails, closedList, grid, openList);
-//            if (isDest) {break;}
-//            isDest = pathProcessor(i, j, i-1, j+1, dest, fx, gx, hx, cellDetails, closedList, grid, openList);
-//            if (isDest) {break;}
-//            isDest = pathProcessor(i, j, i+1, j+1, dest, fx, gx, hx, cellDetails, closedList, grid, openList);
-//            if (isDest) {break;}
         }
         return tracePath(cellDetails, new Pair<>(src.getKey(), src.getValue()), dest);
     }
-//
-//    public static void main(String[] args) throws IOException {
-//        // for testing
-//        CreateMap.createMapLevel(1);
-//        char[][] grida = CreateMap.grid;
-//        for (int i = 0; i < ROW; i++) {
-//            for (int j = 0; j < COL; j++) {
-//                System.out.print(grida[i][j]);
-//            }
-//            System.out.println();
-//        }
-//        System.out.println(aStarSearch(grida, new Pair<>(5, 7), new Pair<>(11, 11)).toString());
-//    }
 }
