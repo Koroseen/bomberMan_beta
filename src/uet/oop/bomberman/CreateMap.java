@@ -12,9 +12,10 @@ import uet.oop.bomberman.entities.items.Portal;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.*;
+import java.util.Set;
 
 public class CreateMap {
-    private static char[][] grid = new char[Settings.MAX_ROW][Settings.MAX_COL];
+    private static char[][] grid;
 
     public static void setGrid(int row, int col, char c) {
         CreateMap.grid[row][col] = c;
@@ -24,16 +25,18 @@ public class CreateMap {
         return grid;
     }
 
-    public static void importData(char[][] arr, int stage) throws IOException {
+    public static void importData(int stage) throws IOException {
         String path = "res/levels/level" + stage + ".txt";
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-        String line;
-        line = bufferedReader.readLine();
-
-        for (int i = 0; i < Settings.MAX_ROW; i++) {
+        String line = bufferedReader.readLine();
+        String[] tmp = line.split(" ");
+        Settings.WORLD_HEIGHT = Integer.parseInt(tmp[1]) * Sprite.SCALED_SIZE;
+        Settings.WORLD_WIDTH = Integer.parseInt(tmp[2]) * Sprite.SCALED_SIZE;
+        grid = new char[Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE][Settings.WORLD_WIDTH / Sprite.SCALED_SIZE];
+        for (int i = 0; i < Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE; i++) {
             line = bufferedReader.readLine();
-            for (int j = 0; j < Settings.MAX_COL; j++) {
-                arr[i][j] = line.charAt(j);
+            for (int j = 0; j < Settings.WORLD_WIDTH / Sprite.SCALED_SIZE; j++) {
+                grid[i][j] = line.charAt(j);
             }
         }
         bufferedReader.close();
@@ -43,13 +46,13 @@ public class CreateMap {
         EntityList.clearList();
         //import tileset to array
         try {
-            importData(grid, level);
+            importData(level);
         } catch (IOException e) {
             e.printStackTrace();
         }
         //map render
-        for (int i = 0; i < Settings.MAX_ROW; i++) {
-            for (int j = 0; j < Settings.MAX_COL; j++) {
+        for (int i = 0; i < Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE; i++) {
+            for (int j = 0; j < Settings.WORLD_WIDTH / Sprite.SCALED_SIZE; j++) {
                 EntityList.grasses.add((new Grass(j, i, Sprite.grass.getFxImage())));
                 switch (grid[i][j]) {
                     case 'p':

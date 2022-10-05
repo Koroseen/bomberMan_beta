@@ -48,7 +48,7 @@ public class Game extends Application {
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);
         // Tao Canvas
-        canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT - 30);
+        canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
         canvas.setLayoutY(30);
         gc = canvas.getGraphicsContext2D();
 
@@ -64,29 +64,29 @@ public class Game extends Application {
         startscreenView.setFitWidth(Settings.WIDTH);
 
         playbutton = new ImageView(playButton);
-        playbutton.setLayoutX(395);
-        playbutton.setLayoutY(200);
-        playbutton.setFitHeight(48);
-        playbutton.setFitWidth(192);
+        playbutton.setLayoutX(170);
+        playbutton.setLayoutY(210);
+        playbutton.setFitHeight(40);
+        playbutton.setFitWidth(160);
 
         //gamemode
         gamemodeHard = new ImageView(Gamemode);
-        gamemodeHard.setLayoutX(395);
-        gamemodeHard.setLayoutY(300);
-        gamemodeHard.setFitHeight(48);
-        gamemodeHard.setFitWidth(192);
+        gamemodeHard.setLayoutX(170);
+        gamemodeHard.setLayoutY(360);
+        gamemodeHard.setFitHeight(40);
+        gamemodeHard.setFitWidth(160);
 
         gamemodeMedium = new ImageView(Gamemode);
-        gamemodeMedium.setLayoutX(395);
-        gamemodeMedium.setLayoutY(200);
-        gamemodeMedium.setFitHeight(48);
-        gamemodeMedium.setFitWidth(192);
+        gamemodeMedium.setLayoutX(170);
+        gamemodeMedium.setLayoutY(310);
+        gamemodeMedium.setFitHeight(40);
+        gamemodeMedium.setFitWidth(160);
 
         gamemodeEasy = new ImageView(Gamemode);
-        gamemodeEasy.setLayoutX(395);
-        gamemodeEasy.setLayoutY(200);
-        gamemodeEasy.setFitHeight(48);
-        gamemodeEasy.setFitWidth(192);
+        gamemodeEasy.setLayoutX(170);
+        gamemodeEasy.setLayoutY(260);
+        gamemodeEasy.setFitHeight(40);
+        gamemodeEasy.setFitWidth(160);
         // Tao root container
         Group root = new Group();
 
@@ -97,12 +97,12 @@ public class Game extends Application {
         root.getChildren().add(startscreenView);
         root.getChildren().add(playbutton);
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
         stage.show();
         scene.setFill(Color.WHITE);
 
-        CreateMap.createMapLevel(level);
+//        CreateMap.createMapLevel(level);
 
         new SoundManager("sound/start.wav", "title");
 
@@ -184,11 +184,13 @@ public class Game extends Application {
 
         gamemodeMedium.setOnMouseClicked(event -> {
             hideMenu();
+            CreateMap.createMapLevel(2);
             gamestate = "running";
         });
 
         gamemodeEasy.setOnMouseClicked(event -> {
             hideMenu();
+            CreateMap.createMapLevel(1);
             gamestate = "running";
         });
     }
@@ -232,6 +234,11 @@ public class Game extends Application {
         SoundManager.gamestate = "ingame";
         SoundManager.updateSound();
         new SoundManager("sound/boom.wav", "ingame");
+    }
+
+    public static void moveCamera(int x, int y) {
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.translate(- x, -y);
     }
 }
 

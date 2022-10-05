@@ -3,7 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.CreateMap;
 import uet.oop.bomberman.Game;
-import uet.oop.bomberman.Menu;
+import uet.oop.bomberman.Settings;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -13,6 +13,7 @@ import java.util.List;
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
 public class Bomber extends Entity {
+    private int trace = 0;
     private boolean dieTime;
     private boolean isAlive;
     private int speed = Sprite.SCALED_SIZE / 8;
@@ -26,6 +27,7 @@ public class Bomber extends Entity {
         isAlive = true;
         dieTime = false;
     }
+
     public void setDieTime(boolean dieTime) {
         this.dieTime = dieTime;
     }
@@ -71,6 +73,7 @@ public class Bomber extends Entity {
             CreateMap.createMapLevel(Game.getLevel());
         }
     }
+
     public void goUp() {
         for (int i = 1; i <= this.speed; ++i) {
             this.y -= 1;
@@ -106,11 +109,20 @@ public class Bomber extends Entity {
     }
 
     public void goLeft() {
+        int count = 0;
         for (int i = 1; i <= this.speed; ++i) {
-            this.x -= 1;
+            if (this.x - trace > Settings.WIDTH / 2 || this.x <= Settings.WIDTH / 2) this.x--;
+            else {
+                count--;
+                this.x--;
+            }
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
-                this.x += 1;
+                if (this.x - trace > Settings.WIDTH / 2 || this.x <= Settings.WIDTH / 2) this.x++;
+                else {
+                    count++;
+                    this.x++;
+                }
                 if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
                     this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
                 }
@@ -119,15 +131,26 @@ public class Bomber extends Entity {
                 }
             }
         }
+        trace += count;
+        Game.moveCamera(count, 0);
         setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 45).getFxImage());
     }
 
     public void goRight() {
+        int count = 0;
         for (int i = 1; i <= this.speed; ++i) {
-            this.x += 1;
+            if (this.x - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2) this.x++;
+            else {
+                count++;
+                this.x++;
+            }
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
-                this.x -= 1;
+                if (bomberman.getX() - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2) this.x--;
+                else {
+                    count--;
+                    this.x--;
+                }
                 if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
                     this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
                 }
@@ -136,6 +159,8 @@ public class Bomber extends Entity {
                 }
             }
         }
+        trace += count;
+        Game.moveCamera(count, 0);
         setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 45).getFxImage());
     }
 

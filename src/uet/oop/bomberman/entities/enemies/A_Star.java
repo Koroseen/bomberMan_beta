@@ -2,13 +2,14 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Settings;
+import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.*;
 
 public class A_Star {
 
-    private final static int ROW = Settings.MAX_ROW;
-    private final static int COL = Settings.MAX_COL;
+    private final static int ROW = Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE;
+    private final static int COL = Settings.WORLD_WIDTH / Sprite.SCALED_SIZE;
 
     static class cell {
         public int parentX = 0, parentY = 0;
