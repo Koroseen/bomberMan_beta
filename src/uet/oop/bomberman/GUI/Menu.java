@@ -16,7 +16,6 @@ public class Menu {
     private static ImageView statusGame;
     public static Text level, bomb, time, score;
     public static int bombNumber = 20;
-    public static long timer = 0;
     public static int Score = 0;
 
     public static void createMenu(Group root) {
@@ -73,6 +72,6 @@ public class Menu {
 
     public static void updateMenu() {
         score.setText("Score: " + Score);
-        time.setText("Times: " + Game.time++ / 60);
+        time.setText("Times: " + Game.time);
     }
 }
