@@ -10,11 +10,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Wall;
-import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
@@ -28,9 +28,9 @@ public class Game extends Application {
 
     private static int level = 1;
     public static String gamestate = " ";
-    private GraphicsContext gc;
-    private Canvas canvas;
-    public static long time = 7500;
+    private static GraphicsContext gc;
+    private static Canvas canvas;
+    public static long time = 0;
 
     public static void main(String[] args) {
         Application.launch(Game.class);
