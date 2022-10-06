@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.GUI.Menu;
+import uet.oop.bomberman.GUI.audioScroller;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.entities.blocks.Brick;
@@ -171,6 +172,7 @@ public class Game extends Application {
         gamemodeMedium.setVisible(false);
         gamemodeHard.setVisible(false);
 
+        audioScroller.slider(root);
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
         stage.show();
@@ -179,6 +181,7 @@ public class Game extends Application {
 //        CreateMap.createMapLevel(level);
 
         new SoundManager("sound/start.wav", "title");
+        SoundManager.updateSound();
 
         gamestate = "startmenu";
         AnimationTimer timer = new AnimationTimer() {
@@ -188,6 +191,7 @@ public class Game extends Application {
             @Override
             public void handle(long l) {
                 if (gamestate.equals("startmenu")) {
+                    SoundManager.updateSound();
                     showMenu();
                 }
                 if (gamestate.equals("running")) {
@@ -328,16 +332,23 @@ public class Game extends Application {
                 playbutton.setVisible(false);
                 glow.setLevel(0.2);
                 checksetting = false;
+                audioScroller.slider.setVisible(true);
+                audioScroller.label.setVisible(true);
+                audioScroller.l.setVisible(true);
             } else {
                 settings.setLayoutY(260);
                 glow.setLevel(0.9);
                 playbutton.setVisible(true);
                 checksetting = true;
+                audioScroller.slider.setVisible(false);
+                audioScroller.label.setVisible(false);
+                audioScroller.l.setVisible(false);
             }
         });
     }
 
     public void update() {
+        SoundManager.updateSound();
         Menu.updateMenu();
         EntityList.walls.forEach(Wall::update);
         if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
