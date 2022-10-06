@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.text.*;
 import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
@@ -26,11 +27,12 @@ public class Game extends Application {
     ImageView gamemodeEasy;
     ImageView gamemodeMedium;
 
-    private static int level = 1;
+    private static int level = 2;
     public static String gamestate = " ";
     private static GraphicsContext gc;
     private static Canvas canvas;
     public static long time = 0;
+    public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 30);
 
     public static void main(String[] args) {
         Application.launch(Game.class);
@@ -56,6 +58,12 @@ public class Game extends Application {
         Image startscreen = new Image("images/author1.png");
         //chua tim duoc hinh anh
         Image Gamemode = new Image("images/author1.png");
+        Text config = new Text("config");
+        config.setFont(font);
+        config.setFill(Color.RED);
+        config.setX(175);
+        config.setY(300);
+
 
         startscreenView = new ImageView(startscreen);
         startscreenView.setX(0);
@@ -91,11 +99,9 @@ public class Game extends Application {
         Group root = new Group();
 
         root.getChildren().add(canvas);
-
-        //Menu.createMenu(root);
-        Menu.createMenu(root);
         root.getChildren().add(startscreenView);
         root.getChildren().add(playbutton);
+        root.getChildren().add(config);
 
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
@@ -112,9 +118,6 @@ public class Game extends Application {
             long before=0;
             @Override
             public void handle(long l) {
-                if (gamestate.equals("startmenu")) {
-                    showMenu();
-                }
                 if (gamestate.equals("running")) {
                     render();
                     update();
@@ -139,7 +142,7 @@ public class Game extends Application {
 
         timer.start();
 
-
+        // update bomberman position
         scene.setOnKeyPressed(event -> {
             if (event.getCode().toString().equals("UP")) {
                 bomberman.goUp();
@@ -153,7 +156,7 @@ public class Game extends Application {
                 bomberman.placeBomb();
             }
         });
-
+        //update bomberman sprites
         scene.setOnKeyReleased(event -> {
             if (event.getCode().toString().equals("LEFT")) {
                 bomberman.setImg(Sprite.player_left.getFxImage());
@@ -170,7 +173,10 @@ public class Game extends Application {
 
         playbutton.setOnMouseClicked(event -> {
             //render game mode va chon
-            playbutton.setVisible(false);
+            gamestate = "start menu/choosing play mode";
+            root.getChildren().clear();
+            root.getChildren().add(canvas);
+            root.getChildren().add(startscreenView);
             root.getChildren().add(gamemodeHard);
             root.getChildren().add(gamemodeEasy);
             root.getChildren().add(gamemodeMedium);
@@ -178,18 +184,24 @@ public class Game extends Application {
 
         //chon gamemode
         gamemodeHard.setOnMouseClicked(event -> {
-            hideMenu();
+            root.getChildren().clear();
+            root.getChildren().add(canvas);
+            Menu.createMenu(root);
             gamestate = "running";
         });
 
         gamemodeMedium.setOnMouseClicked(event -> {
-            hideMenu();
+            root.getChildren().clear();
+            root.getChildren().add(canvas);
+            Menu.createMenu(root);
             CreateMap.createMapLevel(2);
             gamestate = "running";
         });
 
         gamemodeEasy.setOnMouseClicked(event -> {
-            hideMenu();
+            root.getChildren().clear();
+            root.getChildren().add(canvas);
+            Menu.createMenu(root);
             CreateMap.createMapLevel(1);
             gamestate = "running";
         });
@@ -218,22 +230,6 @@ public class Game extends Application {
         for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).render(gc);
         for (int i = 0; i < EntityList.flames.size() && Bomb.isFire(); i++) EntityList.flames.get(i).render(gc);
         bomberman.render(gc);
-    }
-
-    public void showMenu() {
-        startscreenView.setVisible(true);
-        playbutton.setVisible(true);
-    }
-
-    public void hideMenu() {
-        startscreenView.setVisible(false);
-        playbutton.setVisible(false);
-        gamemodeEasy.setVisible(false);
-        gamemodeMedium.setVisible(false);
-        gamemodeHard.setVisible(false);
-        SoundManager.gamestate = "ingame";
-        SoundManager.updateSound();
-        new SoundManager("sound/boom.wav", "ingame");
     }
 
     public static void moveCamera(int x, int y) {

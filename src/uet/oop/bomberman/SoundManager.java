@@ -8,6 +8,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.FloatControl;
 
 public class SoundManager {
     public static boolean stop =false;
@@ -17,6 +18,7 @@ public class SoundManager {
     public static Clip title_screen;
     public static Clip bomb_explosion;
     public static Clip just_died;
+    public float gainAmount = 0.0f;
 
     public static boolean isSoundDied;
     public static boolean isSoundTitle;
@@ -33,27 +35,42 @@ public class SoundManager {
                 title_screen.open(audioIn);
                 title_screen.start();
                 title_screen.loop(10);
+                FloatControl volume = (FloatControl) title_screen.getControl(FloatControl.Type.MASTER_GAIN);
+                float range = volume.getMaximum() - volume.getMinimum();
+                volume.setValue(gainAmount*range + volume.getMinimum());
             }
             if (sound.equals("ingame")) {
                 ingame = AudioSystem.getClip();
                 ingame.open(audioIn);
                 ingame.start();
                 ingame.loop(10);
+                FloatControl volume = (FloatControl) ingame.getControl(FloatControl.Type.MASTER_GAIN);
+                float range = volume.getMaximum() - volume.getMinimum();
+                volume.setValue(gainAmount*range + volume.getMinimum());
             }
             if (sound.equals("explosion")) {
                 bomb_explosion = AudioSystem.getClip();
                 bomb_explosion.open(audioIn);
                 bomb_explosion.start();
+                FloatControl volume = (FloatControl) bomb_explosion.getControl(FloatControl.Type.MASTER_GAIN);
+                float range = volume.getMaximum() - volume.getMinimum();
+                volume.setValue(gainAmount*range + volume.getMinimum());
             }
             if (sound.equals("just_died")) {
                 just_died = AudioSystem.getClip();
                 just_died.open(audioIn);
                 just_died.start();
+                FloatControl volume = (FloatControl) just_died.getControl(FloatControl.Type.MASTER_GAIN);
+                float range = volume.getMaximum() - volume.getMinimum();
+                volume.setValue(gainAmount*range + volume.getMinimum());
             }
             if (sound.equals("default")) {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioIn);
                 clip.start();
+                FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                float range = volume.getMaximum() - volume.getMinimum();
+                volume.setValue(gainAmount*range + volume.getMinimum());
             }
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
