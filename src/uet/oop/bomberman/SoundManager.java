@@ -68,6 +68,7 @@ public class SoundManager {
     public static void updateSound() {
         if (Game.gamestate.equals("running")) {
             title_screen.stop();
+            ingame.start();
         }
         else if (Game.gamestate.equals("pause")){
             ingame.stop();
@@ -78,6 +79,9 @@ public class SoundManager {
         if(Game.gamestate.equals("gameover")){
             ingame.stop();
             new SoundManager("sound/just_died.wav","just_died");
+        }
+        if(Game.gamestate.equals("nextLevel")){
+            ingame.stop();
         }
         FloatControl gainControl = (FloatControl) title_screen.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(20f * (float) Math.log10(audioSetting.getMusicVolume()));

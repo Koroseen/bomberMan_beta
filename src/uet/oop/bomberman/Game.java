@@ -223,13 +223,14 @@ public class Game extends Application {
                 if (gamestate.equals("nextLevel")) {
                     //tao level
                     nextlevel.setVisible(true);
-                    continueGame.setVisible(true);
+                    SoundManager.updateSound();
                     if (delaytime > 0) delaytime--;
                     else {
                         delaytime = 100;
                         nextlevel.setVisible(false);
                         level++;
                         CreateMap.createMapLevel(level);
+                        gamestate="running";
                     }
                 }
             }

@@ -106,12 +106,13 @@ public class Bomb extends Entity {
         } else if (count < 300) {
             count++;
             fire = true;
-            if(CreateMap.getGrid()[row][col] != ' ') CreateMap.setGrid(row, col, ' ');
+            if (CreateMap.getGrid()[row][col] != ' ') CreateMap.setGrid(row, col, ' ');
         } else {
             bomberman.setAlive(!bomberman.isDieTime());
             EntityList.flames.clear();
             bomberman.bombs.clear();
             EntityList.removeBrick();
         }
+        if (count == 250) new SoundManager("sound/boom.wav", "explosion");
     }
 }
