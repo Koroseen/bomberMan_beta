@@ -16,12 +16,19 @@ import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Wall;
+import uet.oop.bomberman.entities.items.Portal;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.util.Date;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
 public class Game extends Application {
+    ImageView nextlevel;
+    ImageView gameover;
     ImageView startscreenView;
+    ImageView continueGame;
+    ImageView homeScreen;
     ImageView playbutton;
     ImageView settings;
     ImageView gamemodeHard;
@@ -32,8 +39,10 @@ public class Game extends Application {
     public static String gamestate = " ";
     private static GraphicsContext gc;
     private static Canvas canvas;
-    public static long time = 0;
+    public static long time = 120;
+    public static long delaytime = 100;
     public boolean checkplay = true;
+    public boolean checksetting = true;
 
     public static void main(String[] args) {
         Application.launch(Game.class);
@@ -61,6 +70,34 @@ public class Game extends Application {
         Image startscreen = new Image("images/author1.png");
         Image Gamemode = new Image("images/author1.png");
         Image setting = new Image("images/Settings button.png");
+        Image continuegame = new Image("images/Continue Button.png");
+        Image homescreen = new Image("images/Menu Button.png");
+        Image gameOver = new Image("images/gameover.png");
+        Image nextLevel = new Image("images/levelup.png");
+
+        nextlevel = new ImageView(nextLevel);
+        nextlevel.setX(0);
+        nextlevel.setY(0);
+        nextlevel.setFitHeight(Settings.HEIGHT);
+        nextlevel.setFitWidth(Settings.WIDTH);
+
+        gameover = new ImageView(gameOver);
+        gameover.setX(0);
+        gameover.setY(0);
+        gameover.setFitHeight(Settings.HEIGHT);
+        gameover.setFitWidth(Settings.WIDTH);
+
+        homeScreen = new ImageView(homescreen);
+        homeScreen.setX(170);
+        homeScreen.setY(Settings.HEIGHT / 2 + 50);
+        homeScreen.setFitHeight(40);
+        homeScreen.setFitWidth(160);
+
+        continueGame = new ImageView(continuegame);
+        continueGame.setX(170);
+        continueGame.setY(Settings.HEIGHT / 2);
+        continueGame.setFitHeight(40);
+        continueGame.setFitWidth(160);
 
         startscreenView = new ImageView(startscreen);
         startscreenView.setX(0);
@@ -104,6 +141,9 @@ public class Game extends Application {
         Glow glow = new Glow();
         glow.setLevel(0.9);
         playbutton.setEffect(glow);
+        settings.setEffect(glow);
+        homeScreen.setEffect(glow);
+        continueGame.setEffect(glow);
 
         // Tao root container
         Group root = new Group();
@@ -118,7 +158,15 @@ public class Game extends Application {
         root.getChildren().add(gamemodeEasy);
         root.getChildren().add(gamemodeMedium);
         root.getChildren().add(settings);
+        root.getChildren().add(continueGame);
+        root.getChildren().add(homeScreen);
+        root.getChildren().add(gameover);
+        root.getChildren().add(nextlevel);
 
+        nextlevel.setVisible(false);
+        gameover.setVisible(false);
+        homeScreen.setVisible(false);
+        continueGame.setVisible(false);
         gamemodeEasy.setVisible(false);
         gamemodeMedium.setVisible(false);
         gamemodeHard.setVisible(false);
@@ -150,16 +198,33 @@ public class Game extends Application {
                     before = end;
                 }
                 if (gamestate.equals("pause")) {
-
+                    startscreenView.setVisible(true);
+                    continueGame.setVisible(true);
+                    homeScreen.setVisible(true);
                 }
                 if (gamestate.equals("gameover")) {
                     //show gameover trong muc images + time
-
+                    gameover.setVisible(true);
+                    homeScreen.setVisible(true);
                     //reset game hoac show menu
+                    if (delaytime > 0) {
+                        delaytime--;
+                        System.out.println(delaytime);
+                    } else {
+                        delaytime = 100;
+                        gamestate = "startmenu";
+                    }
                 }
                 if (gamestate.equals("nextLevel")) {
                     //tao level
-
+                    nextlevel.setVisible(true);
+                    continueGame.setVisible(true);
+                    if (delaytime > 0) delaytime--;
+                    else {
+                        delaytime = 100;
+                        level++;
+                        CreateMap.createMapLevel(level);
+                    }
                 }
             }
         };
@@ -199,7 +264,6 @@ public class Game extends Application {
             //render game mode va chon
             if (checkplay) {
                 glow.setLevel(0.2);
-                playbutton.setEffect(glow);
                 playbutton.setVisible(false);
 
                 Glow glow1 = new Glow(0.9);
@@ -213,7 +277,6 @@ public class Game extends Application {
                 checkplay = false;
             } else {
                 glow.setLevel(0.9);
-                playbutton.setEffect(glow);
                 gamemodeEasy.setVisible(false);
                 gamemodeMedium.setVisible(false);
                 gamemodeHard.setVisible(false);
@@ -224,20 +287,53 @@ public class Game extends Application {
 
         //chon gamemode
         gamemodeHard.setOnMouseClicked(event -> {
+            checkplay = true;
             hideMenu();
             gamestate = "running";
+            glow.setLevel(0.9);
         });
 
         gamemodeMedium.setOnMouseClicked(event -> {
+            checkplay = true;
             hideMenu();
             CreateMap.createMapLevel(2);
             gamestate = "running";
+            glow.setLevel(0.9);
         });
 
         gamemodeEasy.setOnMouseClicked(event -> {
+            checkplay = true;
             hideMenu();
             CreateMap.createMapLevel(1);
             gamestate = "running";
+            glow.setLevel(0.9);
+        });
+
+        continueGame.setOnMouseClicked(event -> {
+            startscreenView.setVisible(false);
+            continueGame.setVisible(false);
+            homeScreen.setVisible(false);
+            gamestate = "running";
+        });
+
+        homeScreen.setOnMouseClicked(event -> {
+            showMenu();
+            gamestate = "startmenu";
+            checkplay = true;
+        });
+
+        settings.setOnMouseClicked(Event -> {
+            if (checksetting) {
+                settings.setLayoutY(210);
+                playbutton.setVisible(false);
+                glow.setLevel(0.2);
+                checksetting = false;
+            } else {
+                settings.setLayoutY(260);
+                glow.setLevel(0.9);
+                playbutton.setVisible(true);
+                checksetting = true;
+            }
         });
     }
 
@@ -268,10 +364,15 @@ public class Game extends Application {
 
     public void showMenu() {
         startscreenView.setVisible(true);
-        playbutton.setVisible(true);
+        if (checksetting) {
+            playbutton.setVisible(true);
+        }
         if (checkplay) {
             settings.setVisible(true);
         }
+        continueGame.setVisible(false);
+        homeScreen.setVisible(false);
+        gameover.setVisible(false);
     }
 
     public void hideMenu() {

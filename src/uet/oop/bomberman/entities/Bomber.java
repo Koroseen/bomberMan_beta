@@ -70,7 +70,7 @@ public class Bomber extends Entity {
                 }
             }
         } else {
-            CreateMap.createMapLevel(Game.getLevel());
+            Game.gamestate="gameover";
         }
     }
 
