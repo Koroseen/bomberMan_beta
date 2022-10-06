@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.items;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.CreateMap;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.EntityList;
 
 public class Portal extends Items {
@@ -21,6 +22,7 @@ public class Portal extends Items {
     public void update() {
         if (this.contains(EntityList.bomberman) && EntityList.enemies.isEmpty()) {
             Game.gamestate = "nextLevel";
+            new SoundManager("sound/win.wav","win");
         }
         if (nextLevel) {
             if (Game.getLevel() < 2) Game.setLevel(Game.getLevel() + 1);

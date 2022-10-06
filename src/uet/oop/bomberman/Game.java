@@ -62,6 +62,7 @@ public class Game extends Application {
         stage.setTitle("BomberMan");
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);
+
         // Tao Canvas
         canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
         canvas.setLayoutY(30);
@@ -226,6 +227,7 @@ public class Game extends Application {
                     if (delaytime > 0) delaytime--;
                     else {
                         delaytime = 100;
+                        nextlevel.setVisible(false);
                         level++;
                         CreateMap.createMapLevel(level);
                     }
@@ -393,9 +395,8 @@ public class Game extends Application {
         gamemodeEasy.setVisible(false);
         gamemodeMedium.setVisible(false);
         gamemodeHard.setVisible(false);
-        SoundManager.gamestate = "ingame";
         SoundManager.updateSound();
-        new SoundManager("sound/boom.wav", "ingame");
+        new SoundManager("sound/pacbaby.wav", "ingame");
     }
 
     public static void moveCamera(int x, int y) {
