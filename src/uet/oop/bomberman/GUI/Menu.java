@@ -59,7 +59,6 @@ public class Menu {
             System.out.println("CLICKED");
             if (Game.gamestate.equals("running")) {
                 Game.gamestate = "pause";
-                SoundManager.gamestate = "pause";
                 SoundManager.updateSound();
                 statusGame.setImage(newGame);
             } else {

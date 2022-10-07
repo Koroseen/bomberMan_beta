@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.CreateMap;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.Settings;
+import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -59,6 +60,7 @@ public class Bomber extends Entity {
             if (speedItemDuration > 0) {
                 speedItemDuration--;
                 if (!once) {
+                    new SoundManager("sound/eat.wav","eat");
                     speed += 2;
                     once = true;
                 }
@@ -70,7 +72,9 @@ public class Bomber extends Entity {
                 }
             }
         } else {
-            Game.gamestate="gameover";
+            Game.gamestate = "gameover";
+            SoundManager.updateSound();
+            Game.delaytime = 300;
         }
     }
 
@@ -146,7 +150,8 @@ public class Bomber extends Entity {
             }
             animate = animate > 100 ? 0 : animate + 1;
             if (checkWall() || checkBrick() || checkBomb()) {
-                if (bomberman.getX() - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2) this.x--;
+                if (bomberman.getX() - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2)
+                    this.x--;
                 else {
                     count--;
                     this.x--;

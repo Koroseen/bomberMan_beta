@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.GUI.Menu;
+import uet.oop.bomberman.GUI.audioScroller;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.entities.blocks.Brick;
@@ -61,6 +62,7 @@ public class Game extends Application {
         stage.setTitle("BomberMan");
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);
+
         // Tao Canvas
         canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
         canvas.setLayoutY(30);
@@ -171,6 +173,7 @@ public class Game extends Application {
         gamemodeMedium.setVisible(false);
         gamemodeHard.setVisible(false);
 
+        audioScroller.slider(root);
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
         stage.show();
@@ -179,6 +182,7 @@ public class Game extends Application {
 //        CreateMap.createMapLevel(level);
 
         new SoundManager("sound/start.wav", "title");
+        SoundManager.updateSound();
 
         gamestate = "startmenu";
         AnimationTimer timer = new AnimationTimer() {
@@ -188,6 +192,7 @@ public class Game extends Application {
             @Override
             public void handle(long l) {
                 if (gamestate.equals("startmenu")) {
+                    SoundManager.updateSound();
                     showMenu();
                 }
                 if (gamestate.equals("running")) {
@@ -218,12 +223,14 @@ public class Game extends Application {
                 if (gamestate.equals("nextLevel")) {
                     //tao level
                     nextlevel.setVisible(true);
-                    continueGame.setVisible(true);
+                    SoundManager.updateSound();
                     if (delaytime > 0) delaytime--;
                     else {
                         delaytime = 100;
+                        nextlevel.setVisible(false);
                         level++;
                         CreateMap.createMapLevel(level);
+                        gamestate="running";
                     }
                 }
             }
@@ -328,16 +335,23 @@ public class Game extends Application {
                 playbutton.setVisible(false);
                 glow.setLevel(0.2);
                 checksetting = false;
+                audioScroller.slider.setVisible(true);
+                audioScroller.label.setVisible(true);
+                audioScroller.l.setVisible(true);
             } else {
                 settings.setLayoutY(260);
                 glow.setLevel(0.9);
                 playbutton.setVisible(true);
                 checksetting = true;
+                audioScroller.slider.setVisible(false);
+                audioScroller.label.setVisible(false);
+                audioScroller.l.setVisible(false);
             }
         });
     }
 
     public void update() {
+        SoundManager.updateSound();
         Menu.updateMenu();
         EntityList.walls.forEach(Wall::update);
         if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
@@ -382,9 +396,8 @@ public class Game extends Application {
         gamemodeEasy.setVisible(false);
         gamemodeMedium.setVisible(false);
         gamemodeHard.setVisible(false);
-        SoundManager.gamestate = "ingame";
         SoundManager.updateSound();
-        new SoundManager("sound/boom.wav", "ingame");
+        new SoundManager("sound/pacbaby.wav", "ingame");
     }
 
     public static void moveCamera(int x, int y) {
