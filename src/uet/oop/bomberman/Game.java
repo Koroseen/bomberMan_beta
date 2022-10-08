@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.text.*;
 import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.GUI.audioScroller;
 import uet.oop.bomberman.entities.EntityList;
@@ -36,14 +37,21 @@ public class Game extends Application {
     ImageView gamemodeEasy;
     ImageView gamemodeMedium;
 
-    private static int level = 1;
+    private static int level = 2;
     public static String gamestate = " ";
     private static GraphicsContext gc;
     private static Canvas canvas;
+
+    public static long time = 0;
+    public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 30);
+
+/*
     public static long time = 120;
     public static long delaytime = 100;
     public boolean checkplay = true;
     public boolean checksetting = true;
+    */
+
 
     public static void main(String[] args) {
         Application.launch(Game.class);
@@ -71,6 +79,13 @@ public class Game extends Application {
         Image playButton = new Image("images/New game Button.png");
         Image startscreen = new Image("images/author1.png");
         Image Gamemode = new Image("images/author1.png");
+
+        Text config = new Text("config");
+        config.setFont(font);
+        config.setFill(Color.RED);
+        config.setX(175);
+        config.setY(300);
+/*
         Image setting = new Image("images/Settings button.png");
         Image continuegame = new Image("images/Continue Button.png");
         Image homescreen = new Image("images/Menu Button.png");
@@ -100,6 +115,8 @@ public class Game extends Application {
         continueGame.setY(Settings.HEIGHT / 2);
         continueGame.setFitHeight(40);
         continueGame.setFitWidth(160);
+        */
+
 
         startscreenView = new ImageView(startscreen);
         startscreenView.setX(0);
@@ -151,11 +168,12 @@ public class Game extends Application {
         Group root = new Group();
 
         root.getChildren().add(canvas);
-
-        //Menu.createMenu(root);
-        Menu.createMenu(root);
         root.getChildren().add(startscreenView);
         root.getChildren().add(playbutton);
+
+        root.getChildren().add(config);
+
+/*
         root.getChildren().add(gamemodeHard);
         root.getChildren().add(gamemodeEasy);
         root.getChildren().add(gamemodeMedium);
@@ -172,6 +190,7 @@ public class Game extends Application {
         gamemodeEasy.setVisible(false);
         gamemodeMedium.setVisible(false);
         gamemodeHard.setVisible(false);
+        */
 
         audioScroller.slider(root);
         Scene scene = new Scene(root, 500, 500);
@@ -191,10 +210,13 @@ public class Game extends Application {
 
             @Override
             public void handle(long l) {
+/*
                 if (gamestate.equals("startmenu")) {
                     SoundManager.updateSound();
                     showMenu();
                 }
+                */
+
                 if (gamestate.equals("running")) {
                     render();
                     update();
@@ -238,7 +260,7 @@ public class Game extends Application {
 
         timer.start();
 
-
+        // update bomberman position
         scene.setOnKeyPressed(event -> {
             if (event.getCode().toString().equals("UP")) {
                 bomberman.goUp();
@@ -252,7 +274,7 @@ public class Game extends Application {
                 bomberman.placeBomb();
             }
         });
-
+        //update bomberman sprites
         scene.setOnKeyReleased(event -> {
             if (event.getCode().toString().equals("LEFT")) {
                 bomberman.setImg(Sprite.player_left.getFxImage());
@@ -269,6 +291,16 @@ public class Game extends Application {
 
         playbutton.setOnMouseClicked(event -> {
             //render game mode va chon
+
+            gamestate = "start menu/choosing play mode";
+            root.getChildren().clear();
+            root.getChildren().add(canvas);
+            root.getChildren().add(startscreenView);
+            root.getChildren().add(gamemodeHard);
+            root.getChildren().add(gamemodeEasy);
+            root.getChildren().add(gamemodeMedium);
+
+/*
             if (checkplay) {
                 glow.setLevel(0.2);
                 playbutton.setVisible(false);
@@ -290,27 +322,47 @@ public class Game extends Application {
                 settings.setVisible(true);
                 checkplay = true;
             }
+            */
+
         });
 
         //chon gamemode
         gamemodeHard.setOnMouseClicked(event -> {
-            checkplay = true;
-            hideMenu();
+
+            root.getChildren().clear();
+            root.getChildren().add(canvas);
+            Menu.createMenu(root);
+
+//            checkplay = true;
+//            hideMenu();
+
             gamestate = "running";
             glow.setLevel(0.9);
         });
 
         gamemodeMedium.setOnMouseClicked(event -> {
-            checkplay = true;
-            hideMenu();
+
+            root.getChildren().clear();
+            root.getChildren().add(canvas);
+            Menu.createMenu(root);
+
+//            checkplay = true;
+//            hideMenu();
+
             CreateMap.createMapLevel(2);
             gamestate = "running";
             glow.setLevel(0.9);
         });
 
         gamemodeEasy.setOnMouseClicked(event -> {
-            checkplay = true;
-            hideMenu();
+
+            root.getChildren().clear();
+            root.getChildren().add(canvas);
+            Menu.createMenu(root);
+
+//            checkplay = true;
+//            hideMenu();
+
             CreateMap.createMapLevel(1);
             gamestate = "running";
             glow.setLevel(0.9);
@@ -376,6 +428,7 @@ public class Game extends Application {
         bomberman.render(gc);
     }
 
+/*
     public void showMenu() {
         startscreenView.setVisible(true);
         if (checksetting) {
@@ -399,6 +452,7 @@ public class Game extends Application {
         SoundManager.updateSound();
         new SoundManager("sound/pacbaby.wav", "ingame");
     }
+*/
 
     public static void moveCamera(int x, int y) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
