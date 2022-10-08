@@ -6,23 +6,33 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
 import uet.oop.bomberman.GUI.Menu;
+import uet.oop.bomberman.GUI.audioScroller;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Wall;
+import uet.oop.bomberman.entities.items.Portal;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.util.Date;
 
 import static uet.oop.bomberman.entities.EntityList.bomberman;
 
 public class Game extends Application {
+    ImageView nextlevel;
+    ImageView gameover;
     ImageView startscreenView;
+    ImageView continueGame;
+    ImageView homeScreen;
     ImageView playbutton;
+    ImageView settings;
     ImageView gamemodeHard;
     ImageView gamemodeEasy;
     ImageView gamemodeMedium;
@@ -31,8 +41,17 @@ public class Game extends Application {
     public static String gamestate = " ";
     private static GraphicsContext gc;
     private static Canvas canvas;
+
     public static long time = 0;
     public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 30);
+
+/*
+    public static long time = 120;
+    public static long delaytime = 100;
+    public boolean checkplay = true;
+    public boolean checksetting = true;
+    */
+
 
     public static void main(String[] args) {
         Application.launch(Game.class);
@@ -41,28 +60,62 @@ public class Game extends Application {
     public static int getLevel() {
         return level;
     }
+
     public static void setLevel(int lv) {
         level = lv;
     }
+
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("BomberMan");
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);
+
         // Tao Canvas
         canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
         canvas.setLayoutY(30);
         gc = canvas.getGraphicsContext2D();
 
-        Image playButton = new Image("images/button1.png");
+        Image playButton = new Image("images/New game Button.png");
         Image startscreen = new Image("images/author1.png");
-        //chua tim duoc hinh anh
         Image Gamemode = new Image("images/author1.png");
+
         Text config = new Text("config");
         config.setFont(font);
         config.setFill(Color.RED);
         config.setX(175);
         config.setY(300);
+/*
+        Image setting = new Image("images/Settings button.png");
+        Image continuegame = new Image("images/Continue Button.png");
+        Image homescreen = new Image("images/Menu Button.png");
+        Image gameOver = new Image("images/gameover.png");
+        Image nextLevel = new Image("images/levelup.png");
+
+        nextlevel = new ImageView(nextLevel);
+        nextlevel.setX(0);
+        nextlevel.setY(0);
+        nextlevel.setFitHeight(Settings.HEIGHT);
+        nextlevel.setFitWidth(Settings.WIDTH);
+
+        gameover = new ImageView(gameOver);
+        gameover.setX(0);
+        gameover.setY(0);
+        gameover.setFitHeight(Settings.HEIGHT);
+        gameover.setFitWidth(Settings.WIDTH);
+
+        homeScreen = new ImageView(homescreen);
+        homeScreen.setX(170);
+        homeScreen.setY(Settings.HEIGHT / 2 + 50);
+        homeScreen.setFitHeight(40);
+        homeScreen.setFitWidth(160);
+
+        continueGame = new ImageView(continuegame);
+        continueGame.setX(170);
+        continueGame.setY(Settings.HEIGHT / 2);
+        continueGame.setFitHeight(40);
+        continueGame.setFitWidth(160);
+        */
 
 
         startscreenView = new ImageView(startscreen);
@@ -95,14 +148,51 @@ public class Game extends Application {
         gamemodeEasy.setLayoutY(260);
         gamemodeEasy.setFitHeight(40);
         gamemodeEasy.setFitWidth(160);
+
+        //setting
+        settings = new ImageView(setting);
+        settings.setLayoutX(170);
+        settings.setLayoutY(260);
+        settings.setFitHeight(40);
+        settings.setFitWidth(160);
+
+        //effect
+        Glow glow = new Glow();
+        glow.setLevel(0.9);
+        playbutton.setEffect(glow);
+        settings.setEffect(glow);
+        homeScreen.setEffect(glow);
+        continueGame.setEffect(glow);
+
         // Tao root container
         Group root = new Group();
 
         root.getChildren().add(canvas);
         root.getChildren().add(startscreenView);
         root.getChildren().add(playbutton);
+
         root.getChildren().add(config);
 
+/*
+        root.getChildren().add(gamemodeHard);
+        root.getChildren().add(gamemodeEasy);
+        root.getChildren().add(gamemodeMedium);
+        root.getChildren().add(settings);
+        root.getChildren().add(continueGame);
+        root.getChildren().add(homeScreen);
+        root.getChildren().add(gameover);
+        root.getChildren().add(nextlevel);
+
+        nextlevel.setVisible(false);
+        gameover.setVisible(false);
+        homeScreen.setVisible(false);
+        continueGame.setVisible(false);
+        gamemodeEasy.setVisible(false);
+        gamemodeMedium.setVisible(false);
+        gamemodeHard.setVisible(false);
+        */
+
+        audioScroller.slider(root);
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
         stage.show();
@@ -111,31 +201,59 @@ public class Game extends Application {
 //        CreateMap.createMapLevel(level);
 
         new SoundManager("sound/start.wav", "title");
+        SoundManager.updateSound();
 
         gamestate = "startmenu";
         AnimationTimer timer = new AnimationTimer() {
-            long start=System.currentTimeMillis();
-            long before=0;
+            long start = System.currentTimeMillis();
+            long before = 0;
+
             @Override
             public void handle(long l) {
+/*
+                if (gamestate.equals("startmenu")) {
+                    SoundManager.updateSound();
+                    showMenu();
+                }
+                */
+
                 if (gamestate.equals("running")) {
                     render();
                     update();
-                    long end=(System.currentTimeMillis()-start)/1000;
-                    if(end-before==1)Game.time--;
-                    before=end;
+                    long end = (System.currentTimeMillis() - start) / 1000;
+                    if (end - before == 1) Game.time--;
+                    before = end;
                 }
                 if (gamestate.equals("pause")) {
-
+                    startscreenView.setVisible(true);
+                    continueGame.setVisible(true);
+                    homeScreen.setVisible(true);
                 }
                 if (gamestate.equals("gameover")) {
                     //show gameover trong muc images + time
-
+                    gameover.setVisible(true);
+                    homeScreen.setVisible(true);
                     //reset game hoac show menu
+                    if (delaytime > 0) {
+                        delaytime--;
+                        System.out.println(delaytime);
+                    } else {
+                        delaytime = 100;
+                        gamestate = "startmenu";
+                    }
                 }
                 if (gamestate.equals("nextLevel")) {
                     //tao level
-
+                    nextlevel.setVisible(true);
+                    SoundManager.updateSound();
+                    if (delaytime > 0) delaytime--;
+                    else {
+                        delaytime = 100;
+                        nextlevel.setVisible(false);
+                        level++;
+                        CreateMap.createMapLevel(level);
+                        gamestate="running";
+                    }
                 }
             }
         };
@@ -173,6 +291,7 @@ public class Game extends Application {
 
         playbutton.setOnMouseClicked(event -> {
             //render game mode va chon
+
             gamestate = "start menu/choosing play mode";
             root.getChildren().clear();
             root.getChildren().add(canvas);
@@ -180,34 +299,111 @@ public class Game extends Application {
             root.getChildren().add(gamemodeHard);
             root.getChildren().add(gamemodeEasy);
             root.getChildren().add(gamemodeMedium);
+
+/*
+            if (checkplay) {
+                glow.setLevel(0.2);
+                playbutton.setVisible(false);
+
+                Glow glow1 = new Glow(0.9);
+                gamemodeMedium.setEffect(glow1);
+                gamemodeEasy.setEffect(glow1);
+                gamemodeHard.setEffect(glow1);
+                gamemodeEasy.setVisible(true);
+                gamemodeMedium.setVisible(true);
+                gamemodeHard.setVisible(true);
+                settings.setVisible(false);
+                checkplay = false;
+            } else {
+                glow.setLevel(0.9);
+                gamemodeEasy.setVisible(false);
+                gamemodeMedium.setVisible(false);
+                gamemodeHard.setVisible(false);
+                settings.setVisible(true);
+                checkplay = true;
+            }
+            */
+
         });
 
         //chon gamemode
         gamemodeHard.setOnMouseClicked(event -> {
+
             root.getChildren().clear();
             root.getChildren().add(canvas);
             Menu.createMenu(root);
+
+//            checkplay = true;
+//            hideMenu();
+
             gamestate = "running";
+            glow.setLevel(0.9);
         });
 
         gamemodeMedium.setOnMouseClicked(event -> {
+
             root.getChildren().clear();
             root.getChildren().add(canvas);
             Menu.createMenu(root);
+
+//            checkplay = true;
+//            hideMenu();
+
             CreateMap.createMapLevel(2);
             gamestate = "running";
+            glow.setLevel(0.9);
         });
 
         gamemodeEasy.setOnMouseClicked(event -> {
+
             root.getChildren().clear();
             root.getChildren().add(canvas);
             Menu.createMenu(root);
+
+//            checkplay = true;
+//            hideMenu();
+
             CreateMap.createMapLevel(1);
             gamestate = "running";
+            glow.setLevel(0.9);
+        });
+
+        continueGame.setOnMouseClicked(event -> {
+            startscreenView.setVisible(false);
+            continueGame.setVisible(false);
+            homeScreen.setVisible(false);
+            gamestate = "running";
+        });
+
+        homeScreen.setOnMouseClicked(event -> {
+            showMenu();
+            gamestate = "startmenu";
+            checkplay = true;
+        });
+
+        settings.setOnMouseClicked(Event -> {
+            if (checksetting) {
+                settings.setLayoutY(210);
+                playbutton.setVisible(false);
+                glow.setLevel(0.2);
+                checksetting = false;
+                audioScroller.slider.setVisible(true);
+                audioScroller.label.setVisible(true);
+                audioScroller.l.setVisible(true);
+            } else {
+                settings.setLayoutY(260);
+                glow.setLevel(0.9);
+                playbutton.setVisible(true);
+                checksetting = true;
+                audioScroller.slider.setVisible(false);
+                audioScroller.label.setVisible(false);
+                audioScroller.l.setVisible(false);
+            }
         });
     }
 
     public void update() {
+        SoundManager.updateSound();
         Menu.updateMenu();
         EntityList.walls.forEach(Wall::update);
         if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
@@ -232,9 +428,34 @@ public class Game extends Application {
         bomberman.render(gc);
     }
 
+/*
+    public void showMenu() {
+        startscreenView.setVisible(true);
+        if (checksetting) {
+            playbutton.setVisible(true);
+        }
+        if (checkplay) {
+            settings.setVisible(true);
+        }
+        continueGame.setVisible(false);
+        homeScreen.setVisible(false);
+        gameover.setVisible(false);
+    }
+
+    public void hideMenu() {
+        startscreenView.setVisible(false);
+        playbutton.setVisible(false);
+        settings.setVisible(false);
+        gamemodeEasy.setVisible(false);
+        gamemodeMedium.setVisible(false);
+        gamemodeHard.setVisible(false);
+        SoundManager.updateSound();
+        new SoundManager("sound/pacbaby.wav", "ingame");
+    }
+*/
+
     public static void moveCamera(int x, int y) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.translate(- x, -y);
+        gc.translate(-x, -y);
     }
 }
-

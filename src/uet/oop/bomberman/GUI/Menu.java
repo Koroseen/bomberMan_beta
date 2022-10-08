@@ -1,6 +1,8 @@
 package uet.oop.bomberman.GUI;
 
 import javafx.scene.Group;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -41,6 +43,10 @@ public class Menu {
         score.setX(300);
         score.setY(20);
 
+        Glow glow = new Glow(0.9);
+        score.setEffect(glow);
+        time.setEffect(glow);
+
         Image newGame = new Image("images/pause.png");
         Image playGame = new Image("images/resume.png");
         statusGame = new ImageView(newGame);
@@ -53,7 +59,6 @@ public class Menu {
             System.out.println("CLICKED");
             if (Game.gamestate.equals("running")) {
                 Game.gamestate = "pause";
-                SoundManager.gamestate="pause";
                 SoundManager.updateSound();
                 statusGame.setImage(newGame);
             } else {

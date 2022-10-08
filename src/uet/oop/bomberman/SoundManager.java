@@ -3,6 +3,7 @@ package uet.oop.bomberman;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -10,11 +11,12 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.sound.sampled.FloatControl;
 
-public class SoundManager {
-    public static boolean stop =false;
+//import javax.sound.sampled.*;
 
-    public static String gamestate="";
+public class SoundManager {
     public static Clip ingame;
+    public static Clip eat;
+    public static Clip win;
     public static Clip title_screen;
     public static Clip bomb_explosion;
     public static Clip just_died;
@@ -39,6 +41,11 @@ public class SoundManager {
                 float range = volume.getMaximum() - volume.getMinimum();
                 volume.setValue(gainAmount*range + volume.getMinimum());
             }
+            if (sound.equals("eat")) {
+                eat = AudioSystem.getClip();
+                eat.open(audioIn);
+                eat.start();
+            }
             if (sound.equals("ingame")) {
                 ingame = AudioSystem.getClip();
                 ingame.open(audioIn);
@@ -47,6 +54,11 @@ public class SoundManager {
                 FloatControl volume = (FloatControl) ingame.getControl(FloatControl.Type.MASTER_GAIN);
                 float range = volume.getMaximum() - volume.getMinimum();
                 volume.setValue(gainAmount*range + volume.getMinimum());
+            }
+            if (sound.equals("win")) {
+                win = AudioSystem.getClip();
+                win.open(audioIn);
+                win.start();
             }
             if (sound.equals("explosion")) {
                 bomb_explosion = AudioSystem.getClip();
@@ -78,12 +90,25 @@ public class SoundManager {
     }
 
     public static void updateSound() {
-        if (gamestate.equals("ingame")) {
+        if (Game.gamestate.equals("running")) {
             title_screen.stop();
+            ingame.start();
         }
-        else if (gamestate.equals("pause")){
+        else if (Game.gamestate.equals("pause")){
             ingame.stop();
         }
+        if (Game.gamestate.equals("startmenu")) {
+            title_screen.start();
+        }
+        if(Game.gamestate.equals("gameover")){
+            ingame.stop();
+            new SoundManager("sound/just_died.wav","just_died");
+        }
+        if(Game.gamestate.equals("nextLevel")){
+            ingame.stop();
+        }
+        FloatControl gainControl = (FloatControl) title_screen.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(20f * (float) Math.log10(audioSetting.getMusicVolume()));
         /*
         if (!player.isLife()) {
             title_screen.close();
