@@ -1,7 +1,6 @@
 package uet.oop.bomberman.GUI;
 
 import javafx.scene.Group;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -71,10 +70,11 @@ public class Menu {
         pane.getChildren().addAll(level, time, statusGame, score);
         pane.setMinSize(Settings.WIDTH, 30);
         pane.setStyle("-fx-background-color: #427235");
-
         root.getChildren().add(pane);
     }
-
+    public static void createButton(Group root){
+        new Menubutton(root);
+    }
     public static void updateMenu() {
         score.setText("Score: " + Score);
         time.setText("Times: " + Game.time);

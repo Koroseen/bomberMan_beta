@@ -46,12 +46,12 @@ public class audioScroller {
                 new ChangeListener<Number>() {
                     public void changed(ObservableValue<? extends Number>
                                                 observable, Number oldValue, Number newValue) {
+
                         l.setText("volume: " + Math.round((double) newValue));
                         audioSetting.setMusicVolume((double) newValue/100);
                     }
 
                 });
-
         root.getChildren().addAll(slider, label, l);
         slider.setVisible(false);
         label.setVisible(false);

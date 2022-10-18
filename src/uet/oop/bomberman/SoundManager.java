@@ -51,9 +51,6 @@ public class SoundManager {
                 ingame.open(audioIn);
                 ingame.start();
                 ingame.loop(10);
-                FloatControl volume = (FloatControl) ingame.getControl(FloatControl.Type.MASTER_GAIN);
-                float range = volume.getMaximum() - volume.getMinimum();
-                volume.setValue(gainAmount*range + volume.getMinimum());
             }
             if (sound.equals("win")) {
                 win = AudioSystem.getClip();

@@ -74,7 +74,7 @@ public class Bomber extends Entity {
         } else {
             Game.gamestate = "gameover";
             SoundManager.updateSound();
-            Game.delaytime = 300;
+            //Game.delaytime = 300;
         }
     }
 
