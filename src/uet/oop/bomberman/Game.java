@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
@@ -28,14 +29,7 @@ import static uet.oop.bomberman.entities.EntityList.bomberman;
 public class Game extends Application {
     ImageView nextlevel;
     ImageView gameover;
-    ImageView startscreenView;
-    ImageView continueGame;
-    ImageView homeScreen;
-    ImageView playbutton;
-    ImageView settings;
-    ImageView gamemodeHard;
-    ImageView gamemodeEasy;
-    ImageView gamemodeMedium;
+    public static ImageView startscreenView;
 
     private static int level = 2;
     public static String gamestate = " ";
@@ -43,7 +37,8 @@ public class Game extends Application {
     private static Canvas canvas;
 
     public static long time = 0;
-    public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 30);
+    public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF",19);
+    public static final String style="style.css";
 
 /*
     public static long time = 120;
@@ -76,47 +71,7 @@ public class Game extends Application {
         canvas.setLayoutY(30);
         gc = canvas.getGraphicsContext2D();
 
-        Image playButton = new Image("images/New game Button.png");
         Image startscreen = new Image("images/author1.png");
-        Image Gamemode = new Image("images/author1.png");
-
-        Text config = new Text("config");
-        config.setFont(font);
-        config.setFill(Color.RED);
-        config.setX(175);
-        config.setY(300);
-/*
-        Image setting = new Image("images/Settings button.png");
-        Image continuegame = new Image("images/Continue Button.png");
-        Image homescreen = new Image("images/Menu Button.png");
-        Image gameOver = new Image("images/gameover.png");
-        Image nextLevel = new Image("images/levelup.png");
-
-        nextlevel = new ImageView(nextLevel);
-        nextlevel.setX(0);
-        nextlevel.setY(0);
-        nextlevel.setFitHeight(Settings.HEIGHT);
-        nextlevel.setFitWidth(Settings.WIDTH);
-
-        gameover = new ImageView(gameOver);
-        gameover.setX(0);
-        gameover.setY(0);
-        gameover.setFitHeight(Settings.HEIGHT);
-        gameover.setFitWidth(Settings.WIDTH);
-
-        homeScreen = new ImageView(homescreen);
-        homeScreen.setX(170);
-        homeScreen.setY(Settings.HEIGHT / 2 + 50);
-        homeScreen.setFitHeight(40);
-        homeScreen.setFitWidth(160);
-
-        continueGame = new ImageView(continuegame);
-        continueGame.setX(170);
-        continueGame.setY(Settings.HEIGHT / 2);
-        continueGame.setFitHeight(40);
-        continueGame.setFitWidth(160);
-        */
-
 
         startscreenView = new ImageView(startscreen);
         startscreenView.setX(0);
@@ -124,74 +79,17 @@ public class Game extends Application {
         startscreenView.setFitHeight(Settings.HEIGHT);
         startscreenView.setFitWidth(Settings.WIDTH);
 
-        playbutton = new ImageView(playButton);
-        playbutton.setLayoutX(170);
-        playbutton.setLayoutY(210);
-        playbutton.setFitHeight(40);
-        playbutton.setFitWidth(160);
-
-        //gamemode
-        gamemodeHard = new ImageView(Gamemode);
-        gamemodeHard.setLayoutX(170);
-        gamemodeHard.setLayoutY(360);
-        gamemodeHard.setFitHeight(40);
-        gamemodeHard.setFitWidth(160);
-
-        gamemodeMedium = new ImageView(Gamemode);
-        gamemodeMedium.setLayoutX(170);
-        gamemodeMedium.setLayoutY(310);
-        gamemodeMedium.setFitHeight(40);
-        gamemodeMedium.setFitWidth(160);
-
-        gamemodeEasy = new ImageView(Gamemode);
-        gamemodeEasy.setLayoutX(170);
-        gamemodeEasy.setLayoutY(260);
-        gamemodeEasy.setFitHeight(40);
-        gamemodeEasy.setFitWidth(160);
-
-        //setting
-        settings = new ImageView(setting);
-        settings.setLayoutX(170);
-        settings.setLayoutY(260);
-        settings.setFitHeight(40);
-        settings.setFitWidth(160);
-
         //effect
         Glow glow = new Glow();
         glow.setLevel(0.9);
-        playbutton.setEffect(glow);
-        settings.setEffect(glow);
-        homeScreen.setEffect(glow);
-        continueGame.setEffect(glow);
 
         // Tao root container
         Group root = new Group();
-
+        Menu.createMenu(root);
         root.getChildren().add(canvas);
         root.getChildren().add(startscreenView);
-        root.getChildren().add(playbutton);
 
-        root.getChildren().add(config);
-
-/*
-        root.getChildren().add(gamemodeHard);
-        root.getChildren().add(gamemodeEasy);
-        root.getChildren().add(gamemodeMedium);
-        root.getChildren().add(settings);
-        root.getChildren().add(continueGame);
-        root.getChildren().add(homeScreen);
-        root.getChildren().add(gameover);
-        root.getChildren().add(nextlevel);
-
-        nextlevel.setVisible(false);
-        gameover.setVisible(false);
-        homeScreen.setVisible(false);
-        continueGame.setVisible(false);
-        gamemodeEasy.setVisible(false);
-        gamemodeMedium.setVisible(false);
-        gamemodeHard.setVisible(false);
-        */
-
+        Menu.createButton(root);
         audioScroller.slider(root);
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
@@ -226,10 +124,8 @@ public class Game extends Application {
                 }
                 if (gamestate.equals("pause")) {
                     startscreenView.setVisible(true);
-                    continueGame.setVisible(true);
-                    homeScreen.setVisible(true);
                 }
-                if (gamestate.equals("gameover")) {
+                /*if (gamestate.equals("gameover")) {
                     //show gameover trong muc images + time
                     gameover.setVisible(true);
                     homeScreen.setVisible(true);
@@ -254,7 +150,7 @@ public class Game extends Application {
                         CreateMap.createMapLevel(level);
                         gamestate="running";
                     }
-                }
+                }*/
             }
         };
 
@@ -286,118 +182,6 @@ public class Game extends Application {
                 bomberman.setImg(Sprite.player_down.getFxImage());
             } else if (event.getCode().toString().equals("C")) {
                 for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).setAlive(false);
-            }
-        });
-
-        playbutton.setOnMouseClicked(event -> {
-            //render game mode va chon
-
-            gamestate = "start menu/choosing play mode";
-            root.getChildren().clear();
-            root.getChildren().add(canvas);
-            root.getChildren().add(startscreenView);
-            root.getChildren().add(gamemodeHard);
-            root.getChildren().add(gamemodeEasy);
-            root.getChildren().add(gamemodeMedium);
-
-/*
-            if (checkplay) {
-                glow.setLevel(0.2);
-                playbutton.setVisible(false);
-
-                Glow glow1 = new Glow(0.9);
-                gamemodeMedium.setEffect(glow1);
-                gamemodeEasy.setEffect(glow1);
-                gamemodeHard.setEffect(glow1);
-                gamemodeEasy.setVisible(true);
-                gamemodeMedium.setVisible(true);
-                gamemodeHard.setVisible(true);
-                settings.setVisible(false);
-                checkplay = false;
-            } else {
-                glow.setLevel(0.9);
-                gamemodeEasy.setVisible(false);
-                gamemodeMedium.setVisible(false);
-                gamemodeHard.setVisible(false);
-                settings.setVisible(true);
-                checkplay = true;
-            }
-            */
-
-        });
-
-        //chon gamemode
-        gamemodeHard.setOnMouseClicked(event -> {
-
-            root.getChildren().clear();
-            root.getChildren().add(canvas);
-            Menu.createMenu(root);
-
-//            checkplay = true;
-//            hideMenu();
-
-            gamestate = "running";
-            glow.setLevel(0.9);
-        });
-
-        gamemodeMedium.setOnMouseClicked(event -> {
-
-            root.getChildren().clear();
-            root.getChildren().add(canvas);
-            Menu.createMenu(root);
-
-//            checkplay = true;
-//            hideMenu();
-
-            CreateMap.createMapLevel(2);
-            gamestate = "running";
-            glow.setLevel(0.9);
-        });
-
-        gamemodeEasy.setOnMouseClicked(event -> {
-
-            root.getChildren().clear();
-            root.getChildren().add(canvas);
-            Menu.createMenu(root);
-
-//            checkplay = true;
-//            hideMenu();
-
-            CreateMap.createMapLevel(1);
-            gamestate = "running";
-            glow.setLevel(0.9);
-        });
-
-        continueGame.setOnMouseClicked(event -> {
-            startscreenView.setVisible(false);
-            continueGame.setVisible(false);
-            homeScreen.setVisible(false);
-            gamestate = "running";
-        });
-
-        homeScreen.setOnMouseClicked(event -> {
-            showMenu();
-            gamestate = "startmenu";
-            checkplay = true;
-        });
-
-        settings.setOnMouseClicked(Event -> {
-            if (checksetting) {
-                settings.setLayoutY(210);
-                playbutton.setVisible(false);
-                glow.setLevel(0.2);
-                checksetting = false;
-                audioScroller.slider.setVisible(true);
-                audioScroller.label.setVisible(true);
-                audioScroller.l.setVisible(true);
-            } else {
-                settings.setLayoutY(260);
-                glow.setLevel(0.9);
-                playbutton.setVisible(true);
-                checksetting = true;
-                audioScroller.slider.setVisible(false);
-                audioScroller.label.setVisible(false);
-                audioScroller.l.setVisible(false);
             }
         });
     }

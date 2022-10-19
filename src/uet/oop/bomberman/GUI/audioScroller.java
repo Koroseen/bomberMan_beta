@@ -52,7 +52,6 @@ public class audioScroller {
                     }
 
                 });
-
         root.getChildren().addAll(slider, label, l);
         slider.setVisible(false);
         label.setVisible(false);
