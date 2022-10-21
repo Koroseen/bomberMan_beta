@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
 import uet.oop.bomberman.GUI.Menu;
+import uet.oop.bomberman.GUI.Menubutton;
 import uet.oop.bomberman.GUI.audioScroller;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.Bomb;
@@ -108,12 +109,10 @@ public class Game extends Application {
 
             @Override
             public void handle(long l) {
-/*
                 if (gamestate.equals("startmenu")) {
                     SoundManager.updateSound();
-                    showMenu();
+                    Menubutton.update();
                 }
-                */
 
                 if (gamestate.equals("running")) {
                     render();
