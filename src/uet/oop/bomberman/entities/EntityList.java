@@ -1,41 +1,117 @@
 package uet.oop.bomberman.entities;
 
-import uet.oop.bomberman.entities.blocks.Brick;
-import uet.oop.bomberman.entities.blocks.Flame;
-import uet.oop.bomberman.entities.blocks.Grass;
-import uet.oop.bomberman.entities.blocks.Wall;
+import uet.oop.bomberman.entities.blocks.*;
 import uet.oop.bomberman.entities.enemies.Enemy;
-import uet.oop.bomberman.entities.items.Items;
+import uet.oop.bomberman.entities.items.Item;
 import uet.oop.bomberman.entities.items.Portal;
-import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntityList {
-    public static List<Wall> walls = new ArrayList<>();
-    public static List<Brick> bricks = new ArrayList<>();
-    public static List<Grass> grasses = new ArrayList<>();
-    public static List<Enemy> enemies = new ArrayList<>();
-    public static List<Flame> flames = new ArrayList<>();
-    public static List<Items> items = new ArrayList<>();
-    public static Portal portal;
+    private List<Wall> walls = new ArrayList<>();
+    private List<Brick> bricks = new ArrayList<>();
+    private List<Grass> grasses = new ArrayList<>();
+    private List<Enemy> enemies = new ArrayList<>();
 
-    public static Bomber bomberman;
+    private List<Item> items = new ArrayList<>();
 
-    public static void removeBrick() {
-        for (int i = 0; i < EntityList.bricks.size(); i++) {
-            if (EntityList.bricks.get(i).isBroken()) {
-                EntityList.bricks.remove(i);
-            }
-        }
+    private List<Bomb> bombs = new ArrayList<>();
+
+    private List<Flame> flames = new ArrayList<>();
+
+    private Portal portal;
+
+    private Bomber bomberman;
+
+    public List<Wall> getWalls() {
+        return walls;
     }
-    public static void clearList() {
+
+    public void addWalls(Wall wall) {
+        walls.add(wall);
+    }
+
+
+    public List<Brick> getBricks() {
+        return bricks;
+    }
+
+    public void addBricks(Brick brick) {
+        bricks.add(brick);
+    }
+
+
+    public List<Grass> getGrasses() {
+        return grasses;
+    }
+
+    public void addGrasses(Grass grass) {
+        grasses.add(grass);
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(List<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+
+    public void addEnemies(Enemy enemy) {
+        enemies.add(enemy);
+    }
+
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void addItems(Item item) {
+        items.add(item);
+    }
+
+    public List<Flame> getFlames() {
+        return flames;
+    }
+
+    public void addFlame(Flame flame) {
+        flames.add(flame);
+    }
+
+    public List<Bomb> getBombs() {
+        return bombs;
+    }
+
+    public void addBomb(Bomb bomb) {
+        bombs.add(bomb);
+    }
+
+    public void setBombs(List<Bomb> bombs) {
+        this.bombs = bombs;
+    }
+
+    public Portal getPortal() {
+        return portal;
+    }
+
+    public void setPortal(Portal portal) {
+        this.portal = portal;
+    }
+
+    public Bomber getBomberman() {
+        return bomberman;
+    }
+
+    public void setBomberman(Bomber bomberman) {
+        this.bomberman = bomberman;
+    }
+
+    public void clearList() {
         walls.clear();
         bricks.clear();
         enemies.clear();
         items.clear();
         grasses.clear();
-        flames.clear();
     }
 }

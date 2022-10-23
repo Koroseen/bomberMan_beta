@@ -6,7 +6,7 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.EntityList;
 
-public class Portal extends Items {
+public class Portal extends Item {
     private boolean nextLevel=false;
 
     public Portal(int xUnit, int yUnit, Image img) {
@@ -20,7 +20,7 @@ public class Portal extends Items {
 
     @Override
     public void update() {
-        if (this.contains(EntityList.bomberman) && EntityList.enemies.isEmpty()) {
+        if (this.contains(Game.entityList.getBomberman()) && Game.entityList.getEnemies().isEmpty()) {
             Game.gamestate = "nextLevel";
             new SoundManager("sound/win.wav","win");
         }

@@ -9,25 +9,22 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.text.*;
 import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.GUI.Menubutton;
 import uet.oop.bomberman.GUI.audioScroller;
 import uet.oop.bomberman.entities.EntityList;
-import uet.oop.bomberman.entities.blocks.Bomb;
-import uet.oop.bomberman.entities.blocks.Brick;
-import uet.oop.bomberman.entities.blocks.Wall;
-import uet.oop.bomberman.entities.items.Portal;
+import uet.oop.bomberman.entities.blocks.*;
+import uet.oop.bomberman.entities.enemies.Enemy;
+import uet.oop.bomberman.entities.items.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.Date;
-
-import static uet.oop.bomberman.entities.EntityList.bomberman;
 
 public class Game extends Application {
+    public static EntityList entityList = new EntityList();
+
     ImageView nextlevel;
     ImageView gameover;
     public static ImageView startscreenView;
@@ -38,8 +35,8 @@ public class Game extends Application {
     private static Canvas canvas;
 
     public static long time = 0;
-    public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF",19);
-    public static final String style="style.css";
+    public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 19);
+    public static final String style = "style.css";
 
 /*
     public static long time = 120;
@@ -63,6 +60,8 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        stage.setResizable(false);
+
         stage.setTitle("BomberMan");
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);
@@ -97,7 +96,6 @@ public class Game extends Application {
         stage.show();
         scene.setFill(Color.WHITE);
 
-//        CreateMap.createMapLevel(level);
 
         new SoundManager("sound/start.wav", "title");
         SoundManager.updateSound();
@@ -118,13 +116,18 @@ public class Game extends Application {
                     render();
                     update();
                     long end = (System.currentTimeMillis() - start) / 1000;
-                    if (end - before == 1) Game.time--;
+                    if (end - before == 1) Game.time++;
                     before = end;
                 }
                 if (gamestate.equals("pause")) {
                     startscreenView.setVisible(true);
                 }
-                /*if (gamestate.equals("gameover")) {
+                if (gamestate.equals("gameover")) {
+                    gamestate = "startmenu";
+                }
+
+                /*
+                if (gamestate.equals("gameover")) {
                     //show gameover trong muc images + time
                     gameover.setVisible(true);
                     homeScreen.setVisible(true);
@@ -158,29 +161,33 @@ public class Game extends Application {
         // update bomberman position
         scene.setOnKeyPressed(event -> {
             if (event.getCode().toString().equals("UP")) {
-                bomberman.goUp();
+                entityList.getBomberman().setImg(Sprite.player_up.getFxImage());
+                entityList.getBomberman().goUp();
             } else if (event.getCode().toString().equals("DOWN")) {
-                bomberman.goDown();
+                entityList.getBomberman().setImg(Sprite.player_down.getFxImage());
+                entityList.getBomberman().goDown();
             } else if (event.getCode().toString().equals("LEFT")) {
-                bomberman.goLeft();
+                entityList.getBomberman().setImg(Sprite.player_left.getFxImage());
+                entityList.getBomberman().goLeft();
             } else if (event.getCode().toString().equals("RIGHT")) {
-                bomberman.goRight();
-            } else if (event.getCode().toString().equals("SPACE") && bomberman.bombs.isEmpty()) {
-                bomberman.placeBomb();
+                entityList.getBomberman().setImg(Sprite.player_right.getFxImage());
+                entityList.getBomberman().goRight();
+            } else if (event.getCode().toString().equals("SPACE") && entityList.getBombs().isEmpty()) {
+                entityList.getBomberman().setBomb();
             }
         });
         //update bomberman sprites
         scene.setOnKeyReleased(event -> {
             if (event.getCode().toString().equals("LEFT")) {
-                bomberman.setImg(Sprite.player_left.getFxImage());
+                entityList.getBomberman().setImg(Sprite.player_left.getFxImage());
             } else if (event.getCode().toString().equals("UP")) {
-                bomberman.setImg(Sprite.player_up.getFxImage());
+                entityList.getBomberman().setImg(Sprite.player_up.getFxImage());
             } else if (event.getCode().toString().equals("RIGHT")) {
-                bomberman.setImg(Sprite.player_right.getFxImage());
+                entityList.getBomberman().setImg(Sprite.player_right.getFxImage());
             } else if (event.getCode().toString().equals("DOWN")) {
-                bomberman.setImg(Sprite.player_down.getFxImage());
+                entityList.getBomberman().setImg(Sprite.player_down.getFxImage());
             } else if (event.getCode().toString().equals("C")) {
-                for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).setAlive(false);
+                for (int i = 0; i < entityList.getEnemies().size(); i++) entityList.getEnemies().get(i).setAlive(false);
             }
         });
     }
@@ -188,27 +195,31 @@ public class Game extends Application {
     public void update() {
         SoundManager.updateSound();
         Menu.updateMenu();
-        EntityList.walls.forEach(Wall::update);
-        if (Bomb.isFire()) EntityList.bricks.forEach(Brick::update);
-        for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).update();
-        for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).update();
-        for (int i = 0; i < EntityList.flames.size(); i++) EntityList.flames.get(i).update();
-        for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).update();
-        EntityList.portal.update();
-        bomberman.update();
+        for (Wall wall : entityList.getWalls()) wall.update();
+        for (Bomb bomb : entityList.getBombs()) bomb.update();
+        for (int i = 0; i < entityList.getBricks().size(); i++) entityList.getBricks().get(i).update();
+        for (int i = 0; i < entityList.getItems().size(); i++) entityList.getItems().get(i).update();
+        for (int i = 0; i < entityList.getEnemies().size(); i++) entityList.getEnemies().get(i).update();
+        entityList.getPortal().update();
+        entityList.getBomberman().update();
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        EntityList.grasses.forEach(g -> g.render(gc));
-        EntityList.walls.forEach(g -> g.render(gc));
-        EntityList.portal.render(gc);
-        EntityList.bricks.forEach(g -> g.render(gc));
-        for (int i = 0; i < EntityList.items.size(); i++) EntityList.items.get(i).render(gc);
-        for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).render(gc);
-        for (int i = 0; i < bomberman.bombs.size(); i++) bomberman.bombs.get(i).render(gc);
-        for (int i = 0; i < EntityList.flames.size() && Bomb.isFire(); i++) EntityList.flames.get(i).render(gc);
-        bomberman.render(gc);
+        for (Grass grass : entityList.getGrasses()) grass.render(gc);
+        for (Wall wall : entityList.getWalls()) wall.render(gc);
+        for (Bomb bomb : entityList.getBombs()) {
+            bomb.render(gc);
+            if (bomb.isFire()) {
+                bomb.explode();
+                for (Flame flame : entityList.getFlames()) flame.render(gc);
+            }
+        }
+        for (Item item : entityList.getItems()) item.render(gc);
+        entityList.getPortal().render(gc);
+        for (Brick brick : entityList.getBricks()) brick.render(gc);
+        for (Enemy enemy : entityList.getEnemies()) enemy.render(gc);
+        entityList.getBomberman().render(gc);
     }
 
 /*

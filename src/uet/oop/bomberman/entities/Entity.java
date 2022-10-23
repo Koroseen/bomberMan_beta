@@ -3,6 +3,9 @@ package uet.oop.bomberman.entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Game;
+import uet.oop.bomberman.entities.blocks.Bomb;
+import uet.oop.bomberman.entities.blocks.Brick;
 import uet.oop.bomberman.entities.blocks.Flame;
 import uet.oop.bomberman.entities.blocks.Wall;
 import uet.oop.bomberman.entities.enemies.Enemy;
@@ -61,7 +64,7 @@ public abstract class Entity {
     }
 
     public boolean checkWall() {
-        for (Wall wall : EntityList.walls) {
+        for (Wall wall : Game.entityList.getWalls()) {
             if (this.intersects(wall)) {
                 return true;
             }
@@ -70,11 +73,11 @@ public abstract class Entity {
     }
 
     public boolean checkBrick() {
-        for (int i = 0; i < EntityList.bricks.size(); i++) {
-            if (this instanceof Flame && this.contains(EntityList.bricks.get(i))) {
-                EntityList.bricks.get(i).setBroken(true);
+        for (Brick brick : Game.entityList.getBricks()) {
+            if (this instanceof Flame && this.contains(brick)) {
+                brick.setBroken(true);
                 return true;
-            } else if ((this instanceof Bomber || this instanceof Enemy) && this.intersects(EntityList.bricks.get(i))){
+            } else if ((this instanceof Bomber || this instanceof Enemy) && this.intersects(brick)){
                 return true;
             }
         }
@@ -82,12 +85,12 @@ public abstract class Entity {
     }
 
     public boolean checkBomb() {
-        for (int i = 0; i < EntityList.bomberman.bombs.size(); i++) {
+        for (Bomb bomb : Game.entityList.getBombs()) {
             if (this instanceof Bomber) {
-               if(this.intersects(EntityList.bomberman.bombs.get(i)) && !EntityList.bomberman.bombs.get(i).isAllow()) {
+               if(this.intersects(bomb) && !bomb.isAllow()) {
                    return true;
                }
-            } else if(this.intersects(EntityList.bomberman.bombs.get(i))) return true;
+            } else if(this.intersects(bomb)) return true;
         }
         return false;
     }
