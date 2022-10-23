@@ -86,7 +86,7 @@ public class Menubutton {
 
         resume = new Button("exit");
         resume.setLayoutX(Settings.WIDTH / 2 - 85);
-        resume.setLayoutY(300);
+        resume.setLayoutY(240);
         resume.setMinSize(170, 40);
         resume.setOnAction(actionEvent -> {
 
@@ -186,15 +186,7 @@ public class Menubutton {
                 hard.setVisible(true);
                 easy.setVisible(true);
                 medium.setVisible(true);
-            } else {
-                newgame.setVisible(true);
-                setting.setVisible(true);
-                exit.setVisible(true);
-                hard.setVisible(false);
-                easy.setVisible(false);
-                medium.setVisible(false);
-            }
-            if (!Setting) {
+            } else if (!Setting) {
                 newgame.setVisible(false);
                 setting.setVisible(false);
                 exit.setVisible(false);
@@ -205,6 +197,9 @@ public class Menubutton {
                 newgame.setVisible(true);
                 setting.setVisible(true);
                 exit.setVisible(true);
+                hard.setVisible(false);
+                easy.setVisible(false);
+                medium.setVisible(false);
                 audioScroller.slider.setVisible(false);
                 audioScroller.label.setVisible(false);
                 audioScroller.l.setVisible(false);
@@ -217,6 +212,11 @@ public class Menubutton {
             newgame.setVisible(false);
             setting.setVisible(false);
             exit.setVisible(false);
+            mainMenu.setVisible(false);
+            resume.setVisible(false);
+        } else if (Game.gamestate.equals("pause")) {
+            mainMenu.setVisible(true);
+            resume.setVisible(true);
         }
     }
 }

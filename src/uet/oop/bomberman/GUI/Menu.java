@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -72,9 +73,11 @@ public class Menu {
         pane.setStyle("-fx-background-color: #427235");
         root.getChildren().add(pane);
     }
-    public static void createButton(Group root){
+
+    public static void createButton(Group root) {
         new Menubutton(root);
     }
+
     public static void updateMenu() {
         score.setText("Score: " + Score);
         time.setText("Times: " + Game.time);

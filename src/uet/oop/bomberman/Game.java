@@ -9,6 +9,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -37,14 +42,12 @@ public class Game extends Application {
     public static long time = 0;
     public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 19);
     public static final String style = "style.css";
+/*
 
 /*
     public static long time = 120;
+*/
     public static long delaytime = 100;
-    public boolean checkplay = true;
-    public boolean checksetting = true;
-    */
-
 
     public static void main(String[] args) {
         Application.launch(Game.class);
@@ -121,16 +124,20 @@ public class Game extends Application {
                 }
                 if (gamestate.equals("pause")) {
                     startscreenView.setVisible(true);
+                    Menubutton.update();
+                    SoundManager.updateSound();
                 }
+
+/*
                 if (gamestate.equals("gameover")) {
                     gamestate = "startmenu";
                 }
 
                 /*
+*/
                 if (gamestate.equals("gameover")) {
                     //show gameover trong muc images + time
                     gameover.setVisible(true);
-                    homeScreen.setVisible(true);
                     //reset game hoac show menu
                     if (delaytime > 0) {
                         delaytime--;
@@ -150,9 +157,9 @@ public class Game extends Application {
                         nextlevel.setVisible(false);
                         level++;
                         CreateMap.createMapLevel(level);
-                        gamestate="running";
+                        gamestate = "running";
                     }
-                }*/
+                }
             }
         };
 
@@ -160,6 +167,31 @@ public class Game extends Application {
 
         // update bomberman position
         scene.setOnKeyPressed(event -> {
+/*
+            if (event.getCode().toString().equals("ESCAPE")) {
+                if (gamestate.equals("running")) {
+                    gamestate = "pause";
+                } else if (gamestate.equals("pause")) {
+                    gamestate = "running";
+                }
+            }
+            if (gamestate.equals("running")) {
+                if (event.getCode().toString().equals("UP") ||
+                        event.getCode().toString().equals("W")) {
+                    bomberman.goUp();
+                } else if (event.getCode().toString().equals("DOWN") ||
+                        event.getCode().toString().equals("S")) {
+                    bomberman.goDown();
+                } else if (event.getCode().toString().equals("LEFT") ||
+                        event.getCode().toString().equals("A")) {
+                    bomberman.goLeft();
+                } else if (event.getCode().toString().equals("RIGHT") ||
+                        event.getCode().toString().equals("D")) {
+                    bomberman.goRight();
+                } else if (event.getCode().toString().equals("SPACE") && bomberman.bombs.isEmpty()) {
+                    bomberman.placeBomb();
+                }
+//  aaa
             if (event.getCode().toString().equals("UP")) {
                 entityList.getBomberman().setImg(Sprite.player_up.getFxImage());
                 entityList.getBomberman().goUp();
@@ -174,10 +206,25 @@ public class Game extends Application {
                 entityList.getBomberman().goRight();
             } else if (event.getCode().toString().equals("SPACE") && entityList.getBombs().isEmpty()) {
                 entityList.getBomberman().setBomb();
+*/
             }
         });
         //update bomberman sprites
         scene.setOnKeyReleased(event -> {
+/*
+            if (gamestate.equals("running")) {
+                if (event.getCode().toString().equals("LEFT")) {
+                    bomberman.setImg(Sprite.player_left.getFxImage());
+                } else if (event.getCode().toString().equals("UP")) {
+                    bomberman.setImg(Sprite.player_up.getFxImage());
+                } else if (event.getCode().toString().equals("RIGHT")) {
+                    bomberman.setImg(Sprite.player_right.getFxImage());
+                } else if (event.getCode().toString().equals("DOWN")) {
+                    bomberman.setImg(Sprite.player_down.getFxImage());
+                } else if (event.getCode().toString().equals("C")) {
+                    for (int i = 0; i < EntityList.enemies.size(); i++) EntityList.enemies.get(i).setAlive(false);
+                }
+*/
             if (event.getCode().toString().equals("LEFT")) {
                 entityList.getBomberman().setImg(Sprite.player_left.getFxImage());
             } else if (event.getCode().toString().equals("UP")) {
@@ -188,11 +235,14 @@ public class Game extends Application {
                 entityList.getBomberman().setImg(Sprite.player_down.getFxImage());
             } else if (event.getCode().toString().equals("C")) {
                 for (int i = 0; i < entityList.getEnemies().size(); i++) entityList.getEnemies().get(i).setAlive(false);
+
             }
         });
+
     }
 
     public void update() {
+        Menubutton.update();
         SoundManager.updateSound();
         Menu.updateMenu();
         for (Wall wall : entityList.getWalls()) wall.update();
