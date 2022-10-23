@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -43,7 +44,7 @@ public class Ballom extends Enemy {
         } else {
             this.img = Sprite.balloom_dead.getFxImage();
             deadTime--;
-            if (deadTime == 0) EntityList.enemies.remove(this);
+            if (deadTime == 0) Game.entityList.getEnemies().remove(this);
         }
     }
 }

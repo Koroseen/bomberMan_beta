@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.enemies;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
 import uet.oop.bomberman.CreateMap;
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -29,14 +30,14 @@ public class Oneal extends Enemy {
     @Override
     public void update() {
         if (isAlive) {
-            int destRow = EntityList.bomberman.getY() / 32;
-            int destCol = EntityList.bomberman.getX() / 32;
+            int destRow = Game.entityList.getBomberman().getY() / 32;
+            int destCol = Game.entityList.getBomberman().getX() / 32;
 
             Pair<Integer, Integer> pair = delta(destRow, destCol);
 
             if ((pair.getKey() == -1 && pair.getValue() == -1) ||
-                    Math.sqrt(Math.pow(EntityList.bomberman.getX() - this.x, 2)
-                            + Math.pow(EntityList.bomberman.getY() - this.y, 2)) > chaseRad) {
+                    Math.sqrt(Math.pow(Game.entityList.getBomberman().getX() - this.x, 2)
+                            + Math.pow(Game.entityList.getBomberman().getY() - this.y, 2)) > chaseRad) {
 
                 slow = slow > 100 ? 0 : slow + 1;
                 switch (this.dir) {
@@ -72,7 +73,7 @@ public class Oneal extends Enemy {
         } else {
             this.img = Sprite.oneal_dead.getFxImage();
             deadTime--;
-            if (deadTime == 0) EntityList.enemies.remove(this);
+            if (deadTime == 0) Game.entityList.getEnemies().remove(this);
         }
     }
 }
