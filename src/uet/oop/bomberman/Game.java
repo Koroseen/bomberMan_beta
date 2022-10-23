@@ -162,13 +162,17 @@ public class Game extends Application {
                 }
             }
             if (gamestate.equals("running")) {
-                if (event.getCode().toString().equals("UP")) {
+                if (event.getCode().toString().equals("UP") ||
+                        event.getCode().toString().equals("W")) {
                     bomberman.goUp();
-                } else if (event.getCode().toString().equals("DOWN")) {
+                } else if (event.getCode().toString().equals("DOWN") ||
+                        event.getCode().toString().equals("S")) {
                     bomberman.goDown();
-                } else if (event.getCode().toString().equals("LEFT")) {
+                } else if (event.getCode().toString().equals("LEFT") ||
+                        event.getCode().toString().equals("A")) {
                     bomberman.goLeft();
-                } else if (event.getCode().toString().equals("RIGHT")) {
+                } else if (event.getCode().toString().equals("RIGHT") ||
+                        event.getCode().toString().equals("D")) {
                     bomberman.goRight();
                 } else if (event.getCode().toString().equals("SPACE") && bomberman.bombs.isEmpty()) {
                     bomberman.placeBomb();
