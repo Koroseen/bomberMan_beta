@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.enemies.Ballom;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.entities.enemies.Oneal;
 import uet.oop.bomberman.entities.items.Portal;
+import uet.oop.bomberman.entities.items.SpeedItem;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.*;
@@ -25,7 +26,7 @@ public class CreateMap {
         return grid;
     }
 
-    public static void importData(int stage) throws IOException {
+    private static void importData(int stage) throws IOException {
         String path = "res/levels/level" + stage + ".txt";
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
         String line = bufferedReader.readLine();
@@ -43,7 +44,7 @@ public class CreateMap {
     }
 
     public static void createMapLevel(int level) {
-        EntityList.clearList();
+        Game.entityList.clearList();
         //import tileset to array
         try {
             importData(level);
@@ -53,26 +54,30 @@ public class CreateMap {
         //map render
         for (int i = 0; i < Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE; i++) {
             for (int j = 0; j < Settings.WORLD_WIDTH / Sprite.SCALED_SIZE; j++) {
-                EntityList.grasses.add((new Grass(j, i, Sprite.grass.getFxImage())));
+                Game.entityList.addGrasses((new Grass(j, i, Sprite.grass.getFxImage())));
                 switch (grid[i][j]) {
                     case 'p':
-                        EntityList.bomberman = new Bomber(j, i, Sprite.player_down.getFxImage());
+                        Game.entityList.setBomberman(new Bomber(j, i, Sprite.player_down.getFxImage()));
                         break;
                     case '#':
-                        EntityList.walls.add(new Wall(j, i, Sprite.wall.getFxImage()));
+                        Game.entityList.addWalls((new Wall(j, i, Sprite.wall.getFxImage())));
                         break;
                     case '*':
-                        EntityList.bricks.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                        Game.entityList.addBricks((new Brick(j, i, Sprite.brick.getFxImage())));
                         break;
                     case '1':
-                        EntityList.enemies.add(new Ballom(j, i, Sprite.balloom_left1.getFxImage(), 1, 0, Enemy.enemyDir.UP));
+                        Game.entityList.addEnemies((new Ballom(j, i, Sprite.balloom_left1.getFxImage(), 1, 0, Enemy.enemyDir.UP)));
                         break;
                     case '2':
-                        EntityList.enemies.add(new Oneal(j, i, Sprite.oneal_left1.getFxImage(), 1, 100, Enemy.enemyDir.UP));
+                        Game.entityList.addEnemies((new Oneal(j, i, Sprite.oneal_left1.getFxImage(), 1, 100, Enemy.enemyDir.UP)));
                         break;
                     case 'x':
-                        EntityList.portal = new Portal(j, i, Sprite.portal.getFxImage());
-                        EntityList.bricks.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                        Game.entityList.setPortal(new Portal(j, i, Sprite.portal.getFxImage()));
+                        Game.entityList.addBricks((new Brick(j, i, Sprite.brick.getFxImage())));
+                        break;
+                    case 's':
+                        Game.entityList.addItems(new SpeedItem(j, i, Sprite.powerup_speed.getFxImage()));
+                        Game.entityList.addBricks(new Brick(j, i, Sprite.brick.getFxImage()));
                         break;
                 }
             }

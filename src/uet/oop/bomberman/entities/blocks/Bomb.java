@@ -2,33 +2,31 @@ package uet.oop.bomberman.entities.blocks;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.CreateMap;
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.graphics.Sprite;
 
-import static uet.oop.bomberman.entities.EntityList.bomberman;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Bomb extends Entity {
-    private static int count;
-    private static boolean fire = false;
-    private static int x;
-    private static int y;
-    private static int upLimit = 0;
-    private static int downLimit = 0;
-    private static int leftLimit = 0;
-    private static int rightLimit = 0;
+    public static int count;
+    private boolean fire = false;
+    private int radius = 1;
     private boolean allow;
+
 
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        count = 0;
+        Bomb.count = 0;
         allow = true;
         fire = false;
-        upLimit = downLimit = leftLimit = rightLimit = 0;
     }
 
-    public static boolean isFire() {
+    public boolean isFire() {
         return fire;
     }
 
@@ -40,78 +38,56 @@ public class Bomb extends Entity {
         allow = x;
     }
 
-    public static void setBomb() {
-        x = bomberman.getX() / Sprite.SCALED_SIZE;
-        y = bomberman.getY() / Sprite.SCALED_SIZE;
 
-        if (bomberman.bombs.isEmpty()) {
-            bomberman.bombs.add(new Bomb(x, y, Sprite.bomb.getFxImage()));
-            CreateMap.setGrid(y, x, 'b');
-            calcLimit();
+    public void explode() {
+        int c = this.x / Sprite.SCALED_SIZE;
+        int r = this.y / Sprite.SCALED_SIZE;
+
+        Game.entityList.addFlame(new Flame(c, r, Sprite.bomb_exploded2.getFxImage()));
+
+        for (int i = 1; i <= this.radius; i++) {
+            Flame flame = new Flame(c + i, r, Sprite.explosion_horizontal_right_last2.getFxImage());
+            boolean bool = flame.checkBrick() | flame.checkWall();
+            if (!flame.checkBrick() && !flame.checkWall()) {
+                Game.entityList.addFlame(flame);
+            }
+
+            flame = new Flame(c - i, r, Sprite.explosion_horizontal_left_last2.getFxImage());
+            if (!flame.checkBrick() && !flame.checkWall()) {
+                Game.entityList.addFlame(flame);
+            }
+
+            flame = new Flame(c, r + i, Sprite.explosion_vertical_down_last2.getFxImage());
+            if (!flame.checkBrick() && !flame.checkWall()) {
+                Game.entityList.addFlame(flame);
+            }
+
+            flame = new Flame(c, r - i, Sprite.explosion_vertical_top_last2.getFxImage());
+            if (!flame.checkBrick() && !flame.checkWall()) {
+                Game.entityList.addFlame(flame);
+            }
         }
     }
 
-    public static int getCount() {
-        return count;
-    }
-
-    public static void calcLimit() {
-        EntityList.flames.add(new Flame(x, y, Sprite.bomb_exploded2.getFxImage()));
-
-        Flame flame = new Flame(x, y - upLimit - 1, Sprite.explosion_vertical_top_last2.getFxImage());
-        boolean b = flame.checkWall() | flame.checkBrick();
-        while (upLimit < 1 && !b) {
-            upLimit++;
-            EntityList.flames.add(flame);
-            flame = new Flame(x, y - upLimit, Sprite.explosion_vertical_top_last2.getFxImage());
-            b = flame.checkWall() | flame.checkBrick();
-        }
-
-        flame = new Flame(x, y + downLimit + 1, Sprite.explosion_vertical_down_last2.getFxImage());
-        b = flame.checkWall() | flame.checkBrick();
-        while (downLimit < 1 && !b) {
-            downLimit++;
-            EntityList.flames.add(flame);
-            flame = new Flame(x, y + downLimit, Sprite.explosion_vertical_down_last2.getFxImage());
-            b = flame.checkWall() | flame.checkBrick();
-        }
-
-        flame = new Flame(x - leftLimit - 1, y, Sprite.explosion_horizontal_left_last2.getFxImage());
-        b = flame.checkWall() | flame.checkBrick();
-        while (leftLimit < 1 && !b) {
-            leftLimit++;
-            EntityList.flames.add(flame);
-            flame = new Flame(x - leftLimit, y, Sprite.explosion_horizontal_left_last2.getFxImage());
-            b = flame.checkWall() | flame.checkBrick();
-        }
-
-        flame = new Flame(x + rightLimit + 1, y, Sprite.explosion_horizontal_right_last2.getFxImage());
-        b = flame.checkWall() | flame.checkBrick();
-        while (rightLimit < 1 && !b) {
-            rightLimit++;
-            EntityList.flames.add(flame);
-            flame = new Flame(x + rightLimit, y, Sprite.explosion_horizontal_right_last2.getFxImage());
-            b = flame.checkWall() | flame.checkBrick();
-        }
-    }
 
     @Override
     public void update() {
         int timeOut = 250;
-        int row = this.getY() / Sprite.SCALED_SIZE;
-        int col = this.getX() / Sprite.SCALED_SIZE;
+        int row = this.y / Sprite.SCALED_SIZE;
+        int col = this.x / Sprite.SCALED_SIZE;
         if (count < timeOut) {
             count++;
             setImg(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, count, 90).getFxImage());
         } else if (count < 300) {
             count++;
             fire = true;
+            for (Flame flame : Game.entityList.getFlames()) flame.update();
             if (CreateMap.getGrid()[row][col] != ' ') CreateMap.setGrid(row, col, ' ');
         } else {
-            bomberman.setAlive(!bomberman.isDieTime());
-            EntityList.flames.clear();
-            bomberman.bombs.clear();
-            EntityList.removeBrick();
+            Game.entityList.getBomberman().setAlive(!Game.entityList.getBomberman().isDieTime());
+            Game.entityList.setBombs(new ArrayList<>());
+            Game.entityList.getFlames().clear();
+            fire = false;
         }
         if (count == 250) new SoundManager("sound/boom.wav", "explosion");
     }

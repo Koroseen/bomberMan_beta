@@ -8,11 +8,6 @@ import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.blocks.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static uet.oop.bomberman.entities.EntityList.bomberman;
-
 public class Bomber extends Entity {
     private int trace = 0;
     private boolean dieTime;
@@ -21,7 +16,6 @@ public class Bomber extends Entity {
     private int speedItemDuration;
     private boolean hasTouchedSpeedItem = false;
     private boolean once = false;
-    public List<Bomb> bombs = new ArrayList<>();
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
@@ -52,15 +46,15 @@ public class Bomber extends Entity {
     @Override
     public void update() {
         if (isAlive) {
-            for (int i = 0; i < bomberman.bombs.size(); i++) {
-                if (!this.intersects(bomberman.bombs.get(i)) && bomberman.bombs.get(i).isAllow()) {
-                    bomberman.bombs.get(i).setAllow(false);
+            for (Bomb bomb : Game.entityList.getBombs()) {
+                if (!this.intersects(bomb) && bomb.isAllow()) {
+                    bomb.setAllow(false);
                 }
             }
             if (speedItemDuration > 0) {
                 speedItemDuration--;
                 if (!once) {
-                    new SoundManager("sound/eat.wav","eat");
+                    new SoundManager("sound/eat.wav", "eat");
                     speed += 2;
                     once = true;
                 }
@@ -79,97 +73,95 @@ public class Bomber extends Entity {
     }
 
     public void goUp() {
-        for (int i = 1; i <= this.speed; ++i) {
-            this.y -= 1;
-            animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick() || checkBomb()) {
-                this.y += 1;
-                if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
-                    this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
-                }
-                if (this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
-                    this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
-                }
+        this.y -= speed;
+        animate = animate > 100 ? 0 : animate + 1;
+        if (checkWall() || checkBrick() || checkBomb()) {
+            this.y += speed;
+            if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
+                this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
+            }
+            if (this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
             }
         }
-        setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 45).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 15).getFxImage());
     }
 
     public void goDown() {
-        for (int i = 1; i <= this.speed; ++i) {
-            this.y += 1;
-            animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick() || checkBomb()) {
-                this.y -= 1;
-                if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
-                    this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
-                }
-                if (this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
-                    this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
-                }
+        this.y += speed;
+        animate = animate > 100 ? 0 : animate + 1;
+        if (checkWall() || checkBrick() || checkBomb()) {
+            this.y -= speed;
+            if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
+                this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
+            }
+            if (this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
             }
         }
-        setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 45).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 15).getFxImage());
     }
 
     public void goLeft() {
         int count = 0;
-        for (int i = 1; i <= this.speed; ++i) {
-            if (this.x - trace > Settings.WIDTH / 2 || this.x <= Settings.WIDTH / 2) this.x--;
+        if (this.x - trace > Settings.WIDTH / 2 || this.x <= Settings.WIDTH / 2) this.x -= speed;
+        else {
+            count -= speed;
+            this.x -= speed;
+        }
+        animate = animate > 100 ? 0 : animate + 1;
+        if (checkWall() || checkBrick() || checkBomb()) {
+            if (this.x - trace > Settings.WIDTH / 2 || this.x <= Settings.WIDTH / 2) this.x += speed;
             else {
-                count--;
-                this.x--;
+                count += speed;
+                this.x += speed;
             }
-            animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick() || checkBomb()) {
-                if (this.x - trace > Settings.WIDTH / 2 || this.x <= Settings.WIDTH / 2) this.x++;
-                else {
-                    count++;
-                    this.x++;
-                }
-                if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
-                    this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
-                }
-                if (this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
-                    this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
-                }
+            if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
+                this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
+            }
+            if (this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
             }
         }
         trace += count;
         Game.moveCamera(count, 0);
-        setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 45).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 15).getFxImage());
     }
 
     public void goRight() {
         int count = 0;
-        for (int i = 1; i <= this.speed; ++i) {
-            if (this.x - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2) this.x++;
+        if (this.x - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2) this.x += speed;
+        else {
+            count += speed;
+            this.x += speed;
+        }
+        animate = animate > 100 ? 0 : animate + 1;
+        if (checkWall() || checkBrick() || checkBomb()) {
+            if (this.x - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2)
+                this.x -= speed;
             else {
-                count++;
-                this.x++;
+                count -= speed;
+                this.x -= speed;
             }
-            animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick() || checkBomb()) {
-                if (bomberman.getX() - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2)
-                    this.x--;
-                else {
-                    count--;
-                    this.x--;
-                }
-                if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
-                    this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
-                }
-                if (this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
-                    this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
-                }
+            if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
+                this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
+            }
+            if (this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
+                this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
             }
         }
         trace += count;
         Game.moveCamera(count, 0);
-        setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 45).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 15).getFxImage());
     }
 
-    public void placeBomb() {
-        Bomb.setBomb();
+    public void setBomb() {
+        int x_ = this.x / Sprite.SCALED_SIZE;
+        int y_ = this.y / Sprite.SCALED_SIZE;
+
+        if (Game.entityList.getBombs().isEmpty()) {
+            Game.entityList.addBomb(new Bomb(x_, y_, Sprite.bomb.getFxImage()));
+            CreateMap.setGrid(y_, x_, 'b');
+        }
     }
 }
