@@ -75,7 +75,7 @@ public class Bomber extends Entity {
     public void goUp() {
         this.y -= speed;
         animate = animate > 100 ? 0 : animate + 1;
-        if (checkWall() || checkBrick() || checkBomb()) {
+        if (checkWall() || checkBrick() || checkBomb() || checkTree() || checkBox()) {
             this.y += speed;
             if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
                 this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
@@ -90,7 +90,7 @@ public class Bomber extends Entity {
     public void goDown() {
         this.y += speed;
         animate = animate > 100 ? 0 : animate + 1;
-        if (checkWall() || checkBrick() || checkBomb()) {
+        if (checkWall() || checkBrick() || checkBomb() || checkTree() || checkBox()) {
             this.y -= speed;
             if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
                 this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
@@ -110,7 +110,7 @@ public class Bomber extends Entity {
             this.x -= speed;
         }
         animate = animate > 100 ? 0 : animate + 1;
-        if (checkWall() || checkBrick() || checkBomb()) {
+        if (checkWall() || checkBrick() || checkBomb() || checkTree() || checkBox()) {
             if (this.x - trace > Settings.WIDTH / 2 || this.x <= Settings.WIDTH / 2) this.x += speed;
             else {
                 count += speed;
@@ -136,7 +136,7 @@ public class Bomber extends Entity {
             this.x += speed;
         }
         animate = animate > 100 ? 0 : animate + 1;
-        if (checkWall() || checkBrick() || checkBomb()) {
+        if (checkWall() || checkBrick() || checkBomb() || checkTree() || checkBox()) {
             if (this.x - trace < Settings.WIDTH / 2 || this.x >= Settings.WORLD_WIDTH - Settings.WIDTH / 2)
                 this.x -= speed;
             else {
