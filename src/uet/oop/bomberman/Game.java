@@ -20,12 +20,9 @@ import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.entities.items.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.Objects;
-
 public class Game extends Application {
     public static EntityList entityList = new EntityList();
     public static ImageView nextLevel;
-    ImageView gameOver;
     public static ImageView startscreenView;
 
     private static int level = 2;
@@ -35,8 +32,6 @@ public class Game extends Application {
 
     public static long time = 0;
     public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 19);
-    public static String style = "style.css";
-
     public static long delaytime = 100;
 
     public static void main(String[] args) {
@@ -83,10 +78,10 @@ public class Game extends Application {
             Menu.createMenu(root);
             root.getChildren().add(canvas);
             root.getChildren().add(startscreenView);
+            root.getChildren().add(nextLevel);
             Menu.createButton(root);
             audioScroller.slider(root);
 
-            //FXMLLoader fxmlLoader = new FXMLLoader(Game.class.getResource("hello-view.fxml"));
             Scene scene = new Scene(root, 500, 500);
             stage.setScene(scene);
             stage.show();
@@ -96,7 +91,7 @@ public class Game extends Application {
 
             gamestate = "startmenu";
             AnimationTimer timer = new AnimationTimer() {
-                long start = System.currentTimeMillis();
+                final long start = System.currentTimeMillis();
                 long before = 0;
 
                 @Override

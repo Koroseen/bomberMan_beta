@@ -31,7 +31,7 @@ public class Menubutton {
 
     public Menubutton(Group root) {
         //sound setting
-        SoundManager.running=new boolean[7];
+        SoundManager.running = new boolean[7];
 
         newgame = new Button("new game");
         newgame.setLayoutX(Settings.WIDTH / 2 - 85);
@@ -208,59 +208,66 @@ public class Menubutton {
     }
 
     public static void update() {
-        if (Game.gamestate.equals("startmenu")) {
-            Game.startscreenView.setVisible(true);
-            resume.setVisible(false);
-            mainMenu.setVisible(false);
-            if (!newGame) {
-                setting.setVisible(false);
-                exit.setVisible(false);
-                hard.setVisible(true);
-                easy.setVisible(true);
-                medium.setVisible(true);
-                goback.setVisible(true);
-            } else if (!Setting) {
+        switch (Game.gamestate) {
+            case "startmenu":
+                Game.startscreenView.setVisible(true);
+                Game.nextLevel.setVisible(false);
+                resume.setVisible(false);
+                mainMenu.setVisible(false);
+                if (!newGame) {
+                    setting.setVisible(false);
+                    exit.setVisible(false);
+                    hard.setVisible(true);
+                    easy.setVisible(true);
+                    medium.setVisible(true);
+                    goback.setVisible(true);
+                } else if (!Setting) {
+                    newgame.setVisible(false);
+                    setting.setVisible(false);
+                    exit.setVisible(false);
+                    goback.setVisible(true);
+                    audioScroller.slider.setVisible(true);
+                    audioScroller.label.setVisible(true);
+                    audioScroller.l.setVisible(true);
+                } else {
+                    newgame.setVisible(true);
+                    setting.setVisible(true);
+                    exit.setVisible(true);
+                    hard.setVisible(false);
+                    easy.setVisible(false);
+                    medium.setVisible(false);
+                    goback.setVisible(false);
+                    audioScroller.slider.setVisible(false);
+                    audioScroller.label.setVisible(false);
+                    audioScroller.l.setVisible(false);
+                }
+                break;
+            case "running":
+                Game.startscreenView.setVisible(false);
+                Game.nextLevel.setVisible(false);
+                easy.setVisible(false);
+                medium.setVisible(false);
+                hard.setVisible(false);
                 newgame.setVisible(false);
                 setting.setVisible(false);
                 exit.setVisible(false);
-                goback.setVisible(true);
-                audioScroller.slider.setVisible(true);
-                audioScroller.label.setVisible(true);
-                audioScroller.l.setVisible(true);
-            } else {
-                newgame.setVisible(true);
-                setting.setVisible(true);
-                exit.setVisible(true);
-                hard.setVisible(false);
-                easy.setVisible(false);
-                medium.setVisible(false);
+                mainMenu.setVisible(false);
+                resume.setVisible(false);
                 goback.setVisible(false);
-                audioScroller.slider.setVisible(false);
-                audioScroller.label.setVisible(false);
-                audioScroller.l.setVisible(false);
-            }
-        } else if (Game.gamestate.equals("running")) {
-            Game.startscreenView.setVisible(false);
-            easy.setVisible(false);
-            medium.setVisible(false);
-            hard.setVisible(false);
-            newgame.setVisible(false);
-            setting.setVisible(false);
-            exit.setVisible(false);
-            mainMenu.setVisible(false);
-            resume.setVisible(false);
-            goback.setVisible(false);
-            LoadingScreen.loader.setVisible(false);
-        } else if (Game.gamestate.equals("pause")) {
-            resume.setText("RESUME");
-            mainMenu.setVisible(true);
-            resume.setVisible(true);
-            goback.setVisible(true);
-        } else if (Game.gamestate.equals("nextLevel")) {
-            resume.setText("NEXT LEVEL");
-            resume.setVisible(true);
-            mainMenu.setVisible(true);
-            Game.nextLevel.setVisible(true);
+                LoadingScreen.loader.setVisible(false);
+                break;
+            case "pause":
+                resume.setText("RESUME");
+                mainMenu.setVisible(true);
+                resume.setVisible(true);
+                goback.setVisible(true);
+                break;
+            case "nextLevel":
+                resume.setText("NEXT LEVEL");
+                resume.setVisible(true);
+                mainMenu.setVisible(true);
+                Game.nextLevel.setVisible(true);
+                break;
         }
     }
 }
