@@ -18,14 +18,14 @@ import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.*;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.entities.items.Item;
-import uet.oop.bomberman.graphics.Sprite;
 
 public class Game extends Application {
+    private boolean up, down, left, right, set, pause;
     public static EntityList entityList = new EntityList();
     public static ImageView nextLevel;
     public static ImageView startscreenView;
 
-    private static int level = 2;
+    private static int level = 1;
     public static String gamestate = " ";
     private static GraphicsContext gc;
     private static Canvas canvas;
@@ -138,47 +138,35 @@ public class Game extends Application {
 
             // update bomberman position
             scene.setOnKeyPressed(event -> {
-                if (event.getCode().toString().equals("ESCAPE")) {
-                    if (gamestate.equals("running")) {
-                        gamestate = "pause";
-                    } else if (gamestate.equals("pause")) {
-                        gamestate = "running";
-                    }
-                }
-                if (gamestate.equals("running")) {
-                    System.out.println("PressButton"+Game.time);
-                    if (event.getCode().toString().equals("UP") ||
-                            event.getCode().toString().equals("W")) {
-                        entityList.getBomberman().goUp();
-                    } else if (event.getCode().toString().equals("DOWN") ||
-                            event.getCode().toString().equals("S")) {
-                        entityList.getBomberman().goDown();
-                    } else if (event.getCode().toString().equals("LEFT") ||
-                            event.getCode().toString().equals("A")) {
-                        entityList.getBomberman().goLeft();
-                    } else if (event.getCode().toString().equals("RIGHT") ||
-                            event.getCode().toString().equals("D")) {
-                        entityList.getBomberman().goRight();
-                    } else if (event.getCode().toString().equals("SPACE") && entityList.getBombs().isEmpty()) {
-                        entityList.getBomberman().setBomb();
-                    } else if (event.getCode().toString().equals("C")) {
-                        for (int i = 0; i < entityList.getEnemies().size(); i++)
-                            entityList.getEnemies().get(i).setAlive(false);
-                    }
+                switch (event.getCode()) {
+                    case UP:    up = true; break;
+                    case DOWN:  down = true; break;
+                    case LEFT:  left = true; break;
+                    case RIGHT: right = true; break;
+                    case SPACE: set = true; break;
+                    case ESCAPE: gamestate = gamestate.equals("running") ? "pause" : "running"; break;
                 }
             });
-            //update bomberman sprites
             scene.setOnKeyReleased(event -> {
-                if (event.getCode().toString().equals("LEFT")) {
-                    entityList.getBomberman().setImg(Sprite.player_left.getFxImage());
-                } else if (event.getCode().toString().equals("UP")) {
-                    entityList.getBomberman().setImg(Sprite.player_up.getFxImage());
-                } else if (event.getCode().toString().equals("RIGHT")) {
-                    entityList.getBomberman().setImg(Sprite.player_right.getFxImage());
-                } else if (event.getCode().toString().equals("DOWN")) {
-                    entityList.getBomberman().setImg(Sprite.player_down.getFxImage());
+                switch (event.getCode()) {
+                    case UP:    up = false; break;
+                    case DOWN:  down = false; break;
+                    case LEFT:  left = false; break;
+                    case RIGHT: right = false; break;
+                    case SPACE: set = false; break;
                 }
             });
+            AnimationTimer count = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    if (up) entityList.getBomberman().goUp();
+                    if (down) entityList.getBomberman().goDown();
+                    if (left) entityList.getBomberman().goLeft();
+                    if (right) entityList.getBomberman().goRight();
+                    if (set) entityList.getBomberman().setBomb();
+                }
+            };
+            count.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -217,7 +205,7 @@ public class Game extends Application {
 
 
     public static void moveCamera(int x, int y) {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.translate(-x, -y);
     }
 
