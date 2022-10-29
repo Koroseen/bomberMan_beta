@@ -20,6 +20,8 @@ import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.entities.items.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.Objects;
+
 public class Game extends Application {
     public static EntityList entityList = new EntityList();
     public static ImageView nextLevel;
@@ -62,7 +64,7 @@ public class Game extends Application {
             gc = canvas.getGraphicsContext2D();
 
             Image startscreen = new Image("images/author1.png");
-            Image nextlevel = new Image("images/author1.png");
+            Image nextlevel = new Image("images/levelup.png");
 
             nextLevel = new ImageView(nextlevel);
             nextLevel.setX(0);
