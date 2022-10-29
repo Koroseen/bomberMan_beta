@@ -21,7 +21,7 @@ public class Menu {
     public static int Score = 0;
 
     public static void createMenu(Group root) {
-        level = new Text("Level: 1");
+        level = new Text();
         level.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         level.setFill(Color.WHITE);
         level.setX(100);
@@ -80,6 +80,7 @@ public class Menu {
     }
 
     public static void updateMenu() {
+        level.setText("Level: " + Game.getLevel());
         score.setText("Score: " + Score);
         time.setText("Times: " + Game.time);
     }

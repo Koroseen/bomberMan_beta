@@ -12,7 +12,7 @@ public class Bomber extends Entity {
     private int trace = 0;
     private boolean dieTime;
     private boolean isAlive;
-    private int speed = Sprite.SCALED_SIZE / 8;
+    private int speed = 1;
     private int speedItemDuration;
     private boolean hasTouchedSpeedItem = false;
     private boolean once = false;
@@ -84,7 +84,7 @@ public class Bomber extends Entity {
                 this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
             }
         }
-        setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 15).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 60).getFxImage());
     }
 
     public void goDown() {
@@ -99,7 +99,7 @@ public class Bomber extends Entity {
                 this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
             }
         }
-        setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 15).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 60).getFxImage());
     }
 
     public void goLeft() {
@@ -125,7 +125,7 @@ public class Bomber extends Entity {
         }
         trace += count;
         Game.moveCamera(count, 0);
-        setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 15).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 60).getFxImage());
     }
 
     public void goRight() {
@@ -152,7 +152,7 @@ public class Bomber extends Entity {
         }
         trace += count;
         Game.moveCamera(count, 0);
-        setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 15).getFxImage());
+        setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 60).getFxImage());
     }
 
     public void setBomb() {
