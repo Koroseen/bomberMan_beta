@@ -1,17 +1,20 @@
 package uet.oop.bomberman.GUI;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.Glow;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import uet.oop.bomberman.CreateMap;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.Settings;
 import uet.oop.bomberman.SoundManager;
 
 public class Menubutton {
+    public static int myEnum = 1;
     public static Button newgame;
     public static Button setting;
     public static Button exit;
@@ -44,20 +47,14 @@ public class Menubutton {
         exit.setLayoutX(Settings.WIDTH / 2 - 85);
         exit.setLayoutY(300);
         exit.setMinSize(170, 40);
-        exit.setOnAction(actionEvent -> {
-
-        });
+        exit.setOnAction(Menubutton::alert);
 
         easy = new Button("easy");
         easy.setLayoutX(Settings.WIDTH / 2 - 85);
         easy.setLayoutY(200);
         easy.setMinSize(170, 40);
         easy.setOnAction(actionEvent -> {
-            CreateMap.createMapLevel(1);
-            Game.gamestate = "running";
-            new SoundManager("sound/pacbaby.wav", "ingame");
-            update();
-            System.out.println("pressed");
+            LoadingScreen.startloadingScreen(root);
         });
 
         medium = new Button("medium");
@@ -70,6 +67,8 @@ public class Menubutton {
             new SoundManager("sound/pacbaby.wav", "ingame");
             update();
             System.out.println("pressed");
+            newGame = true;
+            Setting = true;
         });
 
         hard = new Button("hard");
@@ -82,22 +81,30 @@ public class Menubutton {
             new SoundManager("sound/pacbaby.wav", "ingame");
             update();
             System.out.println("pressed");
+            newGame = true;
+            Setting = true;
         });
 
-        resume = new Button("exit");
+        resume = new Button("RESUME");
         resume.setLayoutX(Settings.WIDTH / 2 - 85);
-        resume.setLayoutY(240);
+        resume.setLayoutY(250);
         resume.setMinSize(170, 40);
         resume.setOnAction(actionEvent -> {
-
+            if (Game.gamestate.equals("pause")) {
+                Game.gamestate = "running";
+            } else if (Game.gamestate.equals("nextLevel")) {
+                LoadingScreen.startloadingScreen(root);
+                myEnum = 4;
+            }
         });
 
-        mainMenu = new Button("fdsafs");
+        mainMenu = new Button("MAIN MENU");
         mainMenu.setLayoutX(Settings.WIDTH / 2 - 85);
         mainMenu.setLayoutY(300);
         mainMenu.setMinSize(170, 40);
         mainMenu.setOnAction(actionEvent -> {
             Game.gamestate = "startmenu";
+            new SoundManager("sound/start.wav", "title");
         });
 
         setStyle();
@@ -111,27 +118,20 @@ public class Menubutton {
         hard.setFont(Game.font);
         medium.setFont(Game.font);
         easy.setFont(Game.font);
-
-        setOriginalStyle(newgame);
-        setOriginalStyle(setting);
-        setOriginalStyle(exit);
-        setOriginalStyle(hard);
-        setOriginalStyle(easy);
-        setOriginalStyle(medium);
-        setOriginalStyle(resume);
-        setOriginalStyle(mainMenu);
+        resume.setFont(Game.font);
+        mainMenu.setFont(Game.font);
 
         stateUpdate(newgame);
         stateUpdate(setting);
         stateUpdate(exit);
-        stateUpdate(hard);
         stateUpdate(easy);
+        stateUpdate(hard);
         stateUpdate(medium);
         stateUpdate(resume);
         stateUpdate(mainMenu);
     }
 
-    public void setOriginalStyle(Button button) {
+    public static void stateUpdate(Button button) {
         button.setStyle(
                 "-fx-padding: 8 15 15 15;" +
                         "-fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
@@ -142,9 +142,6 @@ public class Menubutton {
                         "blue,\n" +
                         "radial-gradient(center 50% 50%, radius 100%, whitesmoke, blue);\n" +
                         "-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n");
-    }
-
-    public static void stateUpdate(Button button) {
         // Thêm bóng đổ vào Button khi chuột di chuyển bên trên
         button.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
             @Override
@@ -176,8 +173,19 @@ public class Menubutton {
         });
     }
 
+    public static void alert(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout");
+        alert.setHeaderText("You're about to logout");
+        alert.setContentText("Do you want to save before exiting?");
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            ((Stage) (((Button) actionEvent.getSource()).getScene().getWindow())).close();
+        }
+    }
+
     public static void update() {
         if (Game.gamestate.equals("startmenu")) {
+            Game.startscreenView.setVisible(true);
             resume.setVisible(false);
             mainMenu.setVisible(false);
             if (!newGame) {
@@ -214,9 +222,16 @@ public class Menubutton {
             exit.setVisible(false);
             mainMenu.setVisible(false);
             resume.setVisible(false);
+            LoadingScreen.loader.setVisible(false);
         } else if (Game.gamestate.equals("pause")) {
+            resume.setText("RESUME");
             mainMenu.setVisible(true);
             resume.setVisible(true);
+        } else if (Game.gamestate.equals("nextLevel")) {
+            resume.setText("NEXT LEVEL");
+            resume.setVisible(true);
+            mainMenu.setVisible(true);
+            Game.nextLevel.setVisible(true);
         }
     }
 }

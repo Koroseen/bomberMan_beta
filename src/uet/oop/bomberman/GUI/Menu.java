@@ -72,6 +72,7 @@ public class Menu {
         pane.setMinSize(Settings.WIDTH, 30);
         pane.setStyle("-fx-background-color: #427235");
         root.getChildren().add(pane);
+        LoadingScreen.createLoadingScreen(root);
     }
 
     public static void createButton(Group root) {

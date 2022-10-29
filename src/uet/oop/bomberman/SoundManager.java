@@ -22,10 +22,6 @@ public class SoundManager {
     public static Clip just_died;
     public float gainAmount = 0.0f;
 
-    public static boolean isSoundDied;
-    public static boolean isSoundTitle;
-    private static boolean isSoundComplete;
-
     public SoundManager(String name, String sound) {
         try {
             URL url = this.getClass().getClassLoader().getResource(name);

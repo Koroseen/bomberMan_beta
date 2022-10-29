@@ -7,7 +7,7 @@ import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.EntityList;
 
 public class Portal extends Item {
-    private boolean nextLevel=false;
+    private boolean nextLevel = false;
 
     public Portal(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -22,11 +22,12 @@ public class Portal extends Item {
     public void update() {
         if (this.contains(Game.entityList.getBomberman()) && Game.entityList.getEnemies().isEmpty()) {
             Game.gamestate = "nextLevel";
-            new SoundManager("sound/win.wav","win");
+            new SoundManager("sound/win.wav", "win");
         }
         if (nextLevel) {
             if (Game.getLevel() < 2) Game.setLevel(Game.getLevel() + 1);
             CreateMap.createMapLevel(Game.getLevel());
+            nextLevel = false;
         }
     }
 }
