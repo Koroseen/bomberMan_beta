@@ -6,6 +6,8 @@ import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import uet.oop.bomberman.CreateMap;
@@ -18,6 +20,7 @@ public class Menubutton {
     public static Button newgame;
     public static Button setting;
     public static Button exit;
+    public static Button goback;
     public static Button hard;
     public static Button easy;
     public static Button medium;
@@ -27,6 +30,9 @@ public class Menubutton {
     public static boolean Setting = true;
 
     public Menubutton(Group root) {
+        //sound setting
+        SoundManager.running=new boolean[7];
+
         newgame = new Button("new game");
         newgame.setLayoutX(Settings.WIDTH / 2 - 85);
         newgame.setLayoutY(200);
@@ -48,6 +54,24 @@ public class Menubutton {
         exit.setLayoutY(300);
         exit.setMinSize(170, 40);
         exit.setOnAction(Menubutton::alert);
+
+        Image img = new Image("images/icon.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(40);
+        view.setPreserveRatio(true);
+        goback = new Button();
+        goback.setStyle("-fx-background-color: transparent");
+        goback.setGraphic(view);
+        goback.setLayoutX(10);
+        goback.setLayoutY(10);
+        goback.setOnAction(actionEvent -> {
+            if (Game.gamestate.equals("pause")) {
+                Game.gamestate = "running";
+            } else if (!newGame || !Setting) {
+                newGame = true;
+                Setting = true;
+            }
+        });
 
         easy = new Button("easy");
         easy.setLayoutX(Settings.WIDTH / 2 - 85);
@@ -108,7 +132,7 @@ public class Menubutton {
         });
 
         setStyle();
-        root.getChildren().addAll(newgame, setting, exit, resume, easy, hard, medium, mainMenu);
+        root.getChildren().addAll(newgame, setting, exit, resume, easy, hard, medium, mainMenu, goback);
     }
 
     public void setStyle() {
@@ -194,10 +218,12 @@ public class Menubutton {
                 hard.setVisible(true);
                 easy.setVisible(true);
                 medium.setVisible(true);
+                goback.setVisible(true);
             } else if (!Setting) {
                 newgame.setVisible(false);
                 setting.setVisible(false);
                 exit.setVisible(false);
+                goback.setVisible(true);
                 audioScroller.slider.setVisible(true);
                 audioScroller.label.setVisible(true);
                 audioScroller.l.setVisible(true);
@@ -208,6 +234,7 @@ public class Menubutton {
                 hard.setVisible(false);
                 easy.setVisible(false);
                 medium.setVisible(false);
+                goback.setVisible(false);
                 audioScroller.slider.setVisible(false);
                 audioScroller.label.setVisible(false);
                 audioScroller.l.setVisible(false);
@@ -222,11 +249,13 @@ public class Menubutton {
             exit.setVisible(false);
             mainMenu.setVisible(false);
             resume.setVisible(false);
+            goback.setVisible(false);
             LoadingScreen.loader.setVisible(false);
         } else if (Game.gamestate.equals("pause")) {
             resume.setText("RESUME");
             mainMenu.setVisible(true);
             resume.setVisible(true);
+            goback.setVisible(true);
         } else if (Game.gamestate.equals("nextLevel")) {
             resume.setText("NEXT LEVEL");
             resume.setVisible(true);
