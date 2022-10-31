@@ -2,10 +2,12 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.CreateMap;
+import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.Settings;
 import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.blocks.Bomb;
+import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
@@ -45,6 +47,13 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
+        // check collide with enemies
+        for (Enemy enemy : Game.entityList.getEnemies()) {
+            if (this.intersects(enemy)) {
+                this.setAlive(false);
+            }
+        }
+
         if (isAlive) {
             for (Bomb bomb : Game.entityList.getBombs()) {
                 if (!this.intersects(bomb) && bomb.isAllow()) {
@@ -164,4 +173,5 @@ public class Bomber extends Entity {
             CreateMap.setGrid(y_, x_, 'b');
         }
     }
+
 }

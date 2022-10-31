@@ -49,7 +49,7 @@ public abstract class Entity {
     }
 
     public Rectangle2D getRect() {
-        return new Rectangle2D(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+        return new Rectangle2D(x, y, img.getWidth(), img.getHeight());
     }
 
     public boolean intersects(Entity entity) {
