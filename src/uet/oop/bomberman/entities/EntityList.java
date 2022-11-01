@@ -11,6 +11,8 @@ import java.util.List;
 public class EntityList {
     private List<Wall> walls = new ArrayList<>();
     private List<Brick> bricks = new ArrayList<>();
+    private List<Box> boxs = new ArrayList<>();
+    private List<Tree> trees = new ArrayList<>();
     private List<Grass> grasses = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
 
@@ -41,6 +43,19 @@ public class EntityList {
         bricks.add(brick);
     }
 
+    public List<Box> getBoxs() {
+        return boxs;
+    }
+    public void addBoxs(Box box) {
+        boxs.add(box);
+    }
+
+    public List<Tree> getTrees() {
+        return trees;
+    }
+    public void addTrees(Tree tree) {
+        trees.add(tree);
+    }
 
     public List<Grass> getGrasses() {
         return grasses;

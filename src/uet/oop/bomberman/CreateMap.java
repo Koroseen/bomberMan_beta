@@ -2,9 +2,7 @@ package uet.oop.bomberman;
 
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.EntityList;
-import uet.oop.bomberman.entities.blocks.Brick;
-import uet.oop.bomberman.entities.blocks.Grass;
-import uet.oop.bomberman.entities.blocks.Wall;
+import uet.oop.bomberman.entities.blocks.*;
 import uet.oop.bomberman.entities.enemies.Ballom;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.entities.enemies.Oneal;
@@ -63,8 +61,18 @@ public class CreateMap {
                         Game.entityList.addWalls((new Wall(j, i, Sprite.wall.getFxImage())));
                         break;
                     case '*':
-                        Game.entityList.addBricks((new Brick(j, i, Sprite.brick.getFxImage())));
-                        break;
+                        //randomly create a block between box, tree and brick
+                        int x = (int) (Math.random() * 3) + 1;
+                        if(x == 1) {
+                            Game.entityList.addBricks((new Brick(j, i, Sprite.brick.getFxImage())));
+                            break;
+                        }else if(x == 2){
+                            Game.entityList.addTrees((new Tree(j, i, Sprite.tree.getFxImage())));
+                            break;
+                        }else if(x == 3){
+                            Game.entityList.addBoxs((new Box(j, i, Sprite.box.getFxImage())));
+                            break;
+                        }
                     case '1':
                         Game.entityList.addEnemies((new Ballom(j, i, Sprite.balloom_left1.getFxImage(), 1, 0, Enemy.enemyDir.UP)));
                         break;

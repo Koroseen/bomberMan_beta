@@ -179,6 +179,8 @@ public class Game extends Application {
         for (Wall wall : entityList.getWalls()) wall.update();
         for (Bomb bomb : entityList.getBombs()) bomb.update();
         for (int i = 0; i < entityList.getBricks().size(); i++) entityList.getBricks().get(i).update();
+        for (int i = 0; i < entityList.getTrees().size(); i++) entityList.getTrees().get(i).update();
+        for (int i = 0; i < entityList.getBoxs().size(); i++) entityList.getBoxs().get(i).update();
         for (int i = 0; i < entityList.getItems().size(); i++) entityList.getItems().get(i).update();
         for (int i = 0; i < entityList.getEnemies().size(); i++) entityList.getEnemies().get(i).update();
         entityList.getPortal().update();
@@ -188,6 +190,7 @@ public class Game extends Application {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Grass grass : entityList.getGrasses()) grass.render(gc);
         for (Wall wall : entityList.getWalls()) wall.render(gc);
+        entityList.getPortal().render(gc);
         for (Bomb bomb : entityList.getBombs()) {
             bomb.render(gc);
             if (bomb.isFire()) {
@@ -196,8 +199,9 @@ public class Game extends Application {
             }
         }
         for (Item item : entityList.getItems()) item.render(gc);
-        entityList.getPortal().render(gc);
         for (Brick brick : entityList.getBricks()) brick.render(gc);
+        for (Tree tree : entityList.getTrees()) tree.render(gc);
+        for (Box box : entityList.getBoxs()) box.render(gc);
         for (Enemy enemy : entityList.getEnemies()) enemy.render(gc);
         entityList.getBomberman().render(gc);
     }
