@@ -128,5 +128,7 @@ public class EntityList {
         enemies.clear();
         items.clear();
         grasses.clear();
+        flames.clear();
+        bombs.clear();
     }
 }
