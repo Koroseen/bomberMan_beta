@@ -55,7 +55,7 @@ public abstract class Enemy extends Entity {
         for (int i = 1; i <= enemy.speed; ++i) {
             enemy.y -= 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick() || checkBomb()) enemy.y += 1;
+            if (checkWall() || checkBrick() || checkBomb() || checkTree() || checkBox()) enemy.y += 1;
             if (enemy.y % Sprite.SCALED_SIZE == 0 && countCall % 2 == 0) changeDir(enemy);
         }
         if (enemy instanceof Ballom) {
@@ -70,7 +70,7 @@ public abstract class Enemy extends Entity {
         for (int i = 1; i <= enemy.speed; ++i) {
             enemy.y += 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick() || checkBomb()) enemy.y -= 1;
+            if (checkWall() || checkBrick() || checkBomb()|| checkTree() || checkBox()) enemy.y -= 1;
             if (enemy.y % Sprite.SCALED_SIZE == 0 && countCall % 2 == 0) changeDir(enemy);
         }
         if (enemy instanceof Ballom) {
@@ -85,7 +85,7 @@ public abstract class Enemy extends Entity {
         for (int i = 1; i <= enemy.speed; ++i) {
             enemy.x -= 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick() || checkBomb()) enemy.x += 1;
+            if (checkWall() || checkBrick() || checkBomb()|| checkTree() || checkBox()) enemy.x += 1;
             if (enemy.x % Sprite.SCALED_SIZE == 0 && countCall % 2 == 0) changeDir(enemy);
         }
         if (enemy instanceof Ballom) {
@@ -100,7 +100,7 @@ public abstract class Enemy extends Entity {
         for (int i = 1; i <= enemy.speed; ++i) {
             enemy.x += 1;
             animate = animate > 100 ? 0 : animate + 1;
-            if (checkWall() || checkBrick() || checkBomb()) enemy.x -= 1;
+            if (checkWall() || checkBrick() || checkBomb()|| checkTree() || checkBox()) enemy.x -= 1;
             if (enemy.x % Sprite.SCALED_SIZE == 0 && countCall % 2 == 0) changeDir(enemy);
         }
         if (enemy instanceof Ballom) {

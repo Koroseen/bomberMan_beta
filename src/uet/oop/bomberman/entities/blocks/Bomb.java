@@ -48,22 +48,22 @@ public class Bomb extends Entity {
         for (int i = 1; i <= this.radius; i++) {
             Flame flame = new Flame(c + i, r, Sprite.explosion_horizontal_right_last2.getFxImage());
             boolean bool = flame.checkBrick() | flame.checkWall();
-            if (!flame.checkBrick() && !flame.checkWall()) {
+            if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
             }
 
             flame = new Flame(c - i, r, Sprite.explosion_horizontal_left_last2.getFxImage());
-            if (!flame.checkBrick() && !flame.checkWall()) {
+            if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
             }
 
             flame = new Flame(c, r + i, Sprite.explosion_vertical_down_last2.getFxImage());
-            if (!flame.checkBrick() && !flame.checkWall()) {
+            if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
             }
 
             flame = new Flame(c, r - i, Sprite.explosion_vertical_top_last2.getFxImage());
-            if (!flame.checkBrick() && !flame.checkWall()) {
+            if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
             }
         }
