@@ -6,7 +6,13 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.audioSetting;
+
+import javax.sound.sampled.FloatControl;
+
+import static uet.oop.bomberman.SoundManager.gainControl;
+import static uet.oop.bomberman.SoundManager.title_screen;
 
 public class audioScroller {
     public static Slider slider;
@@ -42,14 +48,13 @@ public class audioScroller {
         slider.setBlockIncrement(10);
 
         // Adding Listener to value property.
-        slider.valueProperty().addListener(
-                new ChangeListener<Number>() {
-                    public void changed(ObservableValue<? extends Number>
-                                                observable, Number oldValue, Number newValue) {
-                        audioSetting.setMusicVolume((double) newValue/100);
-                        l.setText("volume: " + Math.round((double) newValue));
-                    }
-                });
+        slider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number>
+                                        observable, Number oldValue, Number newValue) {
+                audioSetting.setMusicVolume((double) newValue / 100);
+                l.setText("volume: " + Math.round((double) newValue));
+            }
+        });
         root.getChildren().addAll(slider, label, l);
         slider.setVisible(false);
         label.setVisible(false);
