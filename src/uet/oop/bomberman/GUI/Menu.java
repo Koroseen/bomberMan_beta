@@ -22,8 +22,13 @@ public class Menu {
     public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 14);
 
     public static void createMenu(Group root) {
+
         level = new Text("Level: 1");
         level.setFont(font);
+/*
+        level = new Text();
+        level.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+*/
         level.setFill(Color.WHITE);
         level.setX(100);
         level.setY(20);
@@ -73,6 +78,7 @@ public class Menu {
         pane.setMinSize(Settings.WIDTH, 30);
         pane.setStyle("-fx-background-color: #427235");
         root.getChildren().add(pane);
+        LoadingScreen.createLoadingScreen(root);
     }
 
     public static void createButton(Group root) {
@@ -80,6 +86,7 @@ public class Menu {
     }
 
     public static void updateMenu() {
+        level.setText("Level: " + Game.getLevel());
         score.setText("Score: " + Score);
         time.setText("Times: " + Game.time);
     }
