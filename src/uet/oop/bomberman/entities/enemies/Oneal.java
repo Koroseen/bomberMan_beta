@@ -30,6 +30,7 @@ public class Oneal extends Enemy {
     @Override
     public void update() {
         if (isAlive) {
+            checkPlayer();
             int destRow = Game.entityList.getBomberman().getY() / 32;
             int destCol = Game.entityList.getBomberman().getX() / 32;
 
