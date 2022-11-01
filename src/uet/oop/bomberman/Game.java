@@ -18,6 +18,7 @@ import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.*;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.entities.items.Item;
+import uet.oop.bomberman.graphics.Sprite;
 
 public class Game extends Application {
     private boolean up, down, left, right, set, pause;
@@ -102,8 +103,8 @@ public class Game extends Application {
                     }
 
                     if (gamestate.equals("running")) {
-                        render();
                         update();
+                        render();
                         long end = (System.currentTimeMillis() - start) / 1000;
                         if (end - before >= 1) Game.time++;
                         before = end;
@@ -178,13 +179,13 @@ public class Game extends Application {
         Menu.updateMenu();
         for (Wall wall : entityList.getWalls()) wall.update();
         for (Bomb bomb : entityList.getBombs()) bomb.update();
+        entityList.getPortal().update();
+        entityList.getBomberman().update();
         for (int i = 0; i < entityList.getBricks().size(); i++) entityList.getBricks().get(i).update();
         for (int i = 0; i < entityList.getTrees().size(); i++) entityList.getTrees().get(i).update();
         for (int i = 0; i < entityList.getBoxs().size(); i++) entityList.getBoxs().get(i).update();
         for (int i = 0; i < entityList.getItems().size(); i++) entityList.getItems().get(i).update();
         for (int i = 0; i < entityList.getEnemies().size(); i++) entityList.getEnemies().get(i).update();
-        entityList.getPortal().update();
-        entityList.getBomberman().update();
     }
 
     public void render() {
@@ -199,12 +200,12 @@ public class Game extends Application {
                 for (Flame flame : entityList.getFlames()) flame.render(gc);
             }
         }
+        entityList.getBomberman().render(gc);
         for (Item item : entityList.getItems()) item.render(gc);
         for (Brick brick : entityList.getBricks()) brick.render(gc);
         for (Tree tree : entityList.getTrees()) tree.render(gc);
         for (Box box : entityList.getBoxs()) box.render(gc);
         for (Enemy enemy : entityList.getEnemies()) enemy.render(gc);
-        entityList.getBomberman().render(gc);
     }
 
 

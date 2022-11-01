@@ -27,8 +27,7 @@ public class Flame extends Entity {
         }
 
         if (this.intersects(Game.entityList.getBomberman())) {
-            Game.entityList.getBomberman().setImg( Sprite.player_dead1.getFxImage());
-            Game.entityList.getBomberman().setDieTime(true);
+            Game.entityList.getBomberman().setAlive(false);
         }
     }
     @Override
