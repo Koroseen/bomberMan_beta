@@ -19,10 +19,16 @@ public class Menu {
     public static Text level, bomb, time, score;
     public static int bombNumber = 20;
     public static int Score = 0;
+    public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 14);
 
     public static void createMenu(Group root) {
+
+        level = new Text("Level: 1");
+        level.setFont(font);
+/*
         level = new Text();
         level.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+*/
         level.setFill(Color.WHITE);
         level.setX(100);
         level.setY(20);
@@ -32,13 +38,13 @@ public class Menu {
 //        bomb.setX(512);
 //        bomb.setY(20);
         time = new Text();
-        time.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        time.setFont(font);
         time.setFill(Color.WHITE);
         time.setX(200);
         time.setY(20);
 
         score = new Text("score: 0");
-        score.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        score.setFont(font);
         score.setFill(Color.WHITE);
         score.setX(300);
         score.setY(20);
