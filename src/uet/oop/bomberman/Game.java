@@ -24,6 +24,7 @@ public class Game extends Application {
     public static EntityList entityList = new EntityList();
     public static ImageView nextLevel;
     public static ImageView startscreenView;
+    public static ImageView gameOver;
 
     private static int level = 1;
     public static String gamestate = " ";
@@ -58,20 +59,23 @@ public class Game extends Application {
             canvas.setLayoutY(30);
             gc = canvas.getGraphicsContext2D();
 
-            Image startscreen = new Image("images/author1.png");
-            Image nextlevel = new Image("images/levelup.png");
-
-            nextLevel = new ImageView(nextlevel);
+            nextLevel = new ImageView(new Image("images/levelup.png"));
             nextLevel.setX(0);
             nextLevel.setY(0);
             nextLevel.setFitHeight(Settings.HEIGHT);
             nextLevel.setFitWidth(Settings.WIDTH);
 
-            startscreenView = new ImageView(startscreen);
+            startscreenView = new ImageView(new Image("images/author1.png"));
             startscreenView.setX(0);
             startscreenView.setY(0);
             startscreenView.setFitHeight(Settings.HEIGHT);
             startscreenView.setFitWidth(Settings.WIDTH);
+
+            gameOver=new ImageView(new Image("images/gameover.png"));
+            gameOver.setX(0);
+            gameOver.setY(0);
+            gameOver.setFitHeight(Settings.HEIGHT);
+            gameOver.setFitWidth(Settings.WIDTH);
 
             // Tao root container
             Group root = new Group();
@@ -79,6 +83,7 @@ public class Game extends Application {
             root.getChildren().add(canvas);
             root.getChildren().add(startscreenView);
             root.getChildren().add(nextLevel);
+            root.getChildren().add(gameOver);
             Menu.createButton(root);
             audioScroller.slider(root);
 
@@ -118,6 +123,7 @@ public class Game extends Application {
                         //show gameover trong muc images + time
                         //reset game hoac show menu
                         if (delaytime > 0) {
+                            gameOver.setVisible(true);
                             delaytime--;
                             System.out.println(delaytime);
                         } else {

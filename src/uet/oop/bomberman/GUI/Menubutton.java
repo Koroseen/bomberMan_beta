@@ -212,6 +212,7 @@ public class Menubutton {
             case "startmenu":
                 Game.startscreenView.setVisible(true);
                 Game.nextLevel.setVisible(false);
+                Game.gameOver.setVisible(false);
                 resume.setVisible(false);
                 mainMenu.setVisible(false);
                 if (!newGame) {
@@ -245,6 +246,7 @@ public class Menubutton {
             case "running":
                 Game.startscreenView.setVisible(false);
                 Game.nextLevel.setVisible(false);
+                Game.gameOver.setVisible(false);
                 easy.setVisible(false);
                 medium.setVisible(false);
                 hard.setVisible(false);

@@ -14,6 +14,7 @@ import javax.sound.sampled.FloatControl;
 //import javax.sound.sampled.*;
 
 public class SoundManager {
+    public static FloatControl gainControl;
     public static Clip ingame;
     public static Clip eat;
     public static Clip win;
@@ -35,14 +36,14 @@ public class SoundManager {
                 title_screen.open(audioIn);
                 title_screen.start();
                 title_screen.loop(10);
-                volumeConstrol(title_screen);
+                volumeControl(title_screen);
             }
             if (sound.equals("eat")) {
                 running[2] = true;
                 eat = AudioSystem.getClip();
                 eat.open(audioIn);
                 eat.start();
-                volumeConstrol(eat);
+                volumeControl(eat);
             }
             if (sound.equals("ingame")) {
                 running[3] = true;
@@ -50,28 +51,28 @@ public class SoundManager {
                 ingame.open(audioIn);
                 ingame.start();
                 ingame.loop(10);
-                volumeConstrol(ingame);
+                volumeControl(ingame);
             }
             if (sound.equals("win")) {
                 running[4] = true;
                 win = AudioSystem.getClip();
                 win.open(audioIn);
                 win.start();
-                volumeConstrol(win);
+                volumeControl(win);
             }
             if (sound.equals("explosion")) {
                 running[5] = true;
                 bomb_explosion = AudioSystem.getClip();
                 bomb_explosion.open(audioIn);
                 bomb_explosion.start();
-                volumeConstrol(bomb_explosion);
+                volumeControl(bomb_explosion);
             }
             if (sound.equals("just_died")) {
                 running[6] = true;
                 just_died = AudioSystem.getClip();
                 just_died.open(audioIn);
                 just_died.start();
-                volumeConstrol(just_died);
+                volumeControl(just_died);
             }
             if (sound.equals("default")) {
                 Clip clip = AudioSystem.getClip();
@@ -104,27 +105,27 @@ public class SoundManager {
             ingame.stop();
         }
         if (running[1]) {
-            volumeConstrol(title_screen);
+            volumeControl(title_screen);
         }
         if (running[3]) {
-            volumeConstrol(ingame);
+            volumeControl(ingame);
         }
         if (running[6]) {
-            volumeConstrol(just_died);
+            volumeControl(just_died);
         }
         if (running[5]) {
-            volumeConstrol(bomb_explosion);
+            volumeControl(bomb_explosion);
         }
         if (running[2]) {
-            volumeConstrol(eat);
+            volumeControl(eat);
         }
         if (running[4]) {
-            volumeConstrol(win);
+            volumeControl(win);
         }
     }
 
-    public static void volumeConstrol(Clip clip) {
-        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+    public static void volumeControl(Clip clip) {
+        gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(20f * (float) Math.log10(audioSetting.getMusicVolume()));
     }
 }
