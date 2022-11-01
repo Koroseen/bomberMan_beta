@@ -184,7 +184,6 @@ public class Game extends Application {
         entityList.getPortal().update();
         entityList.getBomberman().update();
     }
-
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Grass grass : entityList.getGrasses()) grass.render(gc);
