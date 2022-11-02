@@ -18,12 +18,14 @@ import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.*;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.entities.items.Item;
+import uet.oop.bomberman.graphics.Sprite;
 
 public class Game extends Application {
     private boolean up, down, left, right, set, pause;
     public static EntityList entityList = new EntityList();
     public static ImageView nextLevel;
     public static ImageView startscreenView;
+    public static ImageView gameOver;
 
     private static int level = 1;
     public static String gamestate = " ";
@@ -58,20 +60,23 @@ public class Game extends Application {
             canvas.setLayoutY(30);
             gc = canvas.getGraphicsContext2D();
 
-            Image startscreen = new Image("images/author1.png");
-            Image nextlevel = new Image("images/levelup.png");
-
-            nextLevel = new ImageView(nextlevel);
+            nextLevel = new ImageView(new Image("images/levelup.png"));
             nextLevel.setX(0);
             nextLevel.setY(0);
             nextLevel.setFitHeight(Settings.HEIGHT);
             nextLevel.setFitWidth(Settings.WIDTH);
 
-            startscreenView = new ImageView(startscreen);
+            startscreenView = new ImageView(new Image("images/author1.png"));
             startscreenView.setX(0);
             startscreenView.setY(0);
             startscreenView.setFitHeight(Settings.HEIGHT);
             startscreenView.setFitWidth(Settings.WIDTH);
+
+            gameOver=new ImageView(new Image("images/gameover.png"));
+            gameOver.setX(0);
+            gameOver.setY(0);
+            gameOver.setFitHeight(Settings.HEIGHT);
+            gameOver.setFitWidth(Settings.WIDTH);
 
             // Tao root container
             Group root = new Group();
@@ -79,6 +84,7 @@ public class Game extends Application {
             root.getChildren().add(canvas);
             root.getChildren().add(startscreenView);
             root.getChildren().add(nextLevel);
+            root.getChildren().add(gameOver);
             Menu.createButton(root);
             audioScroller.slider(root);
 
@@ -102,8 +108,8 @@ public class Game extends Application {
                     }
 
                     if (gamestate.equals("running")) {
-                        render();
                         update();
+                        render();
                         long end = (System.currentTimeMillis() - start) / 1000;
                         if (end - before >= 1) Game.time++;
                         before = end;
@@ -118,6 +124,7 @@ public class Game extends Application {
                         //show gameover trong muc images + time
                         //reset game hoac show menu
                         if (delaytime > 0) {
+                            gameOver.setVisible(true);
                             delaytime--;
                             System.out.println(delaytime);
                         } else {
@@ -178,15 +185,14 @@ public class Game extends Application {
         Menu.updateMenu();
         for (Wall wall : entityList.getWalls()) wall.update();
         for (Bomb bomb : entityList.getBombs()) bomb.update();
+        entityList.getPortal().update();
+        entityList.getBomberman().update();
         for (int i = 0; i < entityList.getBricks().size(); i++) entityList.getBricks().get(i).update();
         for (int i = 0; i < entityList.getTrees().size(); i++) entityList.getTrees().get(i).update();
         for (int i = 0; i < entityList.getBoxs().size(); i++) entityList.getBoxs().get(i).update();
         for (int i = 0; i < entityList.getItems().size(); i++) entityList.getItems().get(i).update();
         for (int i = 0; i < entityList.getEnemies().size(); i++) entityList.getEnemies().get(i).update();
-        entityList.getPortal().update();
-        entityList.getBomberman().update();
     }
-
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Grass grass : entityList.getGrasses()) grass.render(gc);
@@ -200,11 +206,13 @@ public class Game extends Application {
                 for (Flame flame : entityList.getFlames()) flame.render(gc);
             }
         }
+        entityList.getBomberman().render(gc);
         for (Item item : entityList.getItems()) item.render(gc);
         for (Brick brick : entityList.getBricks()) brick.render(gc);
         for (Enemy enemy : entityList.getEnemies()) enemy.render(gc);
         for (Tree tree : entityList.getTrees()) tree.render(gc);
         entityList.getBomberman().render(gc);
+
     }
 
 

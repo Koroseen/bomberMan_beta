@@ -84,7 +84,6 @@ public class Bomb extends Entity {
             for (Flame flame : Game.entityList.getFlames()) flame.update();
             if (CreateMap.getGrid()[row][col] != ' ') CreateMap.setGrid(row, col, ' ');
         } else {
-            Game.entityList.getBomberman().setAlive(!Game.entityList.getBomberman().isDieTime());
             Game.entityList.setBombs(new ArrayList<>());
             Game.entityList.getFlames().clear();
             fire = false;

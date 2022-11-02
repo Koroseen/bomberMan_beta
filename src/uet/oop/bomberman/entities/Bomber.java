@@ -25,14 +25,6 @@ public class Bomber extends Entity {
         dieTime = false;
     }
 
-    public void setDieTime(boolean dieTime) {
-        this.dieTime = dieTime;
-    }
-
-    public boolean isDieTime() {
-        return dieTime;
-    }
-
     public void setSpeedItemDuration(int speedItemDuration) {
         this.speedItemDuration = speedItemDuration;
     }
@@ -48,11 +40,12 @@ public class Bomber extends Entity {
     @Override
     public void update() {
         // check collide with enemies
-        for (Enemy enemy : Game.entityList.getEnemies()) {
-            if (this.intersects(enemy)) {
-                this.setAlive(false);
-            }
-        }
+//        for (Enemy enemy : Game.entityList.getEnemies()) {
+//            if (this.intersects(enemy)) {
+//                setImg(Sprite.player_dead1.getFxImage());
+//                this.setAlive(false);
+//            }
+//        }
 
         if (isAlive) {
             for (Bomb bomb : Game.entityList.getBombs()) {
@@ -75,9 +68,9 @@ public class Bomber extends Entity {
                 }
             }
         } else {
+            setImg(Sprite.player_dead1.getFxImage());
             Game.gamestate = "gameover";
             SoundManager.updateSound();
-            //Game.delaytime = 300;
         }
     }
 
@@ -86,12 +79,6 @@ public class Bomber extends Entity {
         animate = animate > 100 ? 0 : animate + 1;
         if (checkWall() || checkBrick() || checkBomb() || checkTree() || checkBox()) {
             this.y += speed;
-            if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
-                this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
-            }
-            if (this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
-                this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
-            }
         }
         setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 60).getFxImage());
     }
@@ -101,12 +88,6 @@ public class Bomber extends Entity {
         animate = animate > 100 ? 0 : animate + 1;
         if (checkWall() || checkBrick() || checkBomb() || checkTree() || checkBox()) {
             this.y -= speed;
-            if (this.x % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
-                this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE);
-            }
-            if (this.x % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
-                this.x = Sprite.SCALED_SIZE * (this.x / Sprite.SCALED_SIZE + 1);
-            }
         }
         setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 60).getFxImage());
     }
@@ -124,12 +105,6 @@ public class Bomber extends Entity {
             else {
                 count += speed;
                 this.x += speed;
-            }
-            if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
-                this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
-            }
-            if (this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
-                this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
             }
         }
         trace += count;
@@ -151,12 +126,6 @@ public class Bomber extends Entity {
             else {
                 count -= speed;
                 this.x -= speed;
-            }
-            if (this.y % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 4) {
-                this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE);
-            }
-            if (this.y % Sprite.SCALED_SIZE >= 3 * Sprite.SCALED_SIZE / 4) {
-                this.y = Sprite.SCALED_SIZE * (this.y / Sprite.SCALED_SIZE + 1);
             }
         }
         trace += count;

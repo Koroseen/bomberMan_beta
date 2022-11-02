@@ -25,6 +25,7 @@ public class Ballom extends Enemy {
     @Override
     public void update() {
         if (isAlive) {
+            checkPlayer();
             slow = slow > 100 ? 0 : slow + 1;
             countCall = countCall > 100 ? 0 : countCall + 1;
             switch (this.dir) {

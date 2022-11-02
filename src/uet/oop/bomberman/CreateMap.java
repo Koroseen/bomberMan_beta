@@ -1,5 +1,6 @@
 package uet.oop.bomberman;
 
+import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.*;
@@ -44,6 +45,7 @@ public class CreateMap {
 
     public static void createMapLevel(int level) {
         Game.entityList.clearList();
+        Game.setLevel(level);
         //import tileset to array
         try {
             importData(level);
