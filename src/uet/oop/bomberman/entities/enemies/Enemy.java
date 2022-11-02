@@ -63,6 +63,8 @@ public abstract class Enemy extends Entity {
             setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
         } else if (enemy instanceof Oneal) {
             setImg(Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 60).getFxImage());
+        } else if (enemy instanceof Kondoria) {
+            setImg(Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, animate, 60).getFxImage());
         }
     }
 
@@ -78,6 +80,8 @@ public abstract class Enemy extends Entity {
             setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
         } else if (enemy instanceof Oneal) {
             setImg(Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 60).getFxImage());
+        } else if (enemy instanceof Kondoria) {
+            setImg(Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, animate, 60).getFxImage());
         }
     }
 
@@ -93,6 +97,8 @@ public abstract class Enemy extends Entity {
             setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
         } else if (enemy instanceof Oneal) {
             setImg(Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 60).getFxImage());
+        } else if (enemy instanceof Kondoria) {
+            setImg(Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, animate, 60).getFxImage());
         }
     }
 
@@ -108,6 +114,8 @@ public abstract class Enemy extends Entity {
             setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
         } else if (enemy instanceof Oneal) {
             setImg(Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 60).getFxImage());
+        } else if (enemy instanceof Kondoria) {
+            setImg(Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, animate, 60).getFxImage());
         }
     }
 

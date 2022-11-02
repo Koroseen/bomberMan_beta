@@ -6,6 +6,7 @@ import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.*;
 import uet.oop.bomberman.entities.enemies.Ballom;
 import uet.oop.bomberman.entities.enemies.Enemy;
+import uet.oop.bomberman.entities.enemies.Kondoria;
 import uet.oop.bomberman.entities.enemies.Oneal;
 import uet.oop.bomberman.entities.items.Portal;
 import uet.oop.bomberman.entities.items.SpeedItem;
@@ -80,6 +81,10 @@ public class CreateMap {
                         break;
                     case '2':
                         Game.entityList.addEnemies((new Oneal(j, i, Sprite.oneal_left1.getFxImage(), 1, 100, Enemy.enemyDir.UP)));
+                        break;
+                    case '3':
+                        Game.entityList.addTrees((new Tree(j, i, Sprite.tree.getFxImage())));
+                        Game.entityList.addEnemies((new Kondoria(j, i, Sprite.kondoria_left1.getFxImage(), 1, 200, Enemy.enemyDir.UP)));
                         break;
                     case 'x':
                         Game.entityList.setPortal(new Portal(j, i, Sprite.portal.getFxImage()));
