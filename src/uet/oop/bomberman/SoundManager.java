@@ -14,7 +14,6 @@ import javax.sound.sampled.FloatControl;
 //import javax.sound.sampled.*;
 
 public class SoundManager {
-    public static FloatControl gainControl;
     public static Clip ingame;
     public static Clip eat;
     public static Clip win;
@@ -125,7 +124,7 @@ public class SoundManager {
     }
 
     public static void volumeControl(Clip clip) {
-        gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(20f * (float) Math.log10(audioSetting.getMusicVolume()));
     }
 }

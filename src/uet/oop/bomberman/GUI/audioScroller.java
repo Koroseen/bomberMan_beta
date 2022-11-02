@@ -6,13 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
-import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.audioSetting;
-
-import javax.sound.sampled.FloatControl;
-
-import static uet.oop.bomberman.SoundManager.gainControl;
-import static uet.oop.bomberman.SoundManager.title_screen;
 
 public class audioScroller {
     public static Slider slider;
@@ -36,7 +30,7 @@ public class audioScroller {
         slider = new Slider();
         slider.setMin(0);
         slider.setMax(100);
-        slider.setValue(80);
+        slider.setValue(20);
 
         slider.setLayoutX(180);
         slider.setLayoutY(280);

@@ -66,7 +66,8 @@ public class Menubutton {
         goback.setLayoutY(10);
         goback.setOnAction(actionEvent -> {
             if (Game.gamestate.equals("pause")) {
-                Game.gamestate = "running";
+                if (!Setting) Setting = true;
+                else Game.gamestate = "running";
             } else if (!newGame || !Setting) {
                 newGame = true;
                 Setting = true;
@@ -111,14 +112,14 @@ public class Menubutton {
 
         resume = new Button("RESUME");
         resume.setLayoutX(Settings.WIDTH / 2 - 85);
-        resume.setLayoutY(250);
+        resume.setLayoutY(200);
         resume.setMinSize(170, 40);
         resume.setOnAction(actionEvent -> {
             if (Game.gamestate.equals("pause")) {
                 Game.gamestate = "running";
             } else if (Game.gamestate.equals("nextLevel")) {
-                LoadingScreen.startloadingScreen(root);
                 myEnum = 4;
+                LoadingScreen.startloadingScreen(root);
             }
         });
 
@@ -262,7 +263,19 @@ public class Menubutton {
                 resume.setText("RESUME");
                 mainMenu.setVisible(true);
                 resume.setVisible(true);
+                setting.setVisible(true);
                 goback.setVisible(true);
+                audioScroller.slider.setVisible(false);
+                audioScroller.label.setVisible(false);
+                audioScroller.l.setVisible(false);
+                if(!Setting){
+                    mainMenu.setVisible(false);
+                    resume.setVisible(false);
+                    setting.setVisible(false);
+                    audioScroller.slider.setVisible(true);
+                    audioScroller.label.setVisible(true);
+                    audioScroller.l.setVisible(true);
+                }
                 break;
             case "nextLevel":
                 resume.setText("NEXT LEVEL");

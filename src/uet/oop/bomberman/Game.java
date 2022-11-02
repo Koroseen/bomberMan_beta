@@ -151,7 +151,13 @@ public class Game extends Application {
                     case LEFT:  left = true; break;
                     case RIGHT: right = true; break;
                     case SPACE: set = true; break;
-                    case ESCAPE: gamestate = gamestate.equals("running") ? "pause" : "running"; break;
+                    case ESCAPE:
+                        if(gamestate.equals("running")) gamestate="pause";
+                        else if(gamestate.equals("pause")){
+                            if(!Menubutton.Setting) Menubutton.Setting=true;
+                            else gamestate="running";
+                        }
+                        break;
                 }
             });
             scene.setOnKeyReleased(event -> {
