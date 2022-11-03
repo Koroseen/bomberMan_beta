@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.items;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 
 public class Item extends Entity {
@@ -10,6 +11,5 @@ public class Item extends Entity {
 
     @Override
     public void update() {
-
     }
 }

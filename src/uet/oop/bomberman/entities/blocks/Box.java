@@ -8,7 +8,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Box extends Entity {
     private boolean broken;
-
+    private int cnt = 0;
     public Box(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         broken = false;
@@ -21,8 +21,9 @@ public class Box extends Entity {
     @Override
     public void update() {
         if (broken) {
+            cnt++;
             CreateMap.setGrid(this.y / Sprite.SCALED_SIZE, this.x / Sprite.SCALED_SIZE, ' ');
-            if (Bomb.count == 300) Game.entityList.getBoxs().remove(this);
+            if (cnt == 50) Game.entityList.getBoxs().remove(this);
         }
     }
 }

@@ -258,18 +258,19 @@ public class Sprite {
             }
         }
         Image input = new ImageView(wr).getImage();
-        return resample(input, SCALED_SIZE / DEFAULT_SIZE);
+        if(this._realWidth == 12) return resample(input, 1.75);
+        else return resample(input, (double) SCALED_SIZE / DEFAULT_SIZE);
     }
 
-    private Image resample(Image input, int scaleFactor) {
+    private Image resample(Image input, double scaleFactor) {
         final int W = (int) input.getWidth();
         final int H = (int) input.getHeight();
-        final int S = scaleFactor;
-
+        final double S = scaleFactor;
         WritableImage output = new WritableImage(
-                W * S,
-                H * S
+                (int) (W * S),
+                (int) (H * S)
         );
+
 
         PixelReader reader = input.getPixelReader();
         PixelWriter writer = output.getPixelWriter();

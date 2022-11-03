@@ -150,7 +150,9 @@ public class Game extends Application {
                     case DOWN:  down = true; break;
                     case LEFT:  left = true; break;
                     case RIGHT: right = true; break;
-                    case SPACE: set = true; break;
+                    case SPACE:
+                        entityList.getBomberman().setBomb();
+                        break;
                     case ESCAPE:
                         if(gamestate.equals("running")) gamestate="pause";
                         else if(gamestate.equals("pause")){
@@ -176,7 +178,6 @@ public class Game extends Application {
                     if (down) entityList.getBomberman().goDown();
                     if (left) entityList.getBomberman().goLeft();
                     if (right) entityList.getBomberman().goRight();
-                    if (set) entityList.getBomberman().setBomb();
                 }
             };
             count.start();
@@ -190,7 +191,7 @@ public class Game extends Application {
         SoundManager.updateSound();
         Menu.updateMenu();
         for (Wall wall : entityList.getWalls()) wall.update();
-        for (Bomb bomb : entityList.getBombs()) bomb.update();
+        for (int i = 0; i < entityList.getBombs().size(); i++) entityList.getBombs().get(i).update();
         entityList.getPortal().update();
         entityList.getBomberman().update();
         for (int i = 0; i < entityList.getBricks().size(); i++) entityList.getBricks().get(i).update();

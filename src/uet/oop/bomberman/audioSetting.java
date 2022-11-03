@@ -1,7 +1,7 @@
 package uet.oop.bomberman;
 
 public class audioSetting {
-    private static double musicVolume=0.2f;
+    private static double musicVolume=0.0f;
 
     public static double getMusicVolume() {
         return musicVolume;

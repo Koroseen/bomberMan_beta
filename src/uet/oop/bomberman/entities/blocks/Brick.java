@@ -13,6 +13,7 @@ import java.util.ConcurrentModificationException;
 
 public class Brick extends Entity {
     private boolean broken;
+    private int cnt = 0;
 
     public Brick(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -27,9 +28,10 @@ public class Brick extends Entity {
     public void update() {
         if (broken) {
             animate = animate > 100 ? 0 : animate + 1;
+            cnt++;
             setImg(Sprite.movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, animate, 40).getFxImage());
             CreateMap.setGrid(this.y / Sprite.SCALED_SIZE, this.x / Sprite.SCALED_SIZE, ' ');
-            if (Bomb.count == 300) Game.entityList.getBricks().remove(this);
+            if (cnt == 50) Game.entityList.getBricks().remove(this);
         }
     }
 

@@ -1,6 +1,8 @@
 package uet.oop.bomberman.entities;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import uet.oop.bomberman.CreateMap;
 import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.Game;
@@ -15,6 +17,7 @@ public class Bomber extends Entity {
     private boolean dieTime;
     private boolean isAlive;
     private int speed = 2;
+    private int bomblimit = 1;
     private int speedItemDuration;
     private boolean hasTouchedSpeedItem = false;
     private boolean once = false;
@@ -35,6 +38,13 @@ public class Bomber extends Entity {
 
     public void setHasTouchedSpeedItem(boolean hasTouchedSpeedItem) {
         this.hasTouchedSpeedItem = hasTouchedSpeedItem;
+    }
+    public void increaseBomb(){
+        this.bomblimit++;
+    }
+
+    public int getBomblimit() {
+        return bomblimit;
     }
 
     @Override
@@ -136,11 +146,9 @@ public class Bomber extends Entity {
     public void setBomb() {
         int x_ = this.x / Sprite.SCALED_SIZE;
         int y_ = this.y / Sprite.SCALED_SIZE;
-
-        if (Game.entityList.getBombs().isEmpty()) {
+        if (Game.entityList.getBombs().size() < Game.entityList.getBomberman().getBomblimit()) {
             Game.entityList.addBomb(new Bomb(x_, y_, Sprite.bomb.getFxImage()));
             CreateMap.setGrid(y_, x_, 'b');
         }
     }
-
 }
