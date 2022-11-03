@@ -17,10 +17,8 @@ public class Flame extends Entity {
     public void collide() {
         for (Enemy enemy : Game.entityList.getEnemies()) {
             if (this.intersects(enemy)) {
-                enemy.setAlive(false);
-                if (allow) {
-                    Menu.Score += 100;
-                    allow = false;
+                if (enemy.isAlive()) {
+                    enemy.setAlive(false);
                     new SoundManager("sound/eat.wav","eat");
                 }
             }
