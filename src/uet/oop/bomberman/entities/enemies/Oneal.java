@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.enemies;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
 import uet.oop.bomberman.CreateMap;
+import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.graphics.Sprite;
@@ -74,7 +75,10 @@ public class Oneal extends Enemy {
         } else {
             this.img = Sprite.oneal_dead.getFxImage();
             deadTime--;
-            if (deadTime == 0) Game.entityList.getEnemies().remove(this);
+            if (deadTime == 0) {
+                Game.entityList.getEnemies().remove(this);
+                Menu.Score += 150;
+            }
         }
     }
 }

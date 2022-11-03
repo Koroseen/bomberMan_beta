@@ -12,9 +12,8 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
     private int trace = 0;
-    private boolean dieTime;
     private boolean isAlive;
-    private int speed = 2;
+    private int speed = 1;
     private int speedItemDuration;
     private boolean hasTouchedSpeedItem = false;
     private boolean once = false;
@@ -22,7 +21,6 @@ public class Bomber extends Entity {
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
         isAlive = true;
-        dieTime = false;
     }
 
     public void setSpeedItemDuration(int speedItemDuration) {
@@ -39,14 +37,6 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
-        // check collide with enemies
-//        for (Enemy enemy : Game.entityList.getEnemies()) {
-//            if (this.intersects(enemy)) {
-//                setImg(Sprite.player_dead1.getFxImage());
-//                this.setAlive(false);
-//            }
-//        }
-
         if (isAlive) {
             for (Bomb bomb : Game.entityList.getBombs()) {
                 if (!this.intersects(bomb) && bomb.isAllow()) {
