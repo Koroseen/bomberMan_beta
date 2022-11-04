@@ -1,7 +1,9 @@
 package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -21,6 +23,7 @@ public abstract class Enemy extends Entity {
         RIGHT
     }
     protected enemyDir dir;
+    private boolean add = true;
     public Enemy(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
@@ -30,6 +33,10 @@ public abstract class Enemy extends Entity {
         this.speed = speed;
         this.chaseRad = chaseRad;
         this.dir = dir;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 
     public abstract void setAlive(boolean res);

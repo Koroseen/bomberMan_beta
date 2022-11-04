@@ -123,13 +123,13 @@ public class Game extends Application {
                     if (gamestate.equals("gameover")) {
                         //show gameover trong muc images + time
                         //reset game hoac show menu
-                        if (delaytime > 0) {
+                        delaytime--;
+                        System.out.println(delaytime);
+                        if (delaytime > 0 && delaytime < 50) {
                             gameOver.setVisible(true);
-                            delaytime--;
-                            System.out.println(delaytime);
-                        } else {
-                            delaytime = 100;
+                        } else if(delaytime==0) {
                             gamestate = "startmenu";
+                            delaytime = 100;
                             Menubutton.update();
                         }
                     }
