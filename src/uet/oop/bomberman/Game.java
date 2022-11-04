@@ -131,6 +131,7 @@ public class Game extends Application {
                             gamestate = "startmenu";
                             delaytime = 100;
                             Menubutton.update();
+                            Game.reset(-entityList.getBomberman().getTrace(), 0);
                         }
                     }
                     if (gamestate.equals("nextLevel")) {
@@ -164,10 +165,10 @@ public class Game extends Application {
             });
             scene.setOnKeyReleased(event -> {
                 switch (event.getCode()) {
-                    case UP:    up = false; break;
-                    case DOWN:  down = false; break;
-                    case LEFT:  left = false; break;
-                    case RIGHT: right = false; break;
+                    case UP:    up = false; entityList.getBomberman().setImg(Sprite.player_down.getFxImage()); break;
+                    case DOWN:  down = false; entityList.getBomberman().setImg(Sprite.player_down.getFxImage()); break;
+                    case LEFT:  left = false; entityList.getBomberman().setImg(Sprite.player_left.getFxImage()); break;
+                    case RIGHT: right = false; entityList.getBomberman().setImg(Sprite.player_right.getFxImage()); break;
                     case SPACE: set = false; break;
                 }
             });
@@ -228,4 +229,7 @@ public class Game extends Application {
         gc.translate(-x, -y);
     }
 
+    public static void reset(int x, int y) {
+        gc.translate(-x, -y);
+    }
 }
