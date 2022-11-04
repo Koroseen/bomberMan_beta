@@ -23,6 +23,8 @@ public class Bomber extends Entity {
         isAlive = true;
     }
 
+    public int getTrace() {return trace;}
+
     public void setSpeedItemDuration(int speedItemDuration) {
         this.speedItemDuration = speedItemDuration;
     }
