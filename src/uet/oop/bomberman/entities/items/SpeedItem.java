@@ -16,6 +16,10 @@ public class SpeedItem extends Item {
             Game.entityList.getBomberman().setHasTouchedSpeedItem(true);
             Game.entityList.getBomberman().setSpeedItemDuration(1000);
             Game.entityList.getItems().remove(this);
+            return;
+        }
+        if(!this.checkExist()){
+            Game.entityList.getItems().remove(this);
         }
     }
 

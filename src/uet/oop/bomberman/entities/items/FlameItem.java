@@ -16,6 +16,10 @@ public class FlameItem extends Item {
         if (this.intersects(Game.entityList.getBomberman())) {
             Bomb.increaseRadius();
             Game.entityList.getItems().remove(this);
+            return;
+        }
+        if(!this.checkExist()){
+            Game.entityList.getItems().remove(this);
         }
     }
 

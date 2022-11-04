@@ -30,7 +30,9 @@ public class Tree extends Entity {
             cnt++;
             if (cnt == 50){
                 Game.entityList.getTrees().remove(this);
-                int x = (int) (Math.random() * 1) + 1;
+                if(Game.entityList.getBomberman().getBuffItem() >= 20) return;
+                int x = (int) (Math.random() * 10) + 1;
+                if(x <= 3) Game.entityList.getBomberman().increaseBuffItem();
                 if(x == 2) Game.entityList.addItems(new SpeedItem(this.getX()/Sprite.SCALED_SIZE,
                         this.getY()/Sprite.SCALED_SIZE, Sprite.powerup_speed.getFxImage() ));
                 else if(x == 3) Game.entityList.addItems(new BombItem(this.getX()/Sprite.SCALED_SIZE,

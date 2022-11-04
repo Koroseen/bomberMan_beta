@@ -21,6 +21,7 @@ public class Bomber extends Entity {
     private int speedItemDuration;
     private boolean hasTouchedSpeedItem = false;
     private boolean once = false;
+    private int buffItem = 0;
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
@@ -45,6 +46,14 @@ public class Bomber extends Entity {
 
     public int getBomblimit() {
         return bomblimit;
+    }
+
+    public void increaseBuffItem(){
+        this.buffItem++;
+    }
+
+    public int getBuffItem() {
+        return buffItem;
     }
 
     @Override
