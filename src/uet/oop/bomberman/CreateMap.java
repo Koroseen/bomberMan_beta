@@ -4,10 +4,7 @@ import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.*;
-import uet.oop.bomberman.entities.enemies.Ballom;
-import uet.oop.bomberman.entities.enemies.Enemy;
-import uet.oop.bomberman.entities.enemies.Kondoria;
-import uet.oop.bomberman.entities.enemies.Oneal;
+import uet.oop.bomberman.entities.enemies.*;
 import uet.oop.bomberman.entities.items.Portal;
 import uet.oop.bomberman.entities.items.SpeedItem;
 import uet.oop.bomberman.graphics.Sprite;
@@ -52,6 +49,8 @@ public class CreateMap {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        A_Star.setCOL(Settings.WORLD_WIDTH / Sprite.SCALED_SIZE);
+        A_Star.setROW(Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE);
         //map render
         for (int i = 0; i < Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE; i++) {
             for (int j = 0; j < Settings.WORLD_WIDTH / Sprite.SCALED_SIZE; j++) {

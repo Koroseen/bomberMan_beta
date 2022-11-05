@@ -45,6 +45,10 @@ public class Bomb extends Entity {
         return radius;
     }
 
+    public static void setRadius(int radius) {
+        Bomb.radius = radius;
+    }
+
     public void explode() {
         int c = this.x / Sprite.SCALED_SIZE;
         int r = this.y / Sprite.SCALED_SIZE;

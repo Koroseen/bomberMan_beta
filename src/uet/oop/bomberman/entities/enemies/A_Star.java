@@ -8,8 +8,16 @@ import java.util.*;
 
 public class A_Star {
 
-    private final static int ROW = Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE;
-    private final static int COL = Settings.WORLD_WIDTH / Sprite.SCALED_SIZE;
+    private static int ROW;
+    private static int COL;
+
+    public static void setCOL(int COL) {
+        A_Star.COL = COL;
+    }
+
+    public static void setROW(int ROW) {
+        A_Star.ROW = ROW;
+    }
 
     static class cell {
         public int parentX = 0, parentY = 0;
