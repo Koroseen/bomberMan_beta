@@ -5,6 +5,8 @@ import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import uet.oop.bomberman.CreateMap;
 import uet.oop.bomberman.Game;
@@ -61,18 +63,37 @@ public class LoadingScreen {
         bar.setMinSize(300, 30);
         bar.setVisible(true);
         bar.setProgress(0);
-        root.getChildren().add(bar);
+
+        Text text = new Text();
+        text.setFont(Menu.font);
+        text.setFill(Color.WHITE);
+        text.setX(100);
+        text.setY(370);
+        final int[] effect = {0};
+        root.getChildren().addAll(bar, text);
 
         Timer time = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+                effect[0]++;
                 bar.setProgress(i++ / 100);
                 System.out.println(i);
-                if (i == 100) {
+                if (effect[0] == 10) {
+                    text.setVisible(false);
+                } else if (effect[0] == 20) {
+                    text.setVisible(true);
+                    effect[0] = 0;
+                }
+                if (i == 20) {
+                    text.setText("Initializing");
+                } else if (i == 50) {
+                    text.setText("Loading");
+                } else if (i == 120) {
                     time.cancel();
                     i = 0;
                     bar.setVisible(false);
+                    text.setVisible(false);
                     switch (Menubutton.myEnum) {
                         case 1:
                             System.out.println("Low level");
