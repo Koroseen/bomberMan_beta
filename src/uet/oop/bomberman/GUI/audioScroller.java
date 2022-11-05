@@ -30,7 +30,7 @@ public class audioScroller {
         slider = new Slider();
         slider.setMin(0);
         slider.setMax(100);
-        slider.setValue(20);
+        slider.setValue((int) audioSetting.getMusicVolume());
 
         slider.setLayoutX(180);
         slider.setLayoutY(280);
@@ -38,7 +38,6 @@ public class audioScroller {
         // enable TickLabels and Tick Marks
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
-
         slider.setBlockIncrement(10);
 
         // Adding Listener to value property.

@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public class Bomb extends Entity {
-    public  int count;
+    private int count;
     private boolean fire = false;
     private static int radius = 1;
     private boolean allow;
