@@ -87,13 +87,8 @@ public class Menubutton {
         medium.setLayoutY(250);
         medium.setMinSize(170, 40);
         medium.setOnAction(actionEvent -> {
-            CreateMap.createMapLevel(2);
-            Game.gamestate = "running";
-            new SoundManager("sound/pacbaby.wav", "ingame");
-            update();
-            System.out.println("pressed");
-            newGame = true;
-            Setting = true;
+            myEnum = 2;
+            LoadingScreen.startloadingScreen(root);
         });
 
         hard = new Button("hard");
@@ -101,13 +96,8 @@ public class Menubutton {
         hard.setLayoutY(300);
         hard.setMinSize(170, 40);
         hard.setOnAction(actionEvent -> {
-            CreateMap.createMapLevel(3);
-            Game.gamestate = "running";
-            new SoundManager("sound/pacbaby.wav", "ingame");
-            update();
-            System.out.println("pressed");
-            newGame = true;
-            Setting = true;
+            myEnum = 3;
+            LoadingScreen.startloadingScreen(root);
         });
 
         resume = new Button("RESUME");
@@ -160,7 +150,7 @@ public class Menubutton {
         button.setStyle(
                 "-fx-padding: 8 15 15 15;" +
                         "-fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                        "-fx-background-radius: 50px;\n" +
+                        "-fx-background-radius: 20px 5px 20px 5px;\n" +
                         "-fx-background-color: \n" +
                         "linear-gradient(from 0% 93% to 0% 100%, white 0%, blue 100%),\n" +
                         "white,\n" +
@@ -172,7 +162,7 @@ public class Menubutton {
             @Override
             public void handle(MouseEvent e) {
                 button.setStyle(
-                        "-fx-background-radius: 50px;\n" +
+                        "-fx-background-radius: 20px 5px 20px 5px;\n" +
                                 "-fx-border-radius: 50px;\n" +
                                 "-fx-background-color: \n" +
                                 "radial-gradient(center 50% 50%, radius 100%, whitesmoke, blue, red);\n" +
@@ -187,7 +177,7 @@ public class Menubutton {
                 button.setStyle(
                         "-fx-padding: 8 15 15 15;" +
                                 "-fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                                "-fx-background-radius: 50px;\n" +
+                                "-fx-background-radius: 20px 5px 20px 5px;\n" +
                                 "-fx-background-color: \n" +
                                 "linear-gradient(from 0% 93% to 0% 100%, white 0%, blue 100%),\n" +
                                 "white,\n" +
@@ -268,7 +258,7 @@ public class Menubutton {
                 audioScroller.slider.setVisible(false);
                 audioScroller.label.setVisible(false);
                 audioScroller.l.setVisible(false);
-                if(!Setting){
+                if (!Setting) {
                     mainMenu.setVisible(false);
                     resume.setVisible(false);
                     setting.setVisible(false);
