@@ -14,12 +14,11 @@ public class Item extends Entity {
     public void update() {
     }
 
-    public boolean checkExist(){
+    public void checkExist(Item item){
         if(existTime > 0){
             existTime--;
-            return true;
         } else{
-            return false;
+            Game.entityList.getItems().remove(item);
         }
     }
 }

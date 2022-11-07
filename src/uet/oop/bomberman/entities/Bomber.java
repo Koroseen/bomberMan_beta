@@ -15,34 +15,28 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomber extends Entity {
     private int trace = 0;
     private boolean isAlive;
-
     private int speed = 1;
     private int bomblimit = 1;
-
-    private int speedItemDuration;
-    private boolean hasTouchedSpeedItem = false;
-    private boolean once = false;
     private int buffItem = 0;
+
+    private int speedUpDuration = 500;
+    private boolean speedUpTouched = false;
+    private int flameDuration = 500;
+    private boolean flameTouched = false;
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
         isAlive = true;
     }
+    public void setAlive(boolean b) {this.isAlive = b;}
 
-    public int getTrace() {return trace;}
-
-    public void setSpeedItemDuration(int speedItemDuration) {
-        this.speedItemDuration = speedItemDuration;
+    public int getTrace() {
+        return trace;
     }
 
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
-    public void setHasTouchedSpeedItem(boolean hasTouchedSpeedItem) {
-        this.hasTouchedSpeedItem = hasTouchedSpeedItem;
-    }
-    public void increaseBomb(){
+    public void setSpeedUpTouched(boolean b) {this.speedUpTouched = b;}
+    public void setFlameTouched(boolean b) {this.flameTouched = b;}
+    public void increaseBomb() {
         this.bomblimit++;
     }
 
@@ -54,7 +48,7 @@ public class Bomber extends Entity {
         this.bomblimit = bomblimit;
     }
 
-    public void increaseBuffItem(){
+    public void increaseBuffItem() {
         this.buffItem++;
     }
 
@@ -70,19 +64,21 @@ public class Bomber extends Entity {
                     bomb.setAllow(false);
                 }
             }
-            if (speedItemDuration > 0) {
-                speedItemDuration--;
-                if (!once) {
-                    new SoundManager("sound/eat.wav", "eat");
-                    speed += 2;
-                    once = true;
-                }
+            if (speedUpDuration > 0 && speedUpTouched) {
+                this.speed = 2;
+                speedUpDuration--;
             } else {
-                if (once) {
-                    hasTouchedSpeedItem = false;
-                    once = false;
-                    speed -= 2;
-                }
+                speedUpTouched = false;
+                this.speed = 1;
+                speedUpDuration = 500;
+            }
+
+            if (flameDuration > 0 && flameTouched) {
+                Bomb.setRadius(2);
+                flameDuration--;
+            } else {
+                Bomb.setRadius(1);
+                flameDuration = 500;
             }
         } else {
             Bomb.setRadius(1);
