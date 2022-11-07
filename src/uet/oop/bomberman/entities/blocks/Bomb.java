@@ -37,9 +37,6 @@ public class Bomb extends Entity {
     public void setAllow(boolean x) {
         allow = x;
     }
-    public static void increaseRadius() {
-        Bomb.radius++;
-    }
 
     public static int getRadius() {
         return radius;
@@ -56,29 +53,25 @@ public class Bomb extends Entity {
         Game.entityList.addFlame(new Flame(c, r, Sprite.bomb_exploded2.getFxImage()));
 
         for (int i = 1; i <= Bomb.radius; i++) {
-            Flame flame = new Flame(c + i, r, Sprite.explosion_horizontal_right_last2.getFxImage());
-            boolean bool = flame.checkBrick() | flame.checkWall();
+            Flame flame = new Flame(c + i, r, Sprite.explosion_horizontal2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
             }else if(flame.checkWall()) break;
         }
         for (int i = 1; i <= Bomb.radius; i++) {
-            Flame flame = new Flame(c - i, r, Sprite.explosion_horizontal_left_last2.getFxImage());
-            boolean bool = flame.checkBrick() | flame.checkWall();
+            Flame flame = new Flame(c - i, r, Sprite.explosion_horizontal2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
             }else if(flame.checkWall()) break;
         }
         for (int i = 1; i <= Bomb.radius; i++) {
-            Flame flame = new Flame(c, r + i, Sprite.explosion_vertical_down_last2.getFxImage());
-            boolean bool = flame.checkBrick() | flame.checkWall();
+            Flame flame = new Flame(c, r + i, Sprite.explosion_vertical2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
             }else if(flame.checkWall()) break;
         }
         for (int i = 1; i <= Bomb.radius; i++) {
-            Flame flame = new Flame(c, r - i, Sprite.explosion_vertical_top_last2.getFxImage());
-            boolean bool = flame.checkBrick() | flame.checkWall();
+            Flame flame = new Flame(c, r - i, Sprite.explosion_vertical2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
             }else if(flame.checkWall()) break;
