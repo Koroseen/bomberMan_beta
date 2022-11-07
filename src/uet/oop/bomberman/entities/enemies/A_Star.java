@@ -89,22 +89,6 @@ public class A_Star {
     }
 
     public static Pair<Integer, Integer> aStarSearch(char[][] grid, Pair<Integer, Integer> src, Pair<Integer, Integer> dest) {
-        if (!isValid(src.getKey(), src.getValue())) {
-            System.out.println("src invalid");
-            return src;
-        }
-        if (!isValid(dest.getKey(), dest.getValue())) {
-            System.out.println("dest invalid");
-            return src;
-        }
-        if (!isUnBlocked(grid, dest.getKey(), dest.getValue()) || !isUnBlocked(grid, src.getKey(), src.getValue())) {
-            System.out.println("src || dest blocked");
-            return src;
-        }
-        if (isDestination(src.getKey(), src.getValue(), dest)) {
-            System.out.println("src = dest");
-            return src;
-        }
         boolean[][] closedList = new boolean[ROW][COL];
         cell[][] cellDetails = new cell[ROW][COL];
 

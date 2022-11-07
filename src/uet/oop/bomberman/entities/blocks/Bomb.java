@@ -90,6 +90,7 @@ public class Bomb extends Entity {
         if (count < timeOut) {
             count++;
             setImg(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, count, 90).getFxImage());
+            CreateMap.getGrid()[row][col] = '#';
         } else if (count < 300) {
             count++;
             fire = true;
