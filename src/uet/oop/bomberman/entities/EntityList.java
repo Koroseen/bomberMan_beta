@@ -125,6 +125,8 @@ public class EntityList {
     public void clearList() {
         walls.clear();
         bricks.clear();
+        trees.clear();
+        boxs.clear();
         enemies.clear();
         items.clear();
         grasses.clear();

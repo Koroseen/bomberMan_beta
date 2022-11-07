@@ -50,6 +50,10 @@ public class Bomber extends Entity {
         return bomblimit;
     }
 
+    public void setBomblimit(int bomblimit) {
+        this.bomblimit = bomblimit;
+    }
+
     public void increaseBuffItem(){
         this.buffItem++;
     }
@@ -81,6 +85,8 @@ public class Bomber extends Entity {
                 }
             }
         } else {
+            Bomb.setRadius(1);
+            this.bomblimit = 1;
             setImg(Sprite.player_dead1.getFxImage());
             Game.gamestate = "gameover";
             SoundManager.updateSound();
