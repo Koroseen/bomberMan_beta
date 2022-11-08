@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.GUI.Menubutton;
@@ -92,8 +93,20 @@ public class Game extends Application {
             audioScroller.slider(root);
 
             Scene scene = new Scene(root, 500, 500);
-            Scene win = new Scene(new VBox(), 500, 500);
+
+            //scene for win
+            Text click = new Text("Click any button to continue");
+            click.setFont(new Font("file:res/font/BOMBERMA.TTF", 30));
+            click.setFill(Color.WHITE);
+            click.setX(60);
+            click.setY(400);
+
+            Group rootWin = new Group();
+            rootWin.getChildren().addAll(Menu.info, click);
+            Scene win = new Scene(rootWin, 500, 500);
             win.setFill(Color.BLACK);
+            final int[] effect = {0};
+
             stage.setScene(scene);
             stage.show();
             scene.setFill(Color.WHITE);
@@ -141,7 +154,23 @@ public class Game extends Application {
                         Menubutton.update();
                     }
                     if (gamestate.equals("win")) {
-                        stage.setScene(win);
+                        delaytime--;
+                        if (delaytime > 30 && delaytime < 90) {
+                            stage.setScene(win);
+                            click.setVisible(false);
+                            Menu.info.setText("You Won!!!");
+                        } else {
+                            click.setVisible(true);
+                            Menu.info.setText("Your Score is " + Menu.getScore());
+                            Menu.info.setX(150);
+                            effect[0]++;
+                            if (effect[0] > 30 && effect[0] < 60) {
+                                Menu.info.setVisible(false);
+                            } else if (effect[0] == 60) {
+                                Menu.info.setVisible(true);
+                                effect[0] = 0;
+                            }
+                        }
                     }
                 }
             };
@@ -199,6 +228,15 @@ public class Game extends Application {
                         set = false;
                         break;
                 }
+            });
+
+            //keypress for win scene
+            win.setOnKeyPressed(keyEvent -> {
+                delaytime = 100;
+                Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
+                Menu.setScore(0);
+                gamestate = "startmenu";
+                stage.setScene(scene);
             });
             AnimationTimer count = new AnimationTimer() {
                 @Override
