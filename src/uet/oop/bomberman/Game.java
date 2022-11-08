@@ -132,13 +132,8 @@ public class Game extends Application {
                         System.out.println(delaytime);
                         if (delaytime > 0 && delaytime < 50) {
                             gameOver.setVisible(true);
-<<<<<<< HEAD
                             delaytime--;
-                        } else {
-                            delaytime = 100;
-=======
-                        } else if(delaytime==0) {
->>>>>>> a6b972e7841bcd68b1b4fa58fa533b0e380f0d7e
+                        } else if (delaytime == 0) {
                             gamestate = "startmenu";
                             delaytime = 100;
                             Menubutton.update();
@@ -161,7 +156,6 @@ public class Game extends Application {
             // update bomberman position
             scene.setOnKeyPressed(event -> {
                 switch (event.getCode()) {
-<<<<<<< HEAD
                     case UP:
                         up = true;
                         break;
@@ -175,15 +169,7 @@ public class Game extends Application {
                         right = true;
                         break;
                     case SPACE:
-                        set = true;
-=======
-                    case UP:    up = true; break;
-                    case DOWN:  down = true; break;
-                    case LEFT:  left = true; break;
-                    case RIGHT: right = true; break;
-                    case SPACE:
                         entityList.getBomberman().setBomb();
->>>>>>> a6b972e7841bcd68b1b4fa58fa533b0e380f0d7e
                         break;
                     case ESCAPE:
                         if (gamestate.equals("running")) gamestate = "pause";
@@ -196,29 +182,25 @@ public class Game extends Application {
             });
             scene.setOnKeyReleased(event -> {
                 switch (event.getCode()) {
-<<<<<<< HEAD
                     case UP:
                         up = false;
+                        entityList.getBomberman().setImg(Sprite.player_down.getFxImage());
                         break;
                     case DOWN:
                         down = false;
+                        entityList.getBomberman().setImg(Sprite.player_down.getFxImage());
                         break;
                     case LEFT:
                         left = false;
+                        entityList.getBomberman().setImg(Sprite.player_left.getFxImage());
                         break;
                     case RIGHT:
                         right = false;
+                        entityList.getBomberman().setImg(Sprite.player_right.getFxImage());
                         break;
                     case SPACE:
                         set = false;
                         break;
-=======
-                    case UP:    up = false; entityList.getBomberman().setImg(Sprite.player_down.getFxImage()); break;
-                    case DOWN:  down = false; entityList.getBomberman().setImg(Sprite.player_down.getFxImage()); break;
-                    case LEFT:  left = false; entityList.getBomberman().setImg(Sprite.player_left.getFxImage()); break;
-                    case RIGHT: right = false; entityList.getBomberman().setImg(Sprite.player_right.getFxImage()); break;
-                    case SPACE: set = false; break;
->>>>>>> a6b972e7841bcd68b1b4fa58fa533b0e380f0d7e
                 }
             });
             AnimationTimer count = new AnimationTimer() {

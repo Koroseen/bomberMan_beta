@@ -81,7 +81,6 @@ public class Bomber extends Entity {
                 flameDuration = 500;
             }
         } else {
-<<<<<<< HEAD
             if (Menu.getLives() > 0) {
                 Menu.setLives(Menu.getLives() - 1);
                 isAlive = true;
@@ -91,13 +90,9 @@ public class Bomber extends Entity {
                 SoundManager.updateSound();
                 //Game.delaytime = 300;
             }
-=======
             Bomb.setRadius(1);
             this.bomblimit = 1;
             setImg(Sprite.player_dead1.getFxImage());
-            Game.gamestate = "gameover";
-            SoundManager.updateSound();
->>>>>>> a6b972e7841bcd68b1b4fa58fa533b0e380f0d7e
         }
     }
 
