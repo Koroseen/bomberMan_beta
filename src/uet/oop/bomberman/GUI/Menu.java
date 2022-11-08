@@ -15,8 +15,12 @@ import uet.oop.bomberman.SoundManager;
 public class Menu {
     public static Text lives;
     private static ImageView statusGame;
+
     public static Text level, bomb, time, score, info;
     private static int bombNumber;
+
+    //public static Text level, bomb, time, score;
+
     private static int Score = 0;
     private static int Lives = 3;
     public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 14);
@@ -46,6 +50,9 @@ public class Menu {
         bomb.setFill(Color.WHITE);
         bomb.setX(320);
         bomb.setY(20);
+        //bomb.setX(10);
+
+        
 
         time = new Text();
         time.setFont(font);
