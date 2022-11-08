@@ -18,7 +18,6 @@ public class Menu {
     public static Text lives;
     private static ImageView statusGame;
     public static Text level, bomb, time, score;
-    private static int bombNumber;
     private static int Score = 0;
     private static int Lives = 3;
     public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 14);
@@ -37,7 +36,7 @@ public class Menu {
         bomb = new Text();
         bomb.setFont(font);
         bomb.setFill(Color.WHITE);
-        bomb.setX(400);
+        bomb.setX(10);
         bomb.setY(20);
 
         time = new Text();

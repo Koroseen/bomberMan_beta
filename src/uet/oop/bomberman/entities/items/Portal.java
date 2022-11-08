@@ -14,8 +14,8 @@ public class Portal extends Item {
     public void update() {
         if (this.contains(Game.entityList.getBomberman()) && Game.entityList.getEnemies().isEmpty()) {
             Game.gamestate = "nextLevel";
-            if (Game.getLevel() < 3) Game.setLevel(Game.getLevel() + 1);
             Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
+            if (Game.getLevel() < 3) Game.setLevel(Game.getLevel() + 1);
             else if (Game.getLevel() == 3) {
                 Game.gamestate = "win";
             }
