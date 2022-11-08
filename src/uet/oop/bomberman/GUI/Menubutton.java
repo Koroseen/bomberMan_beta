@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import uet.oop.bomberman.CreateMap;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.Settings;
 import uet.oop.bomberman.SoundManager;
@@ -79,6 +78,7 @@ public class Menubutton {
         easy.setLayoutY(200);
         easy.setMinSize(170, 40);
         easy.setOnAction(actionEvent -> {
+            myEnum = 1;
             LoadingScreen.startloadingScreen(root);
         });
 

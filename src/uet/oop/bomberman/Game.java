@@ -31,7 +31,7 @@ public class Game extends Application {
     public static ImageView gameOver;
     public static ImageView win;
 
-    private static int level = 1;
+    private static int level;
     public static String gamestate = " ";
     private static GraphicsContext gc;
     private static Canvas canvas;
@@ -96,8 +96,8 @@ public class Game extends Application {
 
             //scene for win
             Text click = new Text("Click any button to continue");
-            Font font = Font.loadFont("file:res/font/test.ttf", 20);
-            click.setFont(font);
+            Font font1 = Font.loadFont("file:res/font/test.ttf", 20);
+            click.setFont(font1);
             click.setFill(Color.WHITE);
             click.setX(75);
             click.setY(400);
@@ -108,7 +108,7 @@ public class Game extends Application {
             win.setFill(Color.BLACK);
             final int[] effect = {0};
 
-            stage.setScene(win);
+            stage.setScene(scene);
             stage.show();
             scene.setFill(Color.WHITE);
             new SoundManager("sound/start.wav", "title");
@@ -144,9 +144,20 @@ public class Game extends Application {
                         if (delaytime > 0 && delaytime < 70) {
                             gameOver.setVisible(true);
                         } else if (delaytime == 0) {
-                            gamestate = "startmenu";
-                            delaytime = 100;
+                            stage.setScene(win);
+                            click.setVisible(true);
+                            Menu.info.setText("Your Score is " + Menu.getScore());
+                            Menu.info.setFont(font1);
+                            Menu.info.setX(150);
+                            effect[0]++;
+                            if (effect[0] > 30 && effect[0] < 60) {
+                                Menu.info.setVisible(false);
+                            } else if (effect[0] == 60) {
+                                Menu.info.setVisible(true);
+                                effect[0] = 0;
+                            }
                             Menubutton.update();
+                            Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
                         }
                     }
                     if (gamestate.equals("nextLevel")) {
@@ -163,6 +174,7 @@ public class Game extends Application {
                         } else {
                             click.setVisible(true);
                             Menu.info.setText("Your Score is " + Menu.getScore());
+                            Menu.info.setFont(font1);
                             Menu.info.setX(150);
                             effect[0]++;
                             if (effect[0] > 30 && effect[0] < 60) {

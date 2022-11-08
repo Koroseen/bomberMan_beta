@@ -1,22 +1,18 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import uet.oop.bomberman.CreateMap;
 import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.Settings;
 import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.blocks.Bomb;
-import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
     private int trace = 0;
     private boolean isAlive;
     private int speed = 1;
-    private int bomblimit = 3;
+    private final int bomblimit = 3;
     private int buffItem = 0;
     private int speedUpDuration = 500;
     private boolean speedUpTouched = false;
@@ -40,17 +36,6 @@ public class Bomber extends Entity {
 
     public void setSpeedUpTouched(boolean b) {this.speedUpTouched = b;}
     public void setFlameTouched(boolean b) {this.flameTouched = b;}
-//    public void increaseBomb() {
-//        this.bomblimit++;
-//    }
-//
-//    public int getBomblimit() {
-//        return bomblimit;
-//    }
-//
-//    public void setBomblimit(int bomblimit) {
-//        this.bomblimit = bomblimit;
-//    }
 
     public void increaseBuffItem() {
         this.buffItem++;
@@ -93,8 +78,8 @@ public class Bomber extends Entity {
             if (Menu.getLives() == 0) {
                 Game.gamestate = "gameover";
                 SoundManager.updateSound();
-                Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
-                Menu.setScore(0);
+//                Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
+//                Menu.setScore(0);
                 //Game.delaytime = 300;
             }
             Bomb.setRadius(1);
