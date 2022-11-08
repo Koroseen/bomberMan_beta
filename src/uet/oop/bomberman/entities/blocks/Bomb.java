@@ -13,15 +13,15 @@ import java.util.List;
 
 
 public class Bomb extends Entity {
-    public static int count;
+    private int count;
     private boolean fire = false;
-    private int radius = 1;
+    private static int radius = 1;
     private boolean allow;
 
 
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        Bomb.count = 0;
+        count = 0;
         allow = true;
         fire = false;
     }
@@ -38,6 +38,13 @@ public class Bomb extends Entity {
         allow = x;
     }
 
+    public static int getRadius() {
+        return radius;
+    }
+
+    public static void setRadius(int radius) {
+        Bomb.radius = radius;
+    }
 
     public void explode() {
         int c = this.x / Sprite.SCALED_SIZE;
@@ -45,27 +52,29 @@ public class Bomb extends Entity {
 
         Game.entityList.addFlame(new Flame(c, r, Sprite.bomb_exploded2.getFxImage()));
 
-        for (int i = 1; i <= this.radius; i++) {
-            Flame flame = new Flame(c + i, r, Sprite.explosion_horizontal_right_last2.getFxImage());
-            boolean bool = flame.checkBrick() | flame.checkWall();
+        for (int i = 1; i <= Bomb.radius; i++) {
+            Flame flame = new Flame(c + i, r, Sprite.explosion_horizontal2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
-            }
-
-            flame = new Flame(c - i, r, Sprite.explosion_horizontal_left_last2.getFxImage());
+            }else if(flame.checkWall()) break;
+        }
+        for (int i = 1; i <= Bomb.radius; i++) {
+            Flame flame = new Flame(c - i, r, Sprite.explosion_horizontal2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
-            }
-
-            flame = new Flame(c, r + i, Sprite.explosion_vertical_down_last2.getFxImage());
+            }else if(flame.checkWall()) break;
+        }
+        for (int i = 1; i <= Bomb.radius; i++) {
+            Flame flame = new Flame(c, r + i, Sprite.explosion_vertical2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
-            }
-
-            flame = new Flame(c, r - i, Sprite.explosion_vertical_top_last2.getFxImage());
+            }else if(flame.checkWall()) break;
+        }
+        for (int i = 1; i <= Bomb.radius; i++) {
+            Flame flame = new Flame(c, r - i, Sprite.explosion_vertical2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
-            }
+            }else if(flame.checkWall()) break;
         }
     }
 
@@ -78,14 +87,14 @@ public class Bomb extends Entity {
         if (count < timeOut) {
             count++;
             setImg(Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, count, 90).getFxImage());
+            CreateMap.getGrid()[row][col] = '#';
         } else if (count < 300) {
             count++;
             fire = true;
             for (Flame flame : Game.entityList.getFlames()) flame.update();
             if (CreateMap.getGrid()[row][col] != ' ') CreateMap.setGrid(row, col, ' ');
         } else {
-            Game.entityList.getBomberman().setAlive(!Game.entityList.getBomberman().isDieTime());
-            Game.entityList.setBombs(new ArrayList<>());
+            Game.entityList.getBombs().remove(this);
             Game.entityList.getFlames().clear();
             fire = false;
         }

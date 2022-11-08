@@ -82,6 +82,7 @@ public class Menubutton {
             LoadingScreen.startloadingScreen(root);
         });
 
+
         medium = new Button("medium");
         medium.setLayoutX(Settings.WIDTH / 2 - 85);
         medium.setLayoutY(250);

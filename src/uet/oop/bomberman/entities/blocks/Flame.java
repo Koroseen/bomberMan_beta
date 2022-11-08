@@ -17,18 +17,15 @@ public class Flame extends Entity {
     public void collide() {
         for (Enemy enemy : Game.entityList.getEnemies()) {
             if (this.intersects(enemy)) {
-                enemy.setAlive(false);
-                if (allow) {
-                    Menu.Score += 100;
-                    allow = false;
+                if (enemy.isAlive()) {
+                    enemy.setAlive(false);
                     new SoundManager("sound/eat.wav","eat");
                 }
             }
         }
 
         if (this.intersects(Game.entityList.getBomberman())) {
-            Game.entityList.getBomberman().setImg( Sprite.player_dead1.getFxImage());
-            Game.entityList.getBomberman().setDieTime(true);
+            Game.entityList.getBomberman().setAlive(false);
         }
     }
     @Override
