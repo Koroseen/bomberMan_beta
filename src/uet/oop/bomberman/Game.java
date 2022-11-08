@@ -96,7 +96,7 @@ public class Game extends Application {
 
             //scene for win
             Text click = new Text("Click any button to continue");
-            click.setFont(new Font("file:res/font/BOMBERMA.TTF", 30));
+            click.setFont(new Font("file:res/font/test.TTF", 30));
             click.setFill(Color.WHITE);
             click.setX(60);
             click.setY(400);
@@ -107,7 +107,7 @@ public class Game extends Application {
             win.setFill(Color.BLACK);
             final int[] effect = {0};
 
-            stage.setScene(scene);
+            stage.setScene(win);
             stage.show();
             scene.setFill(Color.WHITE);
             new SoundManager("sound/start.wav", "title");
