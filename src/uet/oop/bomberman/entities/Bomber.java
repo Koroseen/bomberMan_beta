@@ -86,13 +86,20 @@ public class Bomber extends Entity {
                 flameDuration = 3000;
             }
         } else {
-            Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
-            Menu.setScore(0);
+            if (Menu.getLives() > 0) {
+                Menu.setLives(Menu.getLives() - 1);
+                isAlive = true;
+            }
+            if (Menu.getLives() == 0) {
+                Game.gamestate = "gameover";
+                SoundManager.updateSound();
+                Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
+                Menu.setScore(0);
+                //Game.delaytime = 300;
+            }
             Bomb.setRadius(1);
 //            this.bomblimit = 1;
             setImg(Sprite.player_dead1.getFxImage());
-            Game.gamestate = "gameover";
-            SoundManager.updateSound();
         }
     }
 

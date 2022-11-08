@@ -3,11 +3,13 @@ package uet.oop.bomberman;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -21,11 +23,12 @@ import uet.oop.bomberman.entities.items.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Game extends Application {
-    private boolean up, down, left, right, set, pause;
+    private boolean up, down, left, right, set;
     public static EntityList entityList = new EntityList();
     public static ImageView nextLevel;
     public static ImageView startscreenView;
     public static ImageView gameOver;
+    public static ImageView win;
 
     private static int level = 1;
     public static String gamestate = " ";
@@ -72,7 +75,7 @@ public class Game extends Application {
             startscreenView.setFitHeight(Settings.HEIGHT);
             startscreenView.setFitWidth(Settings.WIDTH);
 
-            gameOver=new ImageView(new Image("images/gameover.png"));
+            gameOver = new ImageView(new Image("images/gameover.png"));
             gameOver.setX(0);
             gameOver.setY(0);
             gameOver.setFitHeight(Settings.HEIGHT);
@@ -89,6 +92,8 @@ public class Game extends Application {
             audioScroller.slider(root);
 
             Scene scene = new Scene(root, 500, 500);
+            Scene win = new Scene(new VBox(), 500, 500);
+            win.setFill(Color.BLACK);
             stage.setScene(scene);
             stage.show();
             scene.setFill(Color.WHITE);
@@ -121,13 +126,10 @@ public class Game extends Application {
                     }
 
                     if (gamestate.equals("gameover")) {
-                        //show gameover trong muc images + time
-                        //reset game hoac show menu
                         delaytime--;
-                        System.out.println(delaytime);
-                        if (delaytime > 0 && delaytime < 50) {
+                        if (delaytime > 0 && delaytime < 70) {
                             gameOver.setVisible(true);
-                        } else if(delaytime==0) {
+                        } else if (delaytime == 0) {
                             gamestate = "startmenu";
                             delaytime = 100;
                             Menubutton.update();
@@ -138,6 +140,9 @@ public class Game extends Application {
                         SoundManager.updateSound();
                         Menubutton.update();
                     }
+                    if (gamestate.equals("win")) {
+                        stage.setScene(win);
+                    }
                 }
             };
 
@@ -146,18 +151,26 @@ public class Game extends Application {
             // update bomberman position
             scene.setOnKeyPressed(event -> {
                 switch (event.getCode()) {
-                    case UP:    up = true; break;
-                    case DOWN:  down = true; break;
-                    case LEFT:  left = true; break;
-                    case RIGHT: right = true; break;
+                    case UP:
+                        up = true;
+                        break;
+                    case DOWN:
+                        down = true;
+                        break;
+                    case LEFT:
+                        left = true;
+                        break;
+                    case RIGHT:
+                        right = true;
+                        break;
                     case SPACE:
                         entityList.getBomberman().setBomb();
                         break;
                     case ESCAPE:
-                        if(gamestate.equals("running")) gamestate="pause";
-                        else if(gamestate.equals("pause")){
-                            if(!Menubutton.Setting) Menubutton.Setting=true;
-                            else gamestate="running";
+                        if (gamestate.equals("running")) gamestate = "pause";
+                        else if (gamestate.equals("pause")) {
+                            if (!Menubutton.Setting) Menubutton.Setting = true;
+                            else gamestate = "running";
                         }
                         break;
                     case C:
@@ -166,11 +179,25 @@ public class Game extends Application {
             });
             scene.setOnKeyReleased(event -> {
                 switch (event.getCode()) {
-                    case UP:    up = false; entityList.getBomberman().setImg(Sprite.player_down.getFxImage()); break;
-                    case DOWN:  down = false; entityList.getBomberman().setImg(Sprite.player_down.getFxImage()); break;
-                    case LEFT:  left = false; entityList.getBomberman().setImg(Sprite.player_left.getFxImage()); break;
-                    case RIGHT: right = false; entityList.getBomberman().setImg(Sprite.player_right.getFxImage()); break;
-                    case SPACE: set = false; break;
+                    case UP:
+                        up = false;
+                        entityList.getBomberman().setImg(Sprite.player_down.getFxImage());
+                        break;
+                    case DOWN:
+                        down = false;
+                        entityList.getBomberman().setImg(Sprite.player_down.getFxImage());
+                        break;
+                    case LEFT:
+                        left = false;
+                        entityList.getBomberman().setImg(Sprite.player_left.getFxImage());
+                        break;
+                    case RIGHT:
+                        right = false;
+                        entityList.getBomberman().setImg(Sprite.player_right.getFxImage());
+                        break;
+                    case SPACE:
+                        set = false;
+                        break;
                 }
             });
             AnimationTimer count = new AnimationTimer() {
@@ -202,6 +229,7 @@ public class Game extends Application {
         for (int i = 0; i < entityList.getItems().size(); i++) entityList.getItems().get(i).update();
         for (int i = 0; i < entityList.getEnemies().size(); i++) entityList.getEnemies().get(i).update();
     }
+
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Grass grass : entityList.getGrasses()) grass.render(gc);
