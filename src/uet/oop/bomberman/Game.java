@@ -96,9 +96,10 @@ public class Game extends Application {
 
             //scene for win
             Text click = new Text("Click any button to continue");
-            click.setFont(new Font("file:res/font/test.TTF", 30));
+            Font font = Font.loadFont("file:res/font/test.ttf", 20);
+            click.setFont(font);
             click.setFill(Color.WHITE);
-            click.setX(60);
+            click.setX(75);
             click.setY(400);
 
             Group rootWin = new Group();
