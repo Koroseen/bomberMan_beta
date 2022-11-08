@@ -36,6 +36,7 @@ public class LoadingScreen {
 
     public static void startloadingScreen(Group root) {
         Game.gamestate = "loading";
+        Menu.setLives(1);
         setVisual();
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(3));
         fadeIn.setFromValue(0);
@@ -68,7 +69,7 @@ public class LoadingScreen {
         text.setFont(Menu.font);
         text.setFill(Color.WHITE);
         text.setX(100);
-        text.setY(370);
+        text.setY(390);
         final int[] effect = {0};
         root.getChildren().addAll(bar, text);
 

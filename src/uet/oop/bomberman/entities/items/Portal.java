@@ -17,6 +17,9 @@ public class Portal extends Item {
         if (this.contains(Game.entityList.getBomberman()) && Game.entityList.getEnemies().isEmpty()) {
             Game.gamestate = "nextLevel";
             if (Game.getLevel() < 2) Game.setLevel(Game.getLevel() + 1);
+            else if (Game.getLevel() == 3) {
+                Game.gamestate = "win";
+            }
             new SoundManager("sound/win.wav", "win");
         }
     }

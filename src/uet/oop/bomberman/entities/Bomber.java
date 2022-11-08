@@ -75,9 +75,15 @@ public class Bomber extends Entity {
                 }
             }
         } else {
-            Game.gamestate = "gameover";
-            SoundManager.updateSound();
-            //Game.delaytime = 300;
+            if (Menu.getLives() > 0) {
+                Menu.setLives(Menu.getLives() - 1);
+                isAlive = true;
+            }
+            if (Menu.getLives() == 0) {
+                Game.gamestate = "gameover";
+                SoundManager.updateSound();
+                //Game.delaytime = 300;
+            }
         }
     }
 
