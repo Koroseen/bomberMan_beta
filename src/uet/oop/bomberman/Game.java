@@ -92,7 +92,7 @@ public class Game extends Application {
             Menu.createButton(root);
             audioScroller.slider(root);
 
-            Scene scene = new Scene(root, 500, 500);
+            Scene scene = new Scene(root, Settings.WIDTH, Settings.HEIGHT);
 
             //scene for win
             Text click = new Text("Click any button to continue");
@@ -104,7 +104,7 @@ public class Game extends Application {
 
             Group rootWin = new Group();
             rootWin.getChildren().addAll(Menu.info, click);
-            Scene win = new Scene(rootWin, 500, 500);
+            Scene win = new Scene(rootWin, Settings.WIDTH, Settings.HEIGHT);
             win.setFill(Color.BLACK);
             final int[] effect = {0};
 
@@ -154,10 +154,10 @@ public class Game extends Application {
                                 Menu.info.setVisible(false);
                             } else if (effect[0] == 60) {
                                 Menu.info.setVisible(true);
+                                Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
                                 effect[0] = 0;
                             }
                             Menubutton.update();
-                            Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
                         }
                     }
                     if (gamestate.equals("nextLevel")) {
@@ -181,6 +181,7 @@ public class Game extends Application {
                                 Menu.info.setVisible(false);
                             } else if (effect[0] == 60) {
                                 Menu.info.setVisible(true);
+                                Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
                                 effect[0] = 0;
                             }
                         }

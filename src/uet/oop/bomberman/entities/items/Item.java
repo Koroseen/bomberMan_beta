@@ -8,7 +8,7 @@ public class Item extends Entity {
     public Item(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
-    private int existTime = 1000;
+    private int existTime = 200;
 
     @Override
     public void update() {
