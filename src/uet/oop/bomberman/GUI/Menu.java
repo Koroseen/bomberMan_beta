@@ -18,34 +18,35 @@ public class Menu {
     public static Text lives;
     private static ImageView statusGame;
     public static Text level, bomb, time, score;
-    public static int bombNumber = 20;
-    public static int Score = 0;
+    private static int bombNumber;
+    private static int Score = 0;
     private static int Lives = 3;
     public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 14);
-
+    
+    public static void addScore(int score) {Score += score;}
+    public static void setScore (int score) {Score = score;}
     public static void createMenu(Group root) {
 
-        level = new Text("Level: 1");
-        level.setFont(font);
-/*
         level = new Text();
-        level.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-*/
+        level.setFont(font);
+
         level.setFill(Color.WHITE);
         level.setX(100);
         level.setY(20);
-//        bomb = new Text("Bombs: 20");
-//        bomb.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-//        bomb.setFill(Color.WHITE);
-//        bomb.setX(512);
-//        bomb.setY(20);
+
+        bomb = new Text();
+        bomb.setFont(font);
+        bomb.setFill(Color.WHITE);
+        bomb.setX(400);
+        bomb.setY(20);
+
         time = new Text();
         time.setFont(font);
         time.setFill(Color.WHITE);
         time.setX(200);
         time.setY(20);
 
-        score = new Text("score: 0");
+        score = new Text();
         score.setFont(font);
         score.setFill(Color.WHITE);
         score.setX(300);
@@ -60,6 +61,7 @@ public class Menu {
         Glow glow = new Glow(0.9);
         score.setEffect(glow);
         time.setEffect(glow);
+        bomb.setEffect(glow);
         lives.setEffect(glow);
 
         Image newGame = new Image("images/pause.png");
@@ -83,7 +85,7 @@ public class Menu {
         });
 
         Pane pane = new Pane();
-        pane.getChildren().addAll(level, time, statusGame, score, lives);
+        pane.getChildren().addAll(level, time, statusGame, score, bomb, lives);
         pane.setMinSize(Settings.WIDTH, 30);
         pane.setStyle("-fx-background-color: #427235");
         root.getChildren().add(pane);
@@ -106,6 +108,7 @@ public class Menu {
         level.setText("Level: " + Game.getLevel());
         score.setText("Score: " + Score);
         time.setText("Times: " + Game.time);
+        bomb.setText("Bombs: " + Game.entityList.getBomberman().getBombs());
         lives.setText("Lives: " + Lives);
     }
 }

@@ -48,7 +48,7 @@ public class Ballom extends Enemy {
             deadTime--;
             if (deadTime == 0) {
                 Game.entityList.getEnemies().remove(this);
-                Menu.Score += 100;
+                Menu.addScore(100);
             }
         }
     }

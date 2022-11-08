@@ -14,7 +14,7 @@ public class BombItem extends Item {
     public void update() {
         checkExist(this);
         if (this.intersects(Game.entityList.getBomberman())) {
-            Game.entityList.getBomberman().increaseBomb();
+            Game.entityList.getBomberman().addBomb();
             Game.entityList.getItems().remove(this);
         }
     }

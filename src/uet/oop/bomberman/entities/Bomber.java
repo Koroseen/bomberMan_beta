@@ -16,18 +16,22 @@ public class Bomber extends Entity {
     private int trace = 0;
     private boolean isAlive;
     private int speed = 1;
-    private int bomblimit = 1;
+    private int bomblimit = 3;
     private int buffItem = 0;
-
     private int speedUpDuration = 500;
     private boolean speedUpTouched = false;
-    private int flameDuration = 500;
+    private int flameDuration = 3000;
     private boolean flameTouched = false;
+    private int bombs = 1;
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
         isAlive = true;
     }
+    public void addBomb() {
+        bombs = bombs < bomblimit ? bombs + 1 : bombs;
+    }
+    public int getBombs() {return bombs;}
     public void setAlive(boolean b) {this.isAlive = b;}
 
     public int getTrace() {
@@ -36,17 +40,17 @@ public class Bomber extends Entity {
 
     public void setSpeedUpTouched(boolean b) {this.speedUpTouched = b;}
     public void setFlameTouched(boolean b) {this.flameTouched = b;}
-    public void increaseBomb() {
-        this.bomblimit++;
-    }
-
-    public int getBomblimit() {
-        return bomblimit;
-    }
-
-    public void setBomblimit(int bomblimit) {
-        this.bomblimit = bomblimit;
-    }
+//    public void increaseBomb() {
+//        this.bomblimit++;
+//    }
+//
+//    public int getBomblimit() {
+//        return bomblimit;
+//    }
+//
+//    public void setBomblimit(int bomblimit) {
+//        this.bomblimit = bomblimit;
+//    }
 
     public void increaseBuffItem() {
         this.buffItem++;
@@ -77,8 +81,9 @@ public class Bomber extends Entity {
                 Bomb.setRadius(2);
                 flameDuration--;
             } else {
+                flameTouched = false;
                 Bomb.setRadius(1);
-                flameDuration = 500;
+                flameDuration = 3000;
             }
         } else {
             if (Menu.getLives() > 0) {
@@ -88,10 +93,12 @@ public class Bomber extends Entity {
             if (Menu.getLives() == 0) {
                 Game.gamestate = "gameover";
                 SoundManager.updateSound();
+                Game.reset(-Game.entityList.getBomberman().getTrace(), 0);
+                Menu.setScore(0);
                 //Game.delaytime = 300;
             }
             Bomb.setRadius(1);
-            this.bomblimit = 1;
+//            this.bomblimit = 1;
             setImg(Sprite.player_dead1.getFxImage());
         }
     }
@@ -158,9 +165,9 @@ public class Bomber extends Entity {
     public void setBomb() {
         int x_ = this.x / Sprite.SCALED_SIZE;
         int y_ = this.y / Sprite.SCALED_SIZE;
-        if (Game.entityList.getBombs().size() < Game.entityList.getBomberman().getBomblimit()) {
+        if (bombs > 0) {
             Game.entityList.addBomb(new Bomb(x_, y_, Sprite.bomb.getFxImage()));
-            CreateMap.setGrid(y_, x_, 'b');
+            bombs--;
         }
     }
 }

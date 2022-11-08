@@ -1,7 +1,5 @@
 package uet.oop.bomberman;
 
-import uet.oop.bomberman.graphics.Sprite;
-
 public class Settings {
     //Canvas setting
     public static final int WIDTH = 500;

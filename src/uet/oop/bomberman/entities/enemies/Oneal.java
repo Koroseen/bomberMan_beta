@@ -77,7 +77,7 @@ public class Oneal extends Enemy {
             deadTime--;
             if (deadTime == 0) {
                 Game.entityList.getEnemies().remove(this);
-                Menu.Score += 150;
+                Menu.addScore(150);
             }
         }
     }
