@@ -4,11 +4,9 @@ import javafx.scene.Group;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.Settings;
@@ -17,52 +15,68 @@ import uet.oop.bomberman.SoundManager;
 public class Menu {
     public static Text lives;
     private static ImageView statusGame;
-    public static Text level, bomb, time, score;
+    public static Text level, bomb, time, score, info;
     private static int bombNumber;
     private static int Score = 0;
     private static int Lives = 3;
     public static Font font = Font.loadFont("file:res/font/BOMBERMA.TTF", 14);
-    
-    public static void addScore(int score) {Score += score;}
-    public static void setScore (int score) {Score = score;}
+
+    public static void addScore(int score) {
+        Score += score;
+    }
+
+    public static void setScore(int score) {
+        Score = score;
+    }
+
+    public static int getScore() {
+        return Score;
+    }
+
     public static void createMenu(Group root) {
 
         level = new Text();
         level.setFont(font);
-
         level.setFill(Color.WHITE);
-        level.setX(100);
+        level.setX(50);
         level.setY(20);
 
         bomb = new Text();
         bomb.setFont(font);
         bomb.setFill(Color.WHITE);
-        bomb.setX(400);
+        bomb.setX(320);
         bomb.setY(20);
 
         time = new Text();
         time.setFont(font);
         time.setFill(Color.WHITE);
-        time.setX(200);
+        time.setX(140);
         time.setY(20);
 
         score = new Text();
         score.setFont(font);
         score.setFill(Color.WHITE);
-        score.setX(300);
+        score.setX(410);
         score.setY(20);
 
         lives = new Text("lives: 3");
         lives.setFont(font);
         lives.setFill(Color.WHITE);
-        lives.setX(400);
+        lives.setX(230);
         lives.setY(20);
 
-        Glow glow = new Glow(0.9);
+        info = new Text();
+        info.setFont(new Font("file:res/font/BOMBERMA.TTF", 30));
+        info.setFill(Color.WHITE);
+        info.setX(180);
+        info.setY(250);
+
+        Glow glow = new Glow(0.2);
         score.setEffect(glow);
         time.setEffect(glow);
         bomb.setEffect(glow);
         lives.setEffect(glow);
+        info.setEffect(glow);
 
         Image newGame = new Image("images/pause.png");
         Image playGame = new Image("images/resume.png");
