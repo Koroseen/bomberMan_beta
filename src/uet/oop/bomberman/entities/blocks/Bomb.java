@@ -56,25 +56,26 @@ public class Bomb extends Entity {
             Flame flame = new Flame(c + i, r, Sprite.explosion_horizontal2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
-            }else if(flame.checkWall()) break;
+            } else break;
         }
         for (int i = 1; i <= Bomb.radius; i++) {
             Flame flame = new Flame(c - i, r, Sprite.explosion_horizontal2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
-            }else if(flame.checkWall()) break;
+            } else break;
         }
         for (int i = 1; i <= Bomb.radius; i++) {
             Flame flame = new Flame(c, r + i, Sprite.explosion_vertical2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
-            }else if(flame.checkWall()) break;
+            } else break;
+            ;
         }
         for (int i = 1; i <= Bomb.radius; i++) {
             Flame flame = new Flame(c, r - i, Sprite.explosion_vertical2.getFxImage());
             if (!flame.checkBrick() && !flame.checkWall() && !flame.checkBox() && !flame.checkTree()) {
                 Game.entityList.addFlame(flame);
-            }else if(flame.checkWall()) break;
+            } else break;
         }
     }
 
@@ -94,6 +95,8 @@ public class Bomb extends Entity {
             for (Flame flame : Game.entityList.getFlames()) flame.update();
             if (CreateMap.getGrid()[row][col] != ' ') CreateMap.setGrid(row, col, ' ');
         } else {
+            if (Game.entityList.getBomberman().getBombs() == 0)
+                Game.entityList.getBomberman().addBomb();
             Game.entityList.getBombs().remove(this);
             Game.entityList.getFlames().clear();
             fire = false;

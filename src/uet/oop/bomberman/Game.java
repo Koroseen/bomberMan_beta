@@ -131,7 +131,6 @@ public class Game extends Application {
                             gamestate = "startmenu";
                             delaytime = 100;
                             Menubutton.update();
-                            Game.reset(-entityList.getBomberman().getTrace(), 0);
                         }
                     }
                     if (gamestate.equals("nextLevel")) {
@@ -161,6 +160,8 @@ public class Game extends Application {
                             else gamestate="running";
                         }
                         break;
+                    case C:
+                        for (Enemy enemy : Game.entityList.getEnemies()) enemy.setAlive(false);
                 }
             });
             scene.setOnKeyReleased(event -> {
@@ -222,7 +223,6 @@ public class Game extends Application {
         entityList.getBomberman().render(gc);
 
     }
-
 
     public static void moveCamera(int x, int y) {
 //        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
