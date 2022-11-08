@@ -1,6 +1,9 @@
 package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.GUI.Menu;
+import uet.oop.bomberman.Game;
+import uet.oop.bomberman.SoundManager;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -20,6 +23,7 @@ public abstract class Enemy extends Entity {
         RIGHT
     }
     protected enemyDir dir;
+    private boolean add = true;
     public Enemy(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
@@ -29,6 +33,10 @@ public abstract class Enemy extends Entity {
         this.speed = speed;
         this.chaseRad = chaseRad;
         this.dir = dir;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 
     public abstract void setAlive(boolean res);
@@ -62,6 +70,8 @@ public abstract class Enemy extends Entity {
             setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
         } else if (enemy instanceof Oneal) {
             setImg(Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 60).getFxImage());
+        } else if (enemy instanceof Kondoria) {
+            setImg(Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, animate, 60).getFxImage());
         }
     }
 
@@ -77,6 +87,8 @@ public abstract class Enemy extends Entity {
             setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
         } else if (enemy instanceof Oneal) {
             setImg(Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 60).getFxImage());
+        } else if (enemy instanceof Kondoria) {
+            setImg(Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, animate, 60).getFxImage());
         }
     }
 
@@ -92,6 +104,8 @@ public abstract class Enemy extends Entity {
             setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
         } else if (enemy instanceof Oneal) {
             setImg(Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 60).getFxImage());
+        } else if (enemy instanceof Kondoria) {
+            setImg(Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, animate, 60).getFxImage());
         }
     }
 
@@ -107,6 +121,14 @@ public abstract class Enemy extends Entity {
             setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, animate, 60).getFxImage());
         } else if (enemy instanceof Oneal) {
             setImg(Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, animate, 60).getFxImage());
+        } else if (enemy instanceof Kondoria) {
+            setImg(Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_right2, Sprite.kondoria_left3, animate, 60).getFxImage());
+        }
+    }
+
+    public void checkPlayer() {
+        if (this.contains(Game.entityList.getBomberman())) {
+            Game.entityList.getBomberman().setAlive(false);
         }
     }
 }

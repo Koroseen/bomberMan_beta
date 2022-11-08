@@ -20,6 +20,7 @@ import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.*;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.entities.items.Item;
+import uet.oop.bomberman.graphics.Sprite;
 
 public class Game extends Application {
     private boolean up, down, left, right, set;
@@ -112,8 +113,8 @@ public class Game extends Application {
                     }
 
                     if (gamestate.equals("running")) {
-                        render();
                         update();
+                        render();
                         long end = (System.currentTimeMillis() - start) / 1000;
                         if (end - before >= 1) Game.time++;
                         before = end;
@@ -127,13 +128,21 @@ public class Game extends Application {
                     if (gamestate.equals("gameover")) {
                         //show gameover trong muc images + time
                         //reset game hoac show menu
-                        if (delaytime > 0) {
+                        delaytime--;
+                        System.out.println(delaytime);
+                        if (delaytime > 0 && delaytime < 50) {
                             gameOver.setVisible(true);
+<<<<<<< HEAD
                             delaytime--;
                         } else {
                             delaytime = 100;
+=======
+                        } else if(delaytime==0) {
+>>>>>>> a6b972e7841bcd68b1b4fa58fa533b0e380f0d7e
                             gamestate = "startmenu";
+                            delaytime = 100;
                             Menubutton.update();
+                            Game.reset(-entityList.getBomberman().getTrace(), 0);
                         }
                     }
                     if (gamestate.equals("nextLevel")) {
@@ -152,6 +161,7 @@ public class Game extends Application {
             // update bomberman position
             scene.setOnKeyPressed(event -> {
                 switch (event.getCode()) {
+<<<<<<< HEAD
                     case UP:
                         up = true;
                         break;
@@ -166,6 +176,14 @@ public class Game extends Application {
                         break;
                     case SPACE:
                         set = true;
+=======
+                    case UP:    up = true; break;
+                    case DOWN:  down = true; break;
+                    case LEFT:  left = true; break;
+                    case RIGHT: right = true; break;
+                    case SPACE:
+                        entityList.getBomberman().setBomb();
+>>>>>>> a6b972e7841bcd68b1b4fa58fa533b0e380f0d7e
                         break;
                     case ESCAPE:
                         if (gamestate.equals("running")) gamestate = "pause";
@@ -178,6 +196,7 @@ public class Game extends Application {
             });
             scene.setOnKeyReleased(event -> {
                 switch (event.getCode()) {
+<<<<<<< HEAD
                     case UP:
                         up = false;
                         break;
@@ -193,6 +212,13 @@ public class Game extends Application {
                     case SPACE:
                         set = false;
                         break;
+=======
+                    case UP:    up = false; entityList.getBomberman().setImg(Sprite.player_down.getFxImage()); break;
+                    case DOWN:  down = false; entityList.getBomberman().setImg(Sprite.player_down.getFxImage()); break;
+                    case LEFT:  left = false; entityList.getBomberman().setImg(Sprite.player_left.getFxImage()); break;
+                    case RIGHT: right = false; entityList.getBomberman().setImg(Sprite.player_right.getFxImage()); break;
+                    case SPACE: set = false; break;
+>>>>>>> a6b972e7841bcd68b1b4fa58fa533b0e380f0d7e
                 }
             });
             AnimationTimer count = new AnimationTimer() {
@@ -202,7 +228,6 @@ public class Game extends Application {
                     if (down) entityList.getBomberman().goDown();
                     if (left) entityList.getBomberman().goLeft();
                     if (right) entityList.getBomberman().goRight();
-                    if (set) entityList.getBomberman().setBomb();
                 }
             };
             count.start();
@@ -216,14 +241,14 @@ public class Game extends Application {
         SoundManager.updateSound();
         Menu.updateMenu();
         for (Wall wall : entityList.getWalls()) wall.update();
-        for (Bomb bomb : entityList.getBombs()) bomb.update();
+        for (int i = 0; i < entityList.getBombs().size(); i++) entityList.getBombs().get(i).update();
+        entityList.getPortal().update();
+        entityList.getBomberman().update();
         for (int i = 0; i < entityList.getBricks().size(); i++) entityList.getBricks().get(i).update();
         for (int i = 0; i < entityList.getTrees().size(); i++) entityList.getTrees().get(i).update();
         for (int i = 0; i < entityList.getBoxs().size(); i++) entityList.getBoxs().get(i).update();
         for (int i = 0; i < entityList.getItems().size(); i++) entityList.getItems().get(i).update();
         for (int i = 0; i < entityList.getEnemies().size(); i++) entityList.getEnemies().get(i).update();
-        entityList.getPortal().update();
-        entityList.getBomberman().update();
     }
 
     public void render() {
@@ -231,6 +256,7 @@ public class Game extends Application {
         for (Grass grass : entityList.getGrasses()) grass.render(gc);
         for (Wall wall : entityList.getWalls()) wall.render(gc);
         entityList.getPortal().render(gc);
+        for (Box box : entityList.getBoxs()) box.render(gc);
         for (Bomb bomb : entityList.getBombs()) {
             bomb.render(gc);
             if (bomb.isFire()) {
@@ -238,12 +264,13 @@ public class Game extends Application {
                 for (Flame flame : entityList.getFlames()) flame.render(gc);
             }
         }
+        entityList.getBomberman().render(gc);
         for (Item item : entityList.getItems()) item.render(gc);
         for (Brick brick : entityList.getBricks()) brick.render(gc);
-        for (Tree tree : entityList.getTrees()) tree.render(gc);
-        for (Box box : entityList.getBoxs()) box.render(gc);
         for (Enemy enemy : entityList.getEnemies()) enemy.render(gc);
+        for (Tree tree : entityList.getTrees()) tree.render(gc);
         entityList.getBomberman().render(gc);
+
     }
 
 
@@ -252,4 +279,7 @@ public class Game extends Application {
         gc.translate(-x, -y);
     }
 
+    public static void reset(int x, int y) {
+        gc.translate(-x, -y);
+    }
 }

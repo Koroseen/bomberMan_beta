@@ -3,15 +3,13 @@ package uet.oop.bomberman.entities.enemies;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
 import uet.oop.bomberman.CreateMap;
-import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.Game;
-import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Oneal extends Enemy {
+public class Kondoria extends Enemy {
     private int slow = 0;
 
-    public Oneal(int xUnit, int yUnit, Image img, int speed, int chaseRad, enemyDir dir) {
+    public Kondoria(int xUnit, int yUnit, Image img, int speed, int chaseRad, enemyDir dir) {
         super(xUnit, yUnit, img, speed, chaseRad, dir);
         this.chaseRad = 300;
     }
@@ -31,7 +29,6 @@ public class Oneal extends Enemy {
     @Override
     public void update() {
         if (isAlive) {
-            checkPlayer();
             int destRow = Game.entityList.getBomberman().getY() / 32;
             int destCol = Game.entityList.getBomberman().getX() / 32;
 
@@ -73,12 +70,9 @@ public class Oneal extends Enemy {
                 }
             }
         } else {
-            this.img = Sprite.oneal_dead.getFxImage();
+            this.img = Sprite.kondoria_dead.getFxImage();
             deadTime--;
-            if (deadTime == 0) {
-                Game.entityList.getEnemies().remove(this);
-                Menu.Score += 150;
-            }
+            if (deadTime == 0) Game.entityList.getEnemies().remove(this);
         }
     }
 }

@@ -1,11 +1,10 @@
 package uet.oop.bomberman;
 
+import uet.oop.bomberman.GUI.Menu;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.EntityList;
 import uet.oop.bomberman.entities.blocks.*;
-import uet.oop.bomberman.entities.enemies.Ballom;
-import uet.oop.bomberman.entities.enemies.Enemy;
-import uet.oop.bomberman.entities.enemies.Oneal;
+import uet.oop.bomberman.entities.enemies.*;
 import uet.oop.bomberman.entities.items.Portal;
 import uet.oop.bomberman.entities.items.SpeedItem;
 import uet.oop.bomberman.graphics.Sprite;
@@ -43,12 +42,15 @@ public class CreateMap {
 
     public static void createMapLevel(int level) {
         Game.entityList.clearList();
+        Game.setLevel(level);
         //import tileset to array
         try {
             importData(level);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        A_Star.setCOL(Settings.WORLD_WIDTH / Sprite.SCALED_SIZE);
+        A_Star.setROW(Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE);
         //map render
         for (int i = 0; i < Settings.WORLD_HEIGHT / Sprite.SCALED_SIZE; i++) {
             for (int j = 0; j < Settings.WORLD_WIDTH / Sprite.SCALED_SIZE; j++) {
@@ -78,6 +80,10 @@ public class CreateMap {
                         break;
                     case '2':
                         Game.entityList.addEnemies((new Oneal(j, i, Sprite.oneal_left1.getFxImage(), 1, 100, Enemy.enemyDir.UP)));
+                        break;
+                    case '3':
+                        Game.entityList.addTrees((new Tree(j, i, Sprite.tree.getFxImage())));
+                        Game.entityList.addEnemies((new Kondoria(j, i, Sprite.kondoria_left1.getFxImage(), 1, 200, Enemy.enemyDir.UP)));
                         break;
                     case 'x':
                         Game.entityList.setPortal(new Portal(j, i, Sprite.portal.getFxImage()));
