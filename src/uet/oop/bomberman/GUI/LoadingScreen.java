@@ -79,7 +79,6 @@ public class LoadingScreen {
             public void run() {
                 effect[0]++;
                 bar.setProgress(i++ / 100);
-                System.out.println(i);
                 if (effect[0] == 10) {
                     text.setVisible(false);
                 } else if (effect[0] == 20) {
